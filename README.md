@@ -1,4 +1,6 @@
 <img align="right" width="10%" src="io.github.micro.piki.svg">
+<br/>
+
 # Piki
 
 Unofficial Kirigami client for Pixiv.
