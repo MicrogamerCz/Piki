@@ -1,0 +1,3 @@
+[submodule "src/piqi"]
+	path = src/piqi
+	url = https://github.com/MicrogamerCz/Piqi

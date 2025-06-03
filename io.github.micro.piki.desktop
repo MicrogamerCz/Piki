@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: FSFAP
+# SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
+
+[Desktop Entry]
+Name=Piki
+Comment=Unofficial Kirigami client for Pixiv
+Version=0.1
+Exec=piki
+Icon=io.github.micro.piki.svg # TODO
+Type=Application
+Terminal=false
+# Add an actual main category here (and possibly applicable additional ones)
+#   https://specifications.freedesktop.org/menu-spec/latest/apa.html#main-category-registry
+Categories=Qt;KDE;Network;Feed;Adult

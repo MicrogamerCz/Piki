@@ -1,0 +1,10 @@
+.qmlls.ini
+.clang-format
+.cache/
+.idea/
+build/
+src/.qmlls.ini
+.flatpak-builder/
+local/
+*.flatpak
+.gitl

@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
+
+File=pikiconfig.kcfg
+ClassName=PikiConfig
+Mutators=true
+DefaultValueGetters=true
+GenerateProperties=true
+ParentInConstructor=true
+Singleton=true

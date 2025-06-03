@@ -1,0 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
+// SPDX-License-Identifier: BSD-3-Clause
+
+ext {
+    projectVersionFull = "@PROJECT_VERSION@"
+}
+
