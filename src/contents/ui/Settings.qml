@@ -102,7 +102,7 @@ FormCard.FormCardPage {
                         }
                         Controls.Label {
                             font.bold: true
-                            text: cacheLimitSlider.expval > 100 ? "Unlimited" : cacheLimitSlider.expval
+                            text: cacheLimitSlider.expval > 100 ? "Unlimited" : (cacheLimitSlider.expval + "GB")
                         }
                     }
                 }
