@@ -6,7 +6,7 @@ Name=Piki
 Comment=Unofficial Kirigami client for Pixiv
 Version=0.1
 Exec=piki
-Icon=io.github.micro.piki.svg # TODO
+Icon=io.github.micro.piki
 Type=Application
 Terminal=false
 # Add an actual main category here (and possibly applicable additional ones)
