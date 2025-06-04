@@ -13,7 +13,8 @@
     "--share=network",
     "--socket=x11",
     "--socket=wayland",
-    "--device=dri"
+    "--device=dri",
+    "--talk-name=org.kde.kwalletd6"
   ],
   "separate-locales": false,
 
