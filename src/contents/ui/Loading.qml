@@ -3,7 +3,6 @@
 
 import QtQuick
 import org.kde.kirigami as Kirigami
-import QtQuick.Controls as Controls
 import io.github.micro.piki
 
 Kirigami.Page {
@@ -43,12 +42,10 @@ Kirigami.Page {
         });
     }
 
-    Controls.BusyIndicator {
+    Kirigami.LoadingPlaceholder {
         id: loadingIndicator
-        opacity: 0
+
         anchors.centerIn: parent
-        width: Math.min(page.width, page.height) * 0.5
-        height: width
 
         Behavior on opacity {
             NumberAnimation {
