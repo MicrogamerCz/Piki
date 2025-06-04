@@ -133,7 +133,7 @@ Kirigami.Page {
                         sourceSize.width: 150
                         Layout.preferredWidth: 150
                         fillMode: Image.PreserveAspectFit
-                        source: "../assets/pixivLogo2025.svg"
+                        source: "../assets/io.github.micro.piki.svg"
                         Layout.alignment: Qt.AlignCenter
                     }
                     Controls.Label {
