@@ -12,7 +12,7 @@ Kirigami.Page {
     title: "piki"
 
     Component.onCompleted: {
-        processor.AddInterceptor(prf);
+        processor.AddInterceptor(profile);
         web.url = processor.Begin();
     }
 
@@ -29,7 +29,8 @@ Kirigami.Page {
         anchors.fill: parent
 
         profile: WebEngineProfile {
-            id: prf
+            id: profile
+            httpAcceptLanguage: Qt.uiLanguage
         }
     }
 }
