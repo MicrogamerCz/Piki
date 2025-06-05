@@ -29,7 +29,7 @@ FeedPage {
     }
 
     onFetchNext: {
-        piqi.RecommendedFeedNext(feed).then(newFeed => {
+        piqi.FetchNextFeed(feed).then(newFeed => {
             Cache.SynchroniseIllusts(newFeed.illusts);
             feed.Extend(newFeed);
             page.loading = false;
@@ -62,9 +62,9 @@ FeedPage {
         }
     }
 
-    PremiumBanner {
+    /*PremiumBanner {
         visible: Config.enablePremiumSuggestions && !piqi.user.isPremium
-    }
+        }*/
 
     ColumnLayout {
         Layout.fillWidth: true

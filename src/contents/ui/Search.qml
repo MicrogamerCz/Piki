@@ -62,7 +62,7 @@ FeedPage {
             page.loading = false;
             return;
         }
-        piqi.SearchNext(searchFeed).then(newFeed => {
+        piqi.FetchNextFeed(searchFeed).then(newFeed => {
             Cache.SynchroniseIllusts(newFeed.illusts);
             searchFeed.Extend(newFeed);
             page.loading = false;
@@ -161,9 +161,9 @@ FeedPage {
         }
     }
 
-    PremiumBanner {
+    /*PremiumBanner {
         closed: page.sorting != "popular"
-    }
+        }*/
 
     GridLayout {
         rowSpacing: 15

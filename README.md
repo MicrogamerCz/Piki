@@ -73,7 +73,6 @@ TBD
 - Add Watchlist (aka following a manga or novel series), my pixiv
 - General
   - Add missing info in metainfo
-  - Icon path in .desktop
   - Localisation
   - Improve performance (especially after navigating a few feed pages)
   - Network error handling - either with passive notifications or dialogs

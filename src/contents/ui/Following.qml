@@ -29,7 +29,7 @@ FeedPage {
     }
 
     onFetchNext: {
-        piqi.FollowingFeedNext(feed).then(newFeed => {
+        piqi.FetchNextFeed(feed).then(newFeed => {
             Cache.SynchroniseIllusts(newFeed.illusts);
             feed.Extend(newFeed);
             page.loading = false;
