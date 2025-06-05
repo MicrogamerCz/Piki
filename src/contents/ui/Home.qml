@@ -85,17 +85,9 @@ FeedPage {
             }
         }
 
-        Flickable {
+        Controls.ScrollView {
             Layout.fillWidth: true
             Layout.minimumHeight: row.height + 25
-            contentWidth: row.width
-            interactive: row.width > page.width
-            clip: true
-
-            Controls.ScrollBar.horizontal: Controls.ScrollBar {
-                policy: Controls.ScrollBar.AsNeeded
-                anchors.bottom: parent.bottom
-            }
 
             RowLayout {
                 id: row
@@ -117,7 +109,7 @@ FeedPage {
         columns: Math.floor((page.width - 25) / 190)
 
         Repeater {
-            model: page.feed.illusts
+            model: page.feed
             IllustrationButton {
                 required property var modelData
                 illust: modelData

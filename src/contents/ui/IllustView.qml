@@ -293,7 +293,7 @@ Kirigami.Page {
                         columns: Math.floor(parent.width / 180)
 
                         Repeater {
-                            model: page.related.illusts
+                            model: page.related
                             IllustrationButton {
                                 required property var modelData
                                 illust: modelData

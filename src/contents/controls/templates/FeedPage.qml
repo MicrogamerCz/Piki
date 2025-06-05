@@ -6,13 +6,33 @@ import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 
-Kirigami.Page {
+Kirigami.ScrollablePage {
     id: fp
-    property alias flick: _flickable
+
     default property alias contentItems: columnLayout.data
     property bool loading: false
     signal fetchNext
     signal refresh
+
+    Connections {
+        target: fp.flickable
+
+        function onAtYEndChanged(): void {
+            if (!fp.flickable.atYEnd || fp.loading)
+                return;
+
+            fp.loading = true;
+            fp.fetchNext();
+        }
+    }
+
+    ColumnLayout {
+        id: columnLayout
+
+        anchors.fill: parent
+
+        spacing: Kirigami.Units.largeSpacing
+    }
 
     Kirigami.AbstractCard {
         z: 5
@@ -40,43 +60,14 @@ Kirigami.Page {
         from: 0
         to: -200
         opacity: value * -0.01
-        value: _flickable.contentY
+        value: fp.flickable.contentY
         onValueChanged: {
-            if (!_flickable.interactive && value == 0)
-                _flickable.interactive = true;
+            if (!fp.flickable.interactive && value == 0)
+                fp.flickable.interactive = true;
             if (value != to)
                 return;
-            _flickable.interactive = false;
+            fp.flickable.interactive = false;
             fp.refresh();
-        }
-    }
-    Flickable {
-        id: _flickable
-        anchors.fill: parent
-        contentWidth: columnLayout.width
-        contentHeight: columnLayout.implicitHeight
-        flickableDirection: Flickable.VerticalFlick
-        interactive: true
-        clip: true
-
-        onAtYEndChanged: {
-            if (!atYEnd || fp.loading)
-                return;
-
-            fp.loading = true;
-            fp.fetchNext();
-        }
-
-        ColumnLayout {
-            id: columnLayout
-            width: _flickable.width - sc.width
-            spacing: Kirigami.Units.largeSpacing
-        }
-
-        Controls.ScrollBar.vertical: Controls.ScrollBar {
-            id: sc
-            policy: Controls.ScrollBar.AlwaysOn
-            anchors.right: parent.right
         }
     }
 }
