@@ -171,7 +171,7 @@ FeedPage {
         columns: Math.floor((page.width - 25) / 190)
 
         Repeater {
-            model: page.searchFeed.illusts
+            model: page.searchFeed
             IllustrationButton {
                 required property var modelData
                 illust: modelData

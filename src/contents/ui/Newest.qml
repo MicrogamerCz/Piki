@@ -65,7 +65,7 @@ FeedPage {
         columns: Math.floor((page.width - 25) / 190)
 
         Repeater {
-            model: page.feed.illusts
+            model: page.feed
             IllustrationButton {
                 required property var modelData
                 illust: modelData
