@@ -85,17 +85,9 @@ FeedPage {
             }
         }
 
-        Flickable {
+        Controls.ScrollView {
             Layout.fillWidth: true
             Layout.minimumHeight: row.height + 25
-            contentWidth: row.width
-            interactive: row.width > page.width
-            clip: true
-
-            Controls.ScrollBar.horizontal: Controls.ScrollBar {
-                policy: Controls.ScrollBar.AsNeeded
-                anchors.bottom: parent.bottom
-            }
 
             RowLayout {
                 id: row
