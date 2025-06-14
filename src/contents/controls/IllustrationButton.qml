@@ -25,11 +25,12 @@ DoubleAbstractCard {
             piqi.BookmarkDetail(illust).then(details => illust.isBookmarked = (details.restriction == "private") ? 2 : 1);
     }
 
-    onTopItemClicked: {
-        navigateToPageParm("IllustView", {
-            illust: card.illust
-        });
-    }
+    onTopItemClicked: navigateToPageParm("IllustView", {
+        illust: card.illust
+    })
+    onBottomItemClicked: piqi.Details(card.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
+            details: dtls
+        }))
 
     topItem: Item {
         anchors.fill: parent

@@ -2,8 +2,10 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
+import org.kde.kirigamiaddons.formcard as Form
 import io.github.micro.piki
 import io.github.micro.piqi
+import "../controls"
 
 // TODOs here:
 // - adding new comments
@@ -113,19 +115,18 @@ Kirigami.Page {
         Item {
             Controls.SplitView.fillHeight: true
             Controls.SplitView.minimumWidth: 600
+            property bool loading: false
             Flickable {
-                id: colFlick
                 anchors.fill: parent
                 contentHeight: columnLayout.height
                 boundsBehavior: Flickable.StopAtBounds
                 clip: true
-                property bool loading: false
 
                 onAtYEndChanged: {
                     if (page.related == null || !atYEnd)
                         return;
 
-                    loading = true;
+                    parent.loading = true;
                     piqi.RelatedIllusts(page.illust).then(rels => {
                         Cache.SynchroniseIllusts(rels.illusts);
                         page.related.Extend(rels);
@@ -161,37 +162,8 @@ Kirigami.Page {
                                     font.pointSize: 14
                                     Layout.alignment: Qt.AlignVCenter
                                 }
-                                Controls.ItemDelegate {
-                                    id: requestsCard
-                                    visible: page.illust.user.isAcceptRequest
-                                    Layout.alignment: Qt.AlignVCenter
-
-                                    onClicked: Qt.openUrlExternally(`https://www.pixiv.net/users/${page.illust.user.id}/request`)
-
-                                    contentItem: Row {
-                                        anchors.fill: parent
-
-                                        Kirigami.Icon {
-                                            anchors.verticalCenter: parent.verticalCenter
-                                            height: 30
-                                            source: "message-new"
-                                            color: Kirigami.Theme.positiveTextColor
-                                        }
-                                        Controls.Label {
-                                            anchors.verticalCenter: parent.verticalCenter
-                                            text: "Accepting requests"
-                                        }
-                                    }
-                                    background: Rectangle {
-                                        property color defaultColor: Kirigami.Theme.positiveBackgroundColor
-                                        property color hoverColor: Kirigami.ColorUtils.tintWithAlpha(defaultColor, Kirigami.Theme.highlightColor, 0.1)
-                                        property color pressedColor: Kirigami.ColorUtils.tintWithAlpha(defaultColor, Kirigami.Theme.highlightColor, 0.3)
-
-                                        anchors.fill: parent
-                                        radius: Kirigami.Units.cornerRadius
-                                        border.color: Kirigami.Theme.positiveTextColor
-                                        color: requestsCard.down ? pressedColor : (requestsCard.hovered ? hoverColor : defaultColor)
-                                    }
+                                RequestsCard {
+                                    user: page.illust.user
                                 }
                             }
                             Controls.Button {
@@ -214,17 +186,9 @@ Kirigami.Page {
                         contentItem: Kirigami.ActionToolBar {
                             Layout.fillWidth: true
                             actions: [
-                                Kirigami.Action {
-                                    displayComponent: RowLayout {
-                                        anchors.margins: Kirigami.Units.largeSpacing
-                                        Kirigami.Icon {
-                                            Layout.preferredHeight: 20
-                                            source: "view-visible"
-                                        }
-                                        Controls.Label {
-                                            text: page.illust.totalView
-                                        }
-                                    }
+                                FlatAction {
+                                    iconName: "view-visible"
+                                    text: page.illust.totalView
                                 },
                                 Kirigami.Action {
                                     separator: true
@@ -258,29 +222,34 @@ Kirigami.Page {
                                 // TODO: mute
                                 // TODO: report
                                 Kirigami.Action {
-                                    displayComponent: Controls.Label {
-                                        text: Qt.formatDateTime(page.illust.createDate, "yyyy-MM-dd hh:mm")
-                                    }
+                                    separator: true
+                                },
+                                FlatAction {
+                                    text: Qt.formatDateTime(page.illust.createDate, "yyyy-MM-dd hh:mm")
                                 }
                             ]
                         }
                         Controls.Menu {
                             id: contextMenu
                             Kirigami.Action {
-                                property TextEdit textEdit: TextEdit {}
                                 text: "Copy URL"
                                 icon.name: "edit-copy-symbolic"
                                 onTriggered: {
-                                    textEdit.text = `https://www.pixiv.net/artworks/${page.illust.id}`;
-                                    textEdit.selectAll();
-                                    textEdit.copy();
-                                    // TODO: show passive notification
+                                    PikiHelper.ShareToClipboard(page.illust);
+                                    showPassiveNotification("Copied to clipboard!");
                                 }
                             }
                             Kirigami.Action {
                                 text: "Set wallpaper"
                                 icon.name: "viewimage"
-                                // Try from https://invent.kde.org/plasma/plasma-workspace/-/blob/master/shell/tests/setwallpapertest.cpp?ref_type=heads
+                                // TODO: Account for multiple pages (the first one is temporarily taken as the parameter)
+                                // TODO: Warn about setting R-18+ images as wallpapers
+                                // TODO: Account for multiple monitors
+                                // TODO: Custom passive notification (+ in the copy url above)
+                                onTriggered: {
+                                    // wallpaperSelections.open(); // WIP
+                                    PikiHelper.SetWallpaper(page.illust);
+                                }
                             }
                         }
                     }
@@ -343,7 +312,7 @@ Kirigami.Page {
             }
             Kirigami.AbstractCard {
                 z: 5
-                visible: colFlick.loading
+                visible: parent.loading
                 anchors {
                     left: parent.left
                     right: parent.right

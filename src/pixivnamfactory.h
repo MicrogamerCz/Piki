@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #include "pikiconfig.h"
+#include <QDir>
 #include <QNetworkDiskCache>
 #include <QQmlNetworkAccessManagerFactory>
 #include <qmath.h>
@@ -36,6 +37,9 @@ public:
 
     inline QNetworkAccessManager *create(QObject *parent) override
     {
+        if (!QDir().exists(cfg->cachePath() + "wallpapers"))
+            QDir(cfg->cachePath()).mkdir("wallpapers");
+
         QNetworkAccessManager *networkAccessManager = new PixivNAM(parent);
         QNetworkDiskCache *diskCache = new QNetworkDiskCache(parent);
         uint maxSize = cfg->cacheSize();

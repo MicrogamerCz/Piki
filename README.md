@@ -86,7 +86,7 @@ TBD
   - Rewrite SelectionButtons to work based on index, without doing chess with the values
   - Create templates for certain SelectionButtons implementations, they aren't much different from each other
   - Bind tags history to each account
-  - Use more integrated controls (such as StatefulWindow instead of ApplicationWindow
+  - Use more integrated controls (such as StatefulWindow instead of ApplicationWindow)
   - Notifications
   - Proper Android support
   - Messages from web client

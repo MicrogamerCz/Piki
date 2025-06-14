@@ -28,9 +28,7 @@ Kirigami.ScrollablePage {
 
     ColumnLayout {
         id: columnLayout
-
         anchors.fill: parent
-
         spacing: Kirigami.Units.largeSpacing
     }
 

@@ -37,6 +37,9 @@ ecm_add_qml_module(piki_st
         contents/controls/TagChip.qml
         contents/controls/PremiumBanner.qml
         contents/controls/AccountsManager.qml
+        contents/controls/WebAction.qml
+        contents/controls/RequestsCard.qml
+        contents/controls/FlatAction.qml
         contents/controls/templates/DoubleAbstractCard.qml
         contents/controls/templates/FeedPage.qml
     SOURCES
@@ -44,6 +47,7 @@ ecm_add_qml_module(piki_st
         loginprocessor.cpp
         loginhandler.cpp
         pikicache.cpp
+        pikihelper.cpp
     # RESOURCE_PREFIX /
     RESOURCES
         contents/assets/io.github.micro.piki.svg
