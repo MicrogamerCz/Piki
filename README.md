@@ -94,10 +94,11 @@ TBD
 - New features
   - Posting new illusts/manga/novels (button will be in the top right corner)
   - Novels overall
-  - Profile page
   - Account settings
   - my Pixiv page
   - Local browsing history (+ online for premium users)
+- Profile page
+  - More appropriate icon for fanbox link
 - Welcome
   - Setup showing user the interface
   - Showing privacy policy popup (same as in the official app)

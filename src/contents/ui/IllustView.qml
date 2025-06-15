@@ -146,6 +146,11 @@ Kirigami.Page {
                     }
                     Kirigami.AbstractCard {
                         showClickFeedback: true
+
+                        onClicked: piqi.Details(page.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
+                                details: dtls
+                            }))
+
                         contentItem: ColumnLayout {
                             anchors.fill: parent
                             RowLayout {
