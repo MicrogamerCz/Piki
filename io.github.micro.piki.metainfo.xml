@@ -4,13 +4,65 @@ SPDX-License-Identifier: FSFAP
 SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
  -->
 <component type="desktop-application">
-  <id>io.github.micro.piki</id>
-  <name>Piki</name>
-  <summary>Unofficial Pixiv Client</summary>
-  <metadata_license>FSFAP</metadata_license>
-  <project_license>GPL-3.0-or-later</project_license>
-  <developer_name>Micro</developer_name>
-  <description>
-    <p>A sleek and feature-rich client for Pixiv</p>
-  </description>
-</component>
+   <id>io.github.microgamercz.piki</id>
+
+   <name>Piki</name>
+
+   <summary>Unofficial Kirigami client for Pixiv</summary>
+   <summary xml:lang="cs">Neoficiální Kirigami klient pro pixiv</summary>
+
+   <metadata_license>FSFAP</metadata_license>
+   <project_license>GPL-3.0-or-later</project_license>
+   <url type="homepage">https://github.com/MicrogamerCz/Piki</url>
+   <categories>
+    <category>Network</category>
+   </categories>
+   <keywords>
+    <keyword>Pixiv</keyword>
+    <keyword>Kirigami</keyword>
+    <keyword>Qt</keyword>
+   </keywords>
+   <provides>
+    <binary>piki</binary>
+   </provides>
+
+
+   <supports>
+     <control>pointing</control>
+     <control>keyboard</control>
+     <control>touch</control>
+   </supports>
+
+   <description>
+     <p>
+       A sleek and feature-rich client for Pixiv using official pixiv Android app API under the hood and Kirigami for UI.
+     </p>
+     <p>
+       Extra features: - Offline image cache - Offline history - Set image as wallpaper directly from Piki
+     </p>
+   </description>
+   <description xml:lang="cs">
+     <p>
+       Elegantní Pixiv klient využivající oficiální API v jádře a Kirigami pro uživatelské rozhraní s funkcemi pro lepší integraci s prostředím.
+     </p>
+     <p>
+       Přidaná funkcionalita: - Offline mezipaměť - Offline historie - Nastavení tapety přímo z Piki
+     </p>
+   </description>
+
+   <launchable type="desktop-id">io.github.micro.piki.desktop</launchable>
+   <screenshots>
+     <screenshot type="default">
+       <image
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/1_welcome.png</image>
+     </screenshot>
+     <screenshot>
+       <image
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/2_home.png</image>
+     </screenshot>
+     <screenshot>
+       <image
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/3_illust_view.png</image>
+     </screenshot>
+   </screenshots>
+ </component>
