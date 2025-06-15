@@ -124,6 +124,19 @@ FormCard.FormCardPage {
             }
         }
     }
+    FormCard.FormHeader {
+        title: "Defaults"
+    }
+    FormCard.FormCard {
+        FormCard.FormTextDelegate {
+            text: "R-18/R-18G wallpapers"
+            description: "Default settings for 'Set wallpaper' behaviour for age restricted works"
+        }
+        XWorkAsWallpaperOptions {
+            isSettingsComponent: true
+            selectedIndex: (Config.allowR18WorksAsWallpapers <= 1) ? Config.allowR18WorksAsWallpapers : (Config.allowR18WorksAsWallpapers + 1)
+        }
+    }
 
     FolderDialog {
         id: folderDialog

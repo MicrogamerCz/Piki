@@ -17,11 +17,15 @@
 #include <qdebug.h>
 #include <qdir.h>
 #include <qiodevicebase.h>
+#include <qjsonarray.h>
+#include <qjsondocument.h>
+#include <qjsonobject.h>
 #include <qlocalsocket.h>
 #include <qlogging.h>
 #include <qnetworkaccessmanager.h>
 #include <qnetworkreply.h>
 #include <qnetworkrequest.h>
+#include <qobject.h>
 #include <qstringliteral.h>
 #include <qtenvironmentvariables.h>
 #include <qurl.h>
@@ -50,15 +54,20 @@ QCoro::Task<QString> PikiHelper::CheckFanboxTask(int id)
     QString header = reply->header(QNetworkRequest::LocationHeader).toString();
     co_return header;
 }
-QCoro::QmlTask PikiHelper::SetWallpaper(Illustration *illust)
+void PikiHelper::ShareToClipboard(Illustration *illust)
 {
-    return SetWallpaperTask(illust);
+    QClipboard *cbd = QApplication::clipboard();
+    cbd->setText("https://pixiv.net/artworks/" + QString::number(illust->m_id));
 }
-QCoro::Task<> PikiHelper::SetWallpaperTask(Illustration *illust)
+QCoro::QmlTask PikiHelper::SetWallpaper(Illustration *illust, uint screen, int index)
+{
+    return SetWallpaperTask(illust, screen, index);
+}
+QCoro::Task<> PikiHelper::SetWallpaperTask(Illustration *illust, uint screen, int index)
 {
     QString url;
     if (illust->m_pageCount > 1)
-        url = illust->m_metaPages[0]->m_original;
+        url = illust->m_metaPages[index]->m_original;
     else
         url = illust->m_metaSinglePage;
 
@@ -80,43 +89,78 @@ QCoro::Task<> PikiHelper::SetWallpaperTask(Illustration *illust)
     // Hyprpaper for Hyprland, etc.) then there could be a check against other common
     // (or contributed) backends
     // For adding backends, the intergration should be prefferably by DBus or a
-    // Unix socket, as long as the wallpaper is passed as a path and not the data
-    const QStringList supportedSessions{"KDE", "Hyprland"};
+    // Unix socket, as long as the wallpaper is passed as a path to a file and not
+    // the data
     QString sessionDesktop = qEnvironmentVariable("XDG_CURRENT_DESKTOP");
     switch (supportedSessions.indexOf(sessionDesktop)) {
     case 0: {
-        // Using: https://invent.kde.org/plasma/plasma-workspace/-/blob/master/shell/tests/setwallpapertest.cpp
-        // SPDX-FileCopyrightText: 2022 Méven Car <meven@kde.org>
-        // SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
-
-        QDBusInterface *interface = new QDBusInterface("org.kde.plasmashell", "/PlasmaShell", "org.kde.PlasmaShell", QDBusConnection::sessionBus(), this);
-        if (!interface->isValid())
-            co_return;
-
-        QVariantMap params{{"Image", path}};
-        QDBusReply<void> response = co_await interface->asyncCall("setWallpaper", "org.kde.image", params, uint(0));
+        SetWallpaperKDE(path, screen);
         break;
     }
     case 1: {
-        QString runtimeDir = qEnvironmentVariable("XDG_RUNTIME_DIR"), his = qEnvironmentVariable("HYPRLAND_INSTANCE_SIGNATURE"),
-                socketPath = runtimeDir + "/hypr/" + his + "/.hyprpaper.sock";
-        QLocalSocket sock;
-        sock.connectToServer(socketPath);
-        if (sock.waitForConnected()) {
-            sock.write(("preload " + path + "\n").toUtf8());
-            sock.flush();
-            sock.waitForReadyRead();
-            sock.write(("wallpaper eDP-1," + path + "\n").toUtf8());
-            sock.flush();
-            sock.waitForReadyRead();
-            sock.disconnectFromServer();
-        }
+        SetWallpaperHyprpaper(path, screen);
         break;
     }
     }
 }
-void PikiHelper::ShareToClipboard(Illustration *illust)
+void PikiHelper::SetWallpaperKDE(QString path, uint screen)
 {
-    QClipboard *cbd = QApplication::clipboard();
-    cbd->setText("https://pixiv.net/artworks/" + QString::number(illust->m_id));
+    // Using: https://invent.kde.org/plasma/plasma-workspace/-/blob/master/shell/tests/setwallpapertest.cpp
+    // SPDX-FileCopyrightText: 2022 Méven Car <meven@kde.org>
+    // SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+
+    QDBusInterface *interface = new QDBusInterface("org.kde.plasmashell", "/PlasmaShell", "org.kde.PlasmaShell", QDBusConnection::sessionBus(), this);
+    if (!interface->isValid())
+        return;
+
+    QVariantMap params{{"Image", path}};
+    interface->call("setWallpaper", "org.kde.image", params, screen);
+}
+void PikiHelper::SetWallpaperHyprpaper(QString path, uint screen)
+{
+    QString runtimeDir = qEnvironmentVariable("XDG_RUNTIME_DIR"), his = qEnvironmentVariable("HYPRLAND_INSTANCE_SIGNATURE"),
+            socketPath = runtimeDir + "/hypr/" + his + "/.hyprpaper.sock";
+    QLocalSocket sock;
+    sock.connectToServer(socketPath);
+    if (sock.waitForConnected()) {
+        sock.write(("preload " + path + "\n").toUtf8());
+        sock.flush();
+        sock.waitForReadyRead();
+        QJsonArray screens = GetScreensHyprland();
+        QString request = "wallpaper " + screens[screen].toObject()["name"].toString() + "," + path + "\n";
+        sock.write(request.toUtf8());
+        sock.flush();
+        sock.waitForReadyRead();
+        sock.disconnectFromServer();
+    }
+}
+uint PikiHelper::GetScreenCount()
+{
+    QString sessionDesktop = qEnvironmentVariable("XDG_CURRENT_DESKTOP");
+    switch (supportedSessions.indexOf(sessionDesktop)) {
+    case 1:
+        return GetScreenCountHyprland();
+    default:
+        return 0; // 0 is the default for unknown number of screens/missing implementation for such method
+    }
+}
+uint PikiHelper::GetScreenCountHyprland()
+{
+    return GetScreensHyprland().count();
+}
+QJsonArray PikiHelper::GetScreensHyprland()
+{
+    QString runtimeDir = qEnvironmentVariable("XDG_RUNTIME_DIR"), his = qEnvironmentVariable("HYPRLAND_INSTANCE_SIGNATURE"),
+            socketPath = runtimeDir + "/hypr/" + his + "/.socket.sock";
+    QLocalSocket sock;
+    sock.connectToServer(socketPath);
+    if (!sock.waitForConnected())
+        return QJsonArray();
+
+    sock.write(QString("-j/monitors\n").toUtf8());
+    sock.flush();
+    sock.waitForReadyRead();
+    QJsonArray arr = QJsonDocument::fromJson(sock.readAll()).array();
+    sock.disconnectFromServer();
+    return arr;
 }

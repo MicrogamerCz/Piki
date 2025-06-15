@@ -40,6 +40,7 @@ ecm_add_qml_module(piki_st
         contents/controls/WebAction.qml
         contents/controls/RequestsCard.qml
         contents/controls/FlatAction.qml
+        contents/controls/XWorkAsWallpaperOptions.qml
         contents/controls/templates/DoubleAbstractCard.qml
         contents/controls/templates/FeedPage.qml
     SOURCES

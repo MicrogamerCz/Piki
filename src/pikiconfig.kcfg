@@ -40,6 +40,21 @@
         </entry>
     </group>
     <group name="Defaults">
+        <entry name="allowR18WorksAsWallpapers" type="Enum">
+            <label>Allow R-18/R-18G works as wallpapers</label>
+            <choices>
+                <choice name="AlwaysAsk">
+                    <label>When setting a wallpapers, user is always asked this question for works with restricted rating</label>
+                </choice>
+                <choice name="AlwaysSet">
+                    <label>Always sets the work as a wallpaper</label>
+                </choice>
+                <choice name="NeverSet">
+                    <label>'Set wallpaper' button won't appear for restricted works</label>
+                </choice>
+            </choices>
+            <default>0</default>
+        </entry>
         <entry name="defaultPage" type="Enum">
             <label>First page shown on startup</label>
             <choices>
