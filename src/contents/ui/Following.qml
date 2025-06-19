@@ -4,6 +4,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
+import org.kde.kirigami as Kirigami
 import io.github.micro.piki
 import io.github.micro.piqi
 import "../controls"
@@ -36,37 +37,55 @@ FeedPage {
         });
     }
 
-    RowLayout {
-        SelectionButtons {
-            id: categories
-            value: (page.category == "novel")
-            onValueChanged: page.category = value ? "novel" : "illust"
-            options: ["Illustrations / Manga", "Novels"]
-        }
-        Controls.BusyIndicator {
-            visible: page.loading
-        }
-        Item {
-            Layout.fillWidth: true
-        }
-        SelectionButtons {
-            id: restrictions
-            value: page.restrict
-            onValueChanged: page.restrict = value
-            options: [
-                {
-                    label: "All",
-                    value: "all"
-                },
-                {
-                    label: "Public only",
-                    value: "public"
-                },
-                {
-                    label: "Private only",
-                    value: "private"
+    header: Controls.Control {
+        padding: Kirigami.Units.largeSpacing
+
+        background: Rectangle {
+            color: Kirigami.Theme.backgroundColor
+
+            Kirigami.Separator {
+                anchors {
+                    left: parent.left
+                    bottom: parent.bottom
+                    right: parent.right
                 }
-            ]
+            }
+        }
+
+        contentItem: RowLayout {
+            spacing: Kirigami.Units.largeSpacing
+
+            SelectionButtons {
+                id: categories
+                value: (page.category == "novel")
+                onValueChanged: page.category = value ? "novel" : "illust"
+                options: ["Illustrations / Manga", "Novels"]
+            }
+            Controls.BusyIndicator {
+                visible: page.loading
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+            SelectionButtons {
+                id: restrictions
+                value: page.restrict
+                onValueChanged: page.restrict = value
+                options: [
+                    {
+                        label: "All",
+                        value: "all"
+                    },
+                    {
+                        label: "Public only",
+                        value: "public"
+                    },
+                    {
+                        label: "Private only",
+                        value: "private"
+                    }
+                ]
+            }
         }
     }
     GridLayout {
