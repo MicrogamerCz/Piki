@@ -107,7 +107,15 @@ DoubleAbstractCard {
                         id: bookmarkIcon
                         z: 500
                         anchors.centerIn: parent
-                        source: (card.illust.isBookmarked < 2) ? "favorite" : "view-private"
+                        source: {
+                            if (card.illust.isBookmarked === 2) {
+                                return "view-private";
+                            } else if (card.illust.isBookmarked === 1) {
+                                return "favorite-favorited";
+                            } else {
+                                return "favorite";
+                            }
+                        }
                         color: (card.illust.isBookmarked > 0) ? "gold" : Kirigami.Theme.disabledTextColor
 
                         MouseArea {
