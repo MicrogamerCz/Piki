@@ -197,7 +197,15 @@ Kirigami.Page {
                                     checkable: true
                                     checked: page.illust.isBookmarked
                                     text: page.illust.totalBookmarks
-                                    icon.name: (page.illust.isBookmarked < 2) ? "favorite" : "view-private"
+                                    icon.name: {
+                                        if (page.illust.isBookmarked === 2) {
+                                            return "view-private";
+                                        } else if (page.illust.isBookmarked === 1) {
+                                            return "favorite-favorited";
+                                        } else {
+                                            return "favorite";
+                                        }
+                                    }
                                     icon.color: (page.illust.isBookmarked > 0) ? "gold" : Kirigami.Theme.textColor
 
                                     onTriggered: {
