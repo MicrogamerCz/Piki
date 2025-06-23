@@ -34,7 +34,7 @@ FeedPage {
         });
     }
 
-    RowLayout {
+    filterSelections: [
         SelectionButtons {
             id: categories
             value: page.category
@@ -54,11 +54,11 @@ FeedPage {
                     value: "novel"
                 }
             ]
-        }
+        },
         Controls.BusyIndicator {
             visible: page.loading
         }
-    }
+    ]
     GridLayout {
         rowSpacing: 15
         columnSpacing: 15

@@ -37,27 +37,30 @@ FeedPage {
         });
     }
 
-    RowLayout {
+    filterSelections: [
         SelectionButtons {
             id: categories
             value: (page.category == "novel")
             onValueChanged: page.category = value ? "novel" : "illust"
             options: ["Illustrations / Manga", "Novels"]
-        }
+        },
         Kirigami.Separator {
             Layout.fillHeight: true
-        }
+        },
+        // TODO: bookmarks query field
+        Controls.BusyIndicator {
+            visible: page.loading
+        },
+        Item {
+            Layout.fillWidth: true
+        },
         SelectionButtons {
             id: restrictions
             value: (page.restrict == "private")
-            onValueChanged: page.category = value ? "private" : "public"
+            onValueChanged: page.restrict = value ? "private" : "public"
             options: ["Public", "Private"]
         }
-        // Future bookmarks query field
-        Controls.BusyIndicator {
-            visible: page.loading
-        }
-    }
+    ]
     GridLayout {
         rowSpacing: 15
         columnSpacing: 15

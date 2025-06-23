@@ -37,57 +37,39 @@ FeedPage {
         });
     }
 
-    header: Controls.Control {
-        padding: Kirigami.Units.largeSpacing
-
-        background: Rectangle {
-            color: Kirigami.Theme.backgroundColor
-
-            Kirigami.Separator {
-                anchors {
-                    left: parent.left
-                    bottom: parent.bottom
-                    right: parent.right
+    filterSelections: [
+        SelectionButtons {
+            id: categories
+            value: (page.category == "novel")
+            onValueChanged: page.category = value ? "novel" : "illust"
+            options: ["Illustrations / Manga", "Novels"]
+        },
+        Controls.BusyIndicator {
+            visible: page.loading
+        },
+        Item {
+            Layout.fillWidth: true
+        },
+        SelectionButtons {
+            id: restrictions
+            value: page.restrict
+            onValueChanged: page.restrict = value
+            options: [
+                {
+                    label: "All",
+                    value: "all"
+                },
+                {
+                    label: "Public only",
+                    value: "public"
+                },
+                {
+                    label: "Private only",
+                    value: "private"
                 }
-            }
+            ]
         }
-
-        contentItem: RowLayout {
-            spacing: Kirigami.Units.largeSpacing
-
-            SelectionButtons {
-                id: categories
-                value: (page.category == "novel")
-                onValueChanged: page.category = value ? "novel" : "illust"
-                options: ["Illustrations / Manga", "Novels"]
-            }
-            Controls.BusyIndicator {
-                visible: page.loading
-            }
-            Item {
-                Layout.fillWidth: true
-            }
-            SelectionButtons {
-                id: restrictions
-                value: page.restrict
-                onValueChanged: page.restrict = value
-                options: [
-                    {
-                        label: "All",
-                        value: "all"
-                    },
-                    {
-                        label: "Public only",
-                        value: "public"
-                    },
-                    {
-                        label: "Private only",
-                        value: "private"
-                    }
-                ]
-            }
-        }
-    }
+    ]
     GridLayout {
         rowSpacing: 15
         columnSpacing: 15

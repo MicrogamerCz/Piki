@@ -36,7 +36,7 @@ FeedPage {
         });
     }
 
-    RowLayout {
+    filterSelections: [
         SelectionButtons {
             id: categories
             value: page.category
@@ -56,11 +56,11 @@ FeedPage {
                     value: "novel"
                 }
             ]
-        }
+        },
         Controls.BusyIndicator {
             visible: page.loading
         }
-    }
+    ]
 
     /*PremiumBanner {
         visible: Config.enablePremiumSuggestions && !piqi.user.isPremium

@@ -71,7 +71,7 @@ FeedPage {
 
     Component.onCompleted: queries = root.getHeaderQuery()
 
-    RowLayout {
+    filterSelections: [
         SelectionButtons {
             id: sortingSelection
             Layout.fillHeight: true
@@ -92,10 +92,10 @@ FeedPage {
                     value: "date_asc"
                 }
             ]
-        }
+        },
         Kirigami.Separator {
             Layout.fillHeight: true
-        }
+        },
         SelectionButtons {
             id: targetSelection
             Layout.fillHeight: true
@@ -116,10 +116,10 @@ FeedPage {
                     value: "tides"
                 }
             ]
-        }
+        },
         Kirigami.Separator {
             Layout.fillHeight: true
-        }
+        },
         Controls.ComboBox {
             Layout.fillHeight: true
             flat: true
@@ -154,12 +154,11 @@ FeedPage {
                     "value": 6
                 }
             ]
-        }
-
+        },
         Controls.BusyIndicator {
             visible: page.loading
         }
-    }
+    ]
 
     /*PremiumBanner {
         closed: page.sorting != "popular"

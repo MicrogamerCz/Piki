@@ -10,6 +10,7 @@ Kirigami.ScrollablePage {
     id: fp
 
     default property alias contentItems: columnLayout.data
+    property alias filterSelections: filterRow.children
     property bool loading: false
     signal fetchNext
     signal refresh
@@ -23,6 +24,27 @@ Kirigami.ScrollablePage {
 
             fp.loading = true;
             fp.fetchNext();
+        }
+    }
+
+    header: Controls.Control {
+        padding: Kirigami.Units.largeSpacing
+
+        background: Rectangle {
+            color: Kirigami.Theme.backgroundColor
+
+            Kirigami.Separator {
+                anchors {
+                    left: parent.left
+                    bottom: parent.bottom
+                    right: parent.right
+                }
+            }
+        }
+
+        contentItem: RowLayout {
+            id: filterRow
+            spacing: Kirigami.Units.largeSpacing
         }
     }
 
