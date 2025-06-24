@@ -12,12 +12,12 @@ import "../controls/templates"
 FeedPage {
     id: page
     title: `Newest ・ ${categories.label}`
-    onRefresh: refreshF()
 
     property string category: "illust"
     property Illusts feed
 
-    function refreshF() {
+    function refresh() {
+        page.flickable.contentY = 0;
         loading = true;
         piqi.LatestGlobal(category).then(rec => {
             Cache.SynchroniseIllusts(rec.illusts);

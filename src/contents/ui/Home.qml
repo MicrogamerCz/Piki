@@ -13,13 +13,12 @@ import "../controls/templates"
 FeedPage {
     id: page
     title: `Home ・ ${categories.label}`
-    onRefresh: refreshF()
-
     property string category: "illust"
-    onCategoryChanged: refreshF()
+    onCategoryChanged: refresh()
     property Recommended feed
 
-    function refreshF() {
+    function refresh() {
+        page.flickable.contentY = 0;
         loading = true;
         piqi.RecommendedFeed(category, true, false).then(rec => {
             Cache.SynchroniseIllusts(rec.illusts);
@@ -59,6 +58,9 @@ FeedPage {
         },
         Controls.BusyIndicator {
             visible: page.loading
+        },
+        Item {
+            Layout.fillWidth: true
         }
     ]
 

@@ -5,15 +5,19 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
+import io.github.micro.piqi
 
+/*
+    Required implementations by derived pages:
+    - refresh() function implemented
+*/
 Kirigami.ScrollablePage {
     id: fp
 
     default property alias contentItems: columnLayout.data
-    property alias filterSelections: filterRow.children
+    property alias filterSelections: filterRow.children // TODO: Simplify, use KirigamiAddons.SegmentedButton
     property bool loading: false
     signal fetchNext
-    signal refresh
 
     Connections {
         target: fp.flickable
@@ -68,26 +72,60 @@ Kirigami.ScrollablePage {
             anchors.fill: parent
         }
     }
+    /*
+        This is a dirty hack of Kirigami.ScrollablePage to add
+        floating buttons and indicators, specifically returnToTop
+        button and progressBar indicating loading of next feed page.
+    */
+    Item {
+        y: fp.flickable.contentY
+        height: root.pageStack.height - 4.5 * fp.padding
 
-    Controls.ProgressBar {
         anchors {
-            top: parent.top
             left: parent.left
             right: parent.right
         }
-        anchors.margins: Kirigami.Units.gridUnit
-        anchors.topMargin: (value < 0) ? (-value / 2) : 0
-        from: 0
-        to: -200
-        opacity: value * -0.01
-        value: fp.flickable.contentY
-        onValueChanged: {
-            if (!fp.flickable.interactive && value == 0)
-                fp.flickable.interactive = true;
-            if (value != to)
-                return;
-            fp.flickable.interactive = false;
-            fp.refresh();
+
+        Controls.Button {
+            opacity: fp.flickable.contentY > 0 ? 1 : 0
+            visible: opacity !== 0
+
+            Behavior on opacity {
+                NumberAnimation {}
+            }
+
+            anchors {
+                right: parent.right
+                bottom: parent.bottom
+            }
+
+            action: Kirigami.Action {
+                icon.name: "arrow-up"
+                icon.height: Kirigami.Units.iconSizes.medium
+                icon.width: Kirigami.Units.iconSizes.medium
+                onTriggered: fp.flickable.contentY = 0
+            }
+        }
+        Controls.ProgressBar {
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+            anchors.margins: Kirigami.Units.gridUnit
+            anchors.topMargin: (value < 0) ? (-value / 2) : 0
+            from: 0
+            to: -200
+            opacity: value * -0.01
+            value: fp.flickable.contentY
+            onValueChanged: {
+                if (!fp.flickable.interactive && value == 0)
+                    fp.flickable.interactive = true;
+                if (value != to)
+                    return;
+                fp.flickable.interactive = false;
+                fp.refresh();
+            }
         }
     }
 }

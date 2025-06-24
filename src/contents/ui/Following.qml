@@ -13,14 +13,14 @@ import "../controls/templates"
 FeedPage {
     id: page
     title: `Following ・ ${categories.label}`
-    onRefresh: refreshF()
 
     property string category: "illust"
     property string restrict: "all"
-    onRestrictChanged: refreshF()
+    onRestrictChanged: refresh()
     property Illusts feed
 
-    function refreshF() {
+    function refresh() {
+        page.flickable.contentY = 0;
         loading = true;
         piqi.FollowingFeed(category, restrict).then(rec => {
             Cache.SynchroniseIllusts(rec.illusts);
