@@ -40,6 +40,10 @@
         </entry>
     </group>
     <group name="Defaults">
+        <entry name="startupPage" type="Int">
+            <label>Page, which opens on startup by default</label>
+            <default>0</default>
+        </entry>
         <entry name="allowR18WorksAsWallpapers" type="Enum">
             <label>Allow R-18/R-18G works as wallpapers</label>
             <choices>
