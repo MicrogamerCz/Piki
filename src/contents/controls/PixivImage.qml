@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 import QtQuick
-import org.kde.kirigami as Kirigami
 import QtQuick.Controls as Controls
+import org.kde.kirigami as Kirigami
 
 Image {
     asynchronous: true

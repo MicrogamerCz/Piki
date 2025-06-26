@@ -216,7 +216,7 @@ Rectangle {
             icon.name: "favorite"
             icon.color: "gold"
             autoNavigate: false
-            onNavigate: navigateToPage("Premium")
+            onNavigate: Qt.openUrlExternally("https://pixiv.net/premium")
         }
         SidebarButton {
             page: "Settings"

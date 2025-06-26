@@ -16,16 +16,12 @@ Kirigami.NavigationTabButton {
     Layout.fillWidth: true
     implicitHeight: 50
     display: Controls.AbstractButton.TextBesideIcon
-    checked: matchPart ? root.currentPage.startsWith(page) : (root.currentPage == page)
+    checked: matchPart ? root.currentPage.startsWith(text) : (root.currentPage == text)
     checkable: false
 
     text: page
     onClicked: {
-        if (checked)
-            return;
-        else if (autoNavigate)
-            navigateToPage(page);
-        else
+        if (!checked)
             navigate();
     }
 
