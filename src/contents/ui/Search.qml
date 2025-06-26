@@ -57,8 +57,8 @@ FeedPage {
             });
     }
 
-    onFetchNext: {
-        if (sorting == "popular") {
+    function fetchNext() {
+        if (sorting == "popular" && !piqi.user.isPremium) {
             page.loading = false;
             return;
         }

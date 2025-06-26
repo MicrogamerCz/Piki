@@ -17,7 +17,14 @@ Kirigami.ScrollablePage {
     default property alias contentItems: columnLayout.data
     property alias filterSelections: filterRow.children // TODO: Simplify, use KirigamiAddons.SegmentedButton
     property bool loading: false
-    signal fetchNext
+
+    function fetchNext() {
+        piqi.FetchNextFeed(feed).then(newFeed => {
+            Cache.SynchroniseIllusts(newFeed.illusts);
+            feed.Extend(newFeed);
+            page.loading = false;
+        });
+    }
 
     Connections {
         target: fp.flickable

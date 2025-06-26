@@ -27,14 +27,6 @@ FeedPage {
         });
     }
 
-    onFetchNext: {
-        piqi.FetchNextFeed(feed).then(newFeed => {
-            Cache.SynchroniseIllusts(newFeed.illusts);
-            feed.Extend(newFeed);
-            page.loading = false;
-        });
-    }
-
     filterSelections: [
         SelectionButtons {
             id: categories
