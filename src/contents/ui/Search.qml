@@ -57,18 +57,6 @@ FeedPage {
             });
     }
 
-    function fetchNext() {
-        // if (sorting == "popular" && !piqi.user.isPremium) {
-        // page.loading = false;
-        // return;
-        // }
-        piqi.FetchNextFeed(searchFeed).then(newFeed => {
-            Cache.SynchroniseIllusts(newFeed.illusts);
-            searchFeed.Extend(newFeed);
-            page.loading = false;
-        });
-    }
-
     Component.onCompleted: queries = root.getHeaderQuery()
 
     filterSelections: [
