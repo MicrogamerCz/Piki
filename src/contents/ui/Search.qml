@@ -58,10 +58,10 @@ FeedPage {
     }
 
     function fetchNext() {
-        if (sorting == "popular" && !piqi.user.isPremium) {
-            page.loading = false;
-            return;
-        }
+        // if (sorting == "popular" && !piqi.user.isPremium) {
+        // page.loading = false;
+        // return;
+        // }
         piqi.FetchNextFeed(searchFeed).then(newFeed => {
             Cache.SynchroniseIllusts(newFeed.illusts);
             searchFeed.Extend(newFeed);
@@ -157,6 +157,9 @@ FeedPage {
         },
         Controls.BusyIndicator {
             visible: page.loading
+        },
+        Item {
+            Layout.fillWidth: true
         }
     ]
 
