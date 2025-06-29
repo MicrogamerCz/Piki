@@ -5,6 +5,8 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import QtQuick.Controls as Controls
+import org.kde.kirigami as Kirigami
+import org.kde.kirigamiaddons.components as KIA
 import io.github.micro.piki
 import io.github.micro.piqi
 import "../controls"

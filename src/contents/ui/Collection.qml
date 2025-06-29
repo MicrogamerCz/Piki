@@ -50,7 +50,7 @@ FeedPage {
         SelectionButtons {
             id: restrictions
             value: (page.restrict == "private")
-            onValueChanged: page.category = value ? "private" : "public"
+            onValueChanged: page.restrict = value ? "private" : "public"
             options: ["Public", "Private"]
         }
         // Future bookmarks query field
