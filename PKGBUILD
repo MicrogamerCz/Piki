@@ -15,12 +15,6 @@ provides=(piki)
 source=("git+https://github.com/MicrogamerCz/Piki")
 sha256sums=('SKIP')
 
-prepare() {
-  cd Piki/
-#   pwd
-  git submodule update --init --recursive
-}
-
 build() {
   cmake -GNinja -B build -S Piki \
     -DBUILD_TESTING=OFF \

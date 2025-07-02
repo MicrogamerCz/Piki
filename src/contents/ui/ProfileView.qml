@@ -35,8 +35,8 @@ FeedPage {
     property User user: details.user
     property Profile profile: details.profile
     property Workspace workspace: details.workspace
-
-    property int category: 0
+    property string category: "0"
+    property Illusts feed
 
     property WebAction fanboxAction: WebAction {
         url: ""
@@ -48,10 +48,20 @@ FeedPage {
         icon.name: "mail-message"
     }
 
+    function refresh() {
+    }
+
     Component.onCompleted: {
         PikiHelper.CheckFanbox(user).then(url => fanboxAction.url = url);
         if (user.isFollowed > 0)
             piqi.FollowDetail(user).then(details => user.isFollowed = (details.restriction == "private") ? 2 : 1);
+
+        if (profile.totalIllusts > 0 || profile.totalManga > 0)
+            piqi.UserIllusts(user, "illust").then(illusts => {
+                feed = illusts;
+            });
+        // else
+        // return; // novels
     }
 
     Rectangle {
@@ -324,35 +334,58 @@ FeedPage {
 
     SelectionButtons {
         id: categories
-        Layout.leftMargin: Kirigami.Units.mediumSpacing
+        Layout.leftMargin: Kirigami.Units.gridUnit
         Layout.fillWidth: true
         value: page.category
         onValueChanged: page.category = value
 
         options: [
             {
-                label: "Illustrations / Manga",
-                value: 0
+                label: "Illustrations",
+                value: "0"
+            },
+            {
+                label: "Manga",
+                value: "1"
+            },
+            {
+                label: "Manga series",
+                value: "2"
             },
             {
                 label: "Novels",
-                value: 1
+                value: "3"
             },
             {
                 label: "Illustrations / Manga (Bookmarks)",
-                value: 2
-            }//,
-            // {
-            // label: "Novels (Bookmarks)",
-            // value: 3
-            // }
+                value: "4"
+            },
+            {
+                label: "Novels (Bookmarks)",
+                value: "5"
+            }
         ]
     }
+    GridLayout {
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.leftMargin: Kirigami.Units.gridUnit
+        Layout.rightMargin: Kirigami.Units.gridUnit
+        rowSpacing: 15
+        columnSpacing: 15
+        columns: Math.floor((page.width - 25) / 190)
 
+        Repeater {
+            model: page.feed
+            IllustrationButton {
+                required property variant modelData
+                illust: modelData
+            }
+        }
+    }
     Item {
         Layout.fillHeight: true
     }
-
     function calculateAge(date) {
         let age = new Date().getFullYear() - date.getFullYear();
 
