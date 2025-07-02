@@ -13,14 +13,14 @@ import "../controls/templates"
 FeedPage {
     id: page
     title: `Bookmarks ・ ${categories.label}`
-    onRefresh: refreshF()
 
     property string category: "illust"
     property string restrict: "public"
-    onRestrictChanged: refreshF()
+    onRestrictChanged: refresh()
     property Illusts feed
 
-    function refreshF() {
+    function refresh() {
+        page.flickable.contentY = 0;
         loading = true;
         piqi.BookmarksFeed(category, restrict).then(rec => {
             Cache.SynchroniseIllusts(rec.illusts);
@@ -29,35 +29,30 @@ FeedPage {
         });
     }
 
-    onFetchNext: {
-        piqi.FetchNextFeed(feed).then(newFeed => {
-            Cache.SynchroniseIllusts(newFeed.illusts);
-            feed.Extend(newFeed);
-            page.loading = false;
-        });
-    }
-
-    RowLayout {
+    filterSelections: [
         SelectionButtons {
             id: categories
             value: (page.category == "novel")
             onValueChanged: page.category = value ? "novel" : "illust"
             options: ["Illustrations / Manga", "Novels"]
-        }
+        },
         Kirigami.Separator {
             Layout.fillHeight: true
-        }
+        },
+        // TODO: bookmarks query field
+        Controls.BusyIndicator {
+            visible: page.loading
+        },
+        Item {
+            Layout.fillWidth: true
+        },
         SelectionButtons {
             id: restrictions
             value: (page.restrict == "private")
-            onValueChanged: page.category = value ? "private" : "public"
+            onValueChanged: page.restrict = value ? "private" : "public"
             options: ["Public", "Private"]
         }
-        // Future bookmarks query field
-        Controls.BusyIndicator {
-            visible: page.loading
-        }
-    }
+    ]
     GridLayout {
         rowSpacing: 15
         columnSpacing: 15

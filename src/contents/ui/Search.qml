@@ -14,13 +14,12 @@ FeedPage {
     id: page
     property string queries: ""
     title: `${queries} (${sortingSelection.label})`
-    onRefresh: refreshF()
 
     property string sorting: "date_desc"
     onSortingChanged: {
         if (sorting != "popular")
             searchRequest.sortAscending = sorting == "date_asc";
-        refreshF();
+        refresh();
     }
     property string target: "partial"
     onTargetChanged: {
@@ -35,12 +34,13 @@ FeedPage {
             searchRequest.searchTarget = SearchRequest.TitleAndDescription;
             break;
         }
-        refreshF();
+        refresh();
     }
     property variant searchRequest
     property variant searchFeed
 
-    function refreshF() {
+    function refresh() {
+        page.flickable.contentY = 0;
         page.loading = true;
 
         if (sorting == "popular")
@@ -57,21 +57,9 @@ FeedPage {
             });
     }
 
-    onFetchNext: {
-        if (sorting == "popular") {
-            page.loading = false;
-            return;
-        }
-        piqi.FetchNextFeed(searchFeed).then(newFeed => {
-            Cache.SynchroniseIllusts(newFeed.illusts);
-            searchFeed.Extend(newFeed);
-            page.loading = false;
-        });
-    }
-
     Component.onCompleted: queries = root.getHeaderQuery()
 
-    RowLayout {
+    filterSelections: [
         SelectionButtons {
             id: sortingSelection
             Layout.fillHeight: true
@@ -92,10 +80,10 @@ FeedPage {
                     value: "date_asc"
                 }
             ]
-        }
+        },
         Kirigami.Separator {
             Layout.fillHeight: true
-        }
+        },
         SelectionButtons {
             id: targetSelection
             Layout.fillHeight: true
@@ -116,10 +104,10 @@ FeedPage {
                     value: "tides"
                 }
             ]
-        }
+        },
         Kirigami.Separator {
             Layout.fillHeight: true
-        }
+        },
         Controls.ComboBox {
             Layout.fillHeight: true
             flat: true
@@ -154,12 +142,14 @@ FeedPage {
                     "value": 6
                 }
             ]
-        }
-
+        },
         Controls.BusyIndicator {
             visible: page.loading
+        },
+        Item {
+            Layout.fillWidth: true
         }
-    }
+    ]
 
     /*PremiumBanner {
         closed: page.sorting != "popular"
@@ -184,6 +174,6 @@ FeedPage {
         Layout.alignment: Qt.AlignHCenter
         font.bold: true
         font.pointSize: 24
-        text: "Subscribe to pixiv Premium for full popular feed!"
+        text: "Limited search by popularity"
     }
 }

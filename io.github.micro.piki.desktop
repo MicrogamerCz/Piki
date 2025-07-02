@@ -4,6 +4,7 @@
 [Desktop Entry]
 Name=Piki
 Comment=Unofficial Kirigami client for Pixiv
+Comment[cs]=Neoficiální Kirigami klient pro pixiv
 Version=0.1
 Exec=piki
 Icon=io.github.micro.piki
