@@ -7,11 +7,11 @@ Unofficial Kirigami client for Pixiv.
 
 ## Screenshots
 
-![](1_welcome.png)
-![](2_home.png)
-![](3_illust_view.png)
-![](4_tag_suggestions.png)
-![](5_popular_search.png)
+![](screenshots/1_welcome.png)
+![](screenshots/2_home.png)
+![](screenshots/3_illust_view.png)
+![](screenshots/4_profile_view.png)
+![](screenshots/5_search_with_tag_suggestions.png)
 
 (disclaimer: The app will look slightly different in your experience, I use Lightly with a custom color scheme)
 

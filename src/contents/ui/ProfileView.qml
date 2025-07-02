@@ -64,6 +64,8 @@ FeedPage {
         // return; // novels
     }
 
+    header: null
+
     Rectangle {
         id: headerLayout
         Layout.preferredHeight: 350
