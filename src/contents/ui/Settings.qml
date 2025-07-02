@@ -147,11 +147,13 @@ FormCard.FormCardPage {
                 Kirigami.Action {
                     text: "Watchlist"
                     icon.name: "view-visible"
+
                     enabled: false
                 },
                 Kirigami.Action {
                     text: "My pixiv"
                     icon.source: "io.github.micro.piki"
+
                     enabled: false
                 },
                 Kirigami.Action {
@@ -165,6 +167,7 @@ FormCard.FormCardPage {
                 Kirigami.Action {
                     text: "History"
                     icon.name: "view-history"
+                    enabled: false
                 }
             ]
             selectedIndex: Config.startupPage
