@@ -62,6 +62,26 @@ Kirigami.Page {
             download(0);
     }
 
+    Instantiator {
+        model: Purpose.PurposeAlternativesModel {
+            id: alternativesModel
+            pluginType: "ShareUrl"
+            inputData: {
+                'title': page.illust.title,
+                'urls': ["https://pixiv.net/artworks/" + page.illust.id]
+            }
+        }
+        delegate: Kirigami.Action {
+            property int index
+            text: model.display ?? ""
+            icon.name: model.iconName
+        }
+        onObjectAdded: (index, object) => {
+            object.index = index;
+            contextMenu.contentData.push(object);
+        }
+    }
+
     Controls.SplitView {
         id: view
         anchors.fill: parent
