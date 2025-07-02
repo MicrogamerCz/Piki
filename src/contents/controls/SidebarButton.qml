@@ -6,24 +6,14 @@ import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 
 Kirigami.NavigationTabButton {
-    property string page: ""
     property bool matchPart: false
-    property bool autoNavigate: true
     property bool loading: false
-
-    signal navigate
 
     Layout.fillWidth: true
     implicitHeight: 50
     display: Controls.AbstractButton.TextBesideIcon
     checked: matchPart ? root.currentPage.startsWith(text) : (root.currentPage == text)
     checkable: false
-
-    text: page
-    onClicked: {
-        if (!checked)
-            navigate();
-    }
 
     Controls.BusyIndicator {
         visible: parent.loading

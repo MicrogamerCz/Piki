@@ -3,7 +3,7 @@
 
 #pragma once
 #include "pikicache.h"
-#include "piqi.h"
+#include "piqi/piqi.h"
 #include "piqi/qepr.h"
 #include <KWallet>
 #include <QtQmlIntegration>

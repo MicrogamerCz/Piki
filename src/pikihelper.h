@@ -2,9 +2,9 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #pragma once
-#include "illustration.h"
+#include "piqi/illustration.h"
+#include "piqi/user.h"
 #include "pixivnamfactory.h"
-#include "user.h"
 #include <QtQmlIntegration>
 #include <qcoroqmltask.h>
 #include <qcorotask.h>

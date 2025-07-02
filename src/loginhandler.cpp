@@ -3,7 +3,7 @@
 
 #include "loginhandler.h"
 #include "pikicache.h"
-#include "user.h"
+#include "piqi/user.h"
 #include <qcoroqmltask.h>
 #include <qcorotask.h>
 #include <qdir.h>
