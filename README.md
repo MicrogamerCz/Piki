@@ -13,11 +13,9 @@ Unofficial Kirigami client for Pixiv.
 ![](screenshots/4_profile_view.png)
 ![](screenshots/5_search_with_tag_suggestions.png)
 
-(disclaimer: The app will look slightly different in your experience, I use Lightly with a custom color scheme)
-
 ## Project structure
 **Piki** = front-end Kirigami app\
-**Piqi** = unofficial Qt-based Pixiv API
+**[Piqi](https://github.com/MicrogamerCz/Piqi)** = unofficial Qt-based Pixiv API
 
 ---
 
@@ -32,6 +30,7 @@ TBD
 ```sh
 # Arch deps
 pacman -S kirigami-addons qt6-webview ki18n extra_cmake_modules kwallet kconfig futuresql qcoro
+# Piqi is additional package dependency. It's not on AUR yet, but there's a compiled binary and PKGBUILD in the source repo (https://github.com/MicrogamerCz/Piki)
 
 mkdir build && cd build
 cmake ..
@@ -75,7 +74,6 @@ TBD
   - [ ] Localisation
   - [ ] Improve performance (especially after navigating a few feed pages)
   - [ ] Network error handling - either with passive notifications or dialogs
-  - [ ] Re-organise
   - [ ] Splitting Header and Search field
   - [ ] Convergent layout
   - [ ] pixiv Premium features
@@ -84,9 +82,9 @@ TBD
   - [ ] Write custom network cache (default cache doesn't save data in easily accessible files)
   - [ ] Rewrite SelectionButtons to work based on index, without doing chess with the values
   - [ ] Create templates for certain SelectionButtons implementations, they aren't much different from each other
-  - [ ] Bind tags history to each account
+  - [ ] Bind tags history to each account in local cache
   - [ ] Use more integrated controls (such as StatefulWindow instead of ApplicationWindow)
-  - [ ] Notifications
+  - [ ] Notifications(?)
   - [ ] Proper Android support
   - [ ] Messages from web client
   - [ ] Implementing pixiv Fanbox (least important)
@@ -100,7 +98,7 @@ TBD
   - [ ] More appropriate icon for fanbox link
 - Welcome
   - [ ] Setup showing user the interface
-  - [ ] Showing privacy policy popup (same as in the official app)
+  - [ ] Showing privacy policy popup (same as in the official app)(?)
   - [ ] Fix animations of Welcome screen, polish the design
 - Comments
   - [ ] Adding comments (even replies)
