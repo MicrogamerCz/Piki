@@ -5,11 +5,9 @@
 Name=Piki
 Comment=Unofficial Kirigami client for Pixiv
 Comment[cs]=Neoficiální Kirigami klient pro pixiv
-Version=0.1
+Version=0.2.0
 Exec=piki
 Icon=io.github.micro.piki
 Type=Application
 Terminal=false
-# Add an actual main category here (and possibly applicable additional ones)
-#   https://specifications.freedesktop.org/menu-spec/latest/apa.html#main-category-registry
 Categories=Qt;KDE;Network;Feed;Adult

@@ -48,6 +48,17 @@
       ]
     },
     {
+      "name": "piqi",
+      "buildsystem": "cmake-ninja",
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/MicrogamerCz/Piqi",
+          "branch": "main"
+        }
+      ]
+    },
+    {
       "name": "piki",
       "buildsystem": "cmake-ninja",
       "builddir": true,
