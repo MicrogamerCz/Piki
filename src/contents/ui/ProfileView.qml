@@ -36,6 +36,8 @@ FeedPage {
     property Profile profile: details.profile
     property Workspace workspace: details.workspace
 
+    property int category: 0
+
     property WebAction fanboxAction: WebAction {
         url: ""
         visible: this.url != ""
@@ -319,6 +321,34 @@ FeedPage {
             }
         }
     }
+
+    SelectionButtons {
+        id: categories
+        Layout.leftMargin: Kirigami.Units.mediumSpacing
+        Layout.fillWidth: true
+        value: page.category
+        onValueChanged: page.category = value
+
+        options: [
+            {
+                label: "Illustrations / Manga",
+                value: 0
+            },
+            {
+                label: "Novels",
+                value: 1
+            },
+            {
+                label: "Illustrations / Manga (Bookmarks)",
+                value: 2
+            }//,
+            // {
+            // label: "Novels (Bookmarks)",
+            // value: 3
+            // }
+        ]
+    }
+
     Item {
         Layout.fillHeight: true
     }
