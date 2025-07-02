@@ -19,10 +19,14 @@ Kirigami.ScrollablePage {
     property bool loading: false
 
     function fetchNext() {
+        if ((feed?.nextUrl ?? "") == "") {
+            loading = false;
+            return;
+        }
         piqi.FetchNextFeed(feed).then(newFeed => {
             Cache.SynchroniseIllusts(newFeed.illusts);
             feed.Extend(newFeed);
-            page.loading = false;
+            loading = false;
         });
     }
 
