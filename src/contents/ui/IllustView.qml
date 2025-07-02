@@ -22,10 +22,8 @@ Kirigami.Page {
     property Illustration illust
     property list<Comment> comments
     property Illusts related: null
+    property Illusts otherIllusts: null
 
-    ListModel {
-        id: otherIllusts
-    }
     ListModel {
         id: images
     }
@@ -44,12 +42,9 @@ Kirigami.Page {
 
     Component.onCompleted: {
         piqi.UserIllusts(illust.user, "illust").then(others => {
-            Cache.SynchroniseIllusts(others);
-            for (let i = 0; i < others.length; i++) {
-                otherIllusts.append({
-                    ilst: others[i]
-                });
-            }
+            Cache.SynchroniseIllusts(others.illusts);
+            for (let i = 0; i < others.illusts.length; i++)
+                otherIllusts = others;
         });
         if (illust.user.isFollowed > 0)
             piqi.FollowDetail(illust.user).then(details => illust.user.isFollowed = (details.restriction == "private") ? 2 : 1);
@@ -146,11 +141,6 @@ Kirigami.Page {
                     }
                     Kirigami.AbstractCard {
                         showClickFeedback: true
-
-                        onClicked: piqi.Details(page.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
-                                details: dtls
-                            }))
-
                         contentItem: ColumnLayout {
                             anchors.fill: parent
                             RowLayout {
@@ -186,6 +176,9 @@ Kirigami.Page {
                                 onPressAndHold: piqi.Follow(page.illust.user, page.illust.user.isFollowed < 2)
                             }
                         }
+                        onClicked: piqi.Details(page.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
+                                details: dtls
+                            }))
                     }
                     Kirigami.AbstractCard {
                         contentItem: Kirigami.ActionToolBar {
@@ -202,7 +195,15 @@ Kirigami.Page {
                                     checkable: true
                                     checked: page.illust.isBookmarked
                                     text: page.illust.totalBookmarks
-                                    icon.name: (page.illust.isBookmarked < 2) ? "favorite" : "view-private"
+                                    icon.name: {
+                                        if (page.illust.isBookmarked === 2) {
+                                            return "view-private";
+                                        } else if (page.illust.isBookmarked === 1) {
+                                            return "favorite-favorited";
+                                        } else {
+                                            return "favorite";
+                                        }
+                                    }
                                     icon.color: (page.illust.isBookmarked > 0) ? "gold" : Kirigami.Theme.textColor
 
                                     onTriggered: {
