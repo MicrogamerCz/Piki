@@ -90,14 +90,14 @@ TBD
   - [ ] Proper Android support
   - [ ] Messages from web client
   - [ ] Implementing pixiv Fanbox (least important)
-- New features
   - [ ] Posting new illusts/manga/novels (button will be in the top right corner)
   - [ ] Novels overall
-  - [ ] Profile page
   - [ ] Account settings
   - [ ] my Pixiv page
   - [ ] Local browsing history (+ online for premium users)
   - [ ] Add Watchlist (aka following a manga or novel series)
+- Profile page
+  - [ ] More appropriate icon for fanbox link
 - Welcome
   - [ ] Setup showing user the interface
   - [ ] Showing privacy policy popup (same as in the official app)

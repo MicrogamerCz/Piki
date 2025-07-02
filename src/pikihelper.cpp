@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #include "pikihelper.h"
-#include "illustration.h"
 #include "pikiconfig.h"
+#include "piqi/illustration.h"
 #include <QClipboard>
 #include <QCoro>
 #include <QLocalSocket>

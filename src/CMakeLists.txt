@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
-add_subdirectory(piqi)
-
 qt_standard_project_setup(REQUIRES 6.9)
 
 qt_add_library(piki_st STATIC)
@@ -19,11 +17,12 @@ ecm_add_qml_module(piki_st
         contents/ui/Following.qml
         contents/ui/IllustView.qml
         contents/ui/Search.qml
-        contents/ui/Premium.qml
         contents/ui/Newest.qml
         contents/ui/Collection.qml
         contents/ui/History.qml
         contents/ui/Welcome.qml
+        contents/ui/ProfileView.qml
+
         contents/controls/Header.qml
         contents/controls/Sidebar.qml
         contents/controls/SidebarButton.qml
@@ -40,6 +39,7 @@ ecm_add_qml_module(piki_st
         contents/controls/RequestsCard.qml
         contents/controls/FlatAction.qml
         contents/controls/XWorkAsWallpaperOptions.qml
+
         contents/controls/templates/DoubleAbstractCard.qml
         contents/controls/templates/FeedPage.qml
     SOURCES
@@ -76,8 +76,7 @@ target_link_libraries(piki_st PUBLIC
     KF6::ConfigGui
     KF6::Wallet
     FutureSQL6::FutureSQL
-    piqi
-    piqiplugin
+    Piqi::piqi
 )
 target_include_directories(piki_st PUBLIC ${CMAKE_BINARY_DIR})
 

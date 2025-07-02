@@ -2,10 +2,9 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #pragma once
-#include "illustration.h"
 #include "pikiconfig.h"
+#include "piqi/illustration.h"
 #include "piqi/tag.h"
-#include "tag.h"
 #include <QCoro>
 #include <QObject>
 #include <QtQmlIntegration>

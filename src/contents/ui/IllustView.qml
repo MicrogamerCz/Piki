@@ -22,10 +22,8 @@ Kirigami.Page {
     property Illustration illust
     property list<Comment> comments
     property Illusts related: null
+    property Illusts otherIllusts: null
 
-    ListModel {
-        id: otherIllusts
-    }
     ListModel {
         id: images
     }
@@ -44,12 +42,9 @@ Kirigami.Page {
 
     Component.onCompleted: {
         piqi.UserIllusts(illust.user, "illust").then(others => {
-            Cache.SynchroniseIllusts(others);
-            for (let i = 0; i < others.length; i++) {
-                otherIllusts.append({
-                    ilst: others[i]
-                });
-            }
+            Cache.SynchroniseIllusts(others.illusts);
+            for (let i = 0; i < others.illusts.length; i++)
+                otherIllusts = others;
         });
         if (illust.user.isFollowed > 0)
             piqi.FollowDetail(illust.user).then(details => illust.user.isFollowed = (details.restriction == "private") ? 2 : 1);
@@ -181,6 +176,9 @@ Kirigami.Page {
                                 onPressAndHold: piqi.Follow(page.illust.user, page.illust.user.isFollowed < 2)
                             }
                         }
+                        onClicked: piqi.Details(page.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
+                                details: dtls
+                            }))
                     }
                     Kirigami.AbstractCard {
                         contentItem: Kirigami.ActionToolBar {

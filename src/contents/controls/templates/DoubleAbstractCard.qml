@@ -60,6 +60,7 @@ Rectangle {
                 left: parent.left
                 right: parent.right
             }
+            onClicked: ilb.bottomItemClicked()
 
             background: Rectangle {
                 anchors.fill: parent
