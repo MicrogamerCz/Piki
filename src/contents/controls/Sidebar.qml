@@ -161,7 +161,7 @@ Rectangle {
 
                     onClicked: {
                         loading = true;
-                        piqi.BookmarksFeed("illust", "public").then(bkmarks => {
+                        piqi.BookmarksFeed("illust", false).then(bkmarks => {
                             Cache.SynchroniseIllusts(bkmarks.illusts);
                             navigateToPageParm("Collection", {
                                 feed: bkmarks

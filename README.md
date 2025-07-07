@@ -94,6 +94,7 @@ TBD
   - [ ] my Pixiv page
   - [ ] Local browsing history (+ online for premium users)
   - [ ] Add Watchlist (aka following a manga or novel series)
+  - [ ] Rewrite login process to remove dependency on QtWebEngine
 - Profile page
   - [ ] More appropriate icon for fanbox link
 - Welcome
@@ -105,7 +106,6 @@ TBD
   - [ ] Deleting Comments
   - [ ] Parsing pixiv emojies into Unicode or freedesktop icon emojis
   - [ ] Adding "Author" card next to username for author's comments
-- Bookmarks feed - filtering by tag (with search field after it's separated from the header)
 - Settings
   - [ ] Add button for About Piki and About KDE pages
   - [ ] Add individual account settings

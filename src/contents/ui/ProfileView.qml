@@ -221,23 +221,35 @@ FeedPage {
                 }
             }
             Kirigami.AbstractCard {
+                Layout.maximumHeight: dataCard.height
                 Layout.preferredHeight: dataCard.height
                 Layout.leftMargin: (headerLayout.height - height) * 0.5
+                Layout.maximumWidth: page.width * 0.4
                 verticalPadding: Kirigami.Units.largeSpacing * 2
                 horizontalPadding: Kirigami.Units.largeSpacing * 6
                 clip: true
+                implicitHeight: extraInfoCard.implicitHeight
+                // implicitWidth: extraInfoCard.implicitWidth
+
+                visible: (page.user.comment != "") || profileDetailsButton.shouldBeVisible || workspaceDetailsButton.shouldBeVisible
 
                 contentItem: RowLayout {
+                    id: extraInfoCard
                     anchors.fill: parent
                     spacing: Kirigami.Units.largeSpacing * 4
                     uniformCellSizes: false
 
                     ColumnLayout {
                         id: userDetailsSwitch
-                        property int details: 0
+                        Layout.fillHeight: true
+                        spacing: Kirigami.Units.largeSpacing * 2
                         uniformCellSizes: true
+
+                        property int details: 0
+
                         Controls.Button {
-                            icon.name: "user-symbolic"
+                            visible: page.user.comment != ""
+                            icon.name: "description"
                             flat: true
                             checkable: true
                             checked: parent.details == 1
@@ -248,17 +260,52 @@ FeedPage {
                                     parent.details = 1;
                             }
                         }
-                        Item {}
                         Controls.Button {
-                            icon.name: "window"
+                            id: profileDetailsButton
+                            property bool shouldBeVisible: false
+                            icon.name: "user-symbolic"
                             flat: true
-                            checked: parent.details == 2
                             checkable: true
+                            checked: parent.details == 2
                             onClicked: {
                                 if (parent.details == 2)
                                     parent.details = 0;
                                 else
                                     parent.details = 2;
+                            }
+
+                            Component.onCompleted: {
+                                let visibles = 0;
+                                for (let i = 0; i < profileDetailsLayout.children.length; i++) {
+                                    let txt = profileDetailsLayout.children[i].text;
+                                    let doesExist = (txt != "") && (txt != null) && (txt != undefined);
+                                    visibles += (doesExist) ? 1 : 0;
+                                }
+                                shouldBeVisible = visible = visibles > 0;
+                            }
+                        }
+                        Controls.Button {
+                            id: workspaceDetailsButton
+                            property bool shouldBeVisible: false
+                            icon.name: "window"
+                            flat: true
+                            checked: parent.details == 3
+                            checkable: true
+                            onClicked: {
+                                if (parent.details == 3)
+                                    parent.details = 0;
+                                else
+                                    parent.details = 3;
+                            }
+
+                            Component.onCompleted: {
+                                let visibles = 0;
+                                for (let i = 0; i < workspaceDetailsLayout.children.length; i++) {
+                                    let txt = workspaceDetailsLayout.children[i].text;
+                                    let doesExist = (txt != "") && (txt != null) && (txt != undefined);
+                                    visibles += (doesExist) ? 1 : 0;
+                                }
+                                shouldBeVisible = visible = visibles > 0;
                             }
                         }
                     }
@@ -268,16 +315,28 @@ FeedPage {
                         visible: userDetailsSwitch.details > 0
                     }
 
-                    Kirigami.FormLayout {
+                    Controls.Label {
+                        // elide: Text.ElideRight
+                        wrapMode: Text.WordWrap
                         visible: userDetailsSwitch.details == 1
+                        text: page.user.comment
+                        Layout.fillWidth: true
+                    }
+                    Kirigami.FormLayout {
+                        id: profileDetailsLayout
+                        visible: userDetailsSwitch.details == 2
 
                         Controls.TextField {
                             Kirigami.FormData.label: "Gender"
+                            visible: text != ""
                             readOnly: true
                             text: {
                                 switch (page.profile.gender) {
+                                case -1:
+                                    return "";
                                 case 0:
-                                    return "Unknown";
+                                    return "";
+                                // return "Unknown";
                                 case 1:
                                     return "Male";
                                 default:
@@ -293,12 +352,15 @@ FeedPage {
                         }
                         Controls.TextField {
                             Kirigami.FormData.label: "Birthday"
+                            visible: text != ""
                             readOnly: true
-                            text: `${page.profile.birthDay} ${page.profile.birthYear}`
+                            // text: `${page.profile.birthDay} ${page.profile.birthYear}`
+                            text: page.processBD(page.profile.birthDay, page.profile.birthYear)
                         }
                     }
                     Kirigami.FormLayout {
-                        visible: userDetailsSwitch.details == 2
+                        id: workspaceDetailsLayout
+                        visible: userDetailsSwitch.details == 3
 
                         Controls.TextField {
                             Kirigami.FormData.label: "Computer"
@@ -313,7 +375,7 @@ FeedPage {
                             text: page.workspace.tool
                         }
                         Controls.TextField {
-                            Kirigami.FormData.label: "Tablet"
+                            Kirigami.FormData.label: "Graphic tablet"
                             visible: text != ""
                             readOnly: true
                             text: page.workspace.tablet
@@ -397,5 +459,34 @@ FeedPage {
             return age;
 
         return age - 1;
+    }
+    function formatDate(day, month, year) {
+    }
+
+    function processBD(birth_day, birth_year) {
+        var spl = birth_day.split("-");
+        var day = spl[1];
+        var month = spl[0];
+
+        if (day == "" && month == "" && birth_year == "")
+            return "";
+
+        // var y = hasYear ? parseInt(year) : 2000;
+        // var m = hasMonth ? parseInt(month) - 1 : 0;
+        // var d = hasDay ? parseInt(day) : 1;
+
+        var date = new Date(birth_year, month - 1, day);
+
+        var format = "";
+        if (day)
+            format += "d";
+        if (month)
+            format += (format ? " " : "") + "MMMM";
+        // Appropriate expectation
+        if (birth_year > 1900)
+            format += (format ? " " : "") + "yyyy";
+
+        var locale = Qt.locale();
+        return locale.toString(date, format);//.trim();
     }
 }

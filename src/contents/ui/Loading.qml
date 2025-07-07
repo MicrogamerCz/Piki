@@ -66,7 +66,7 @@ Kirigami.Page {
                 }
             case 5:
                 {
-                    piqi.BookmarksFeed("illust", "public").then(bkmarks => {
+                    piqi.BookmarksFeed("illust", false).then(bkmarks => {
                         Cache.SynchroniseIllusts(bkmarks.illusts);
                         loadingIndicator.opacity = 0;
                         navigateToPageParm("Collection", {

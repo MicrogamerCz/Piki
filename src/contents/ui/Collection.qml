@@ -14,19 +14,36 @@ FeedPage {
     id: page
     title: `Bookmarks ・ ${categories.label}`
 
+    property string tag: "All"
+    onTagChanged: refresh()
     property string category: "illust"
-    property string restrict: "public"
+    property bool restrict: false
     onRestrictChanged: refresh()
     property Illusts feed
 
     function refresh() {
         page.flickable.contentY = 0;
         loading = true;
-        piqi.BookmarksFeed(category, restrict).then(rec => {
+        // Empty tag returns all bookmarked works, uncategorized is hardcoded to use the const tag
+        let queryTag = tag;
+        if (queryTag == "All")
+            queryTag = "";
+        else if (queryTag == "Uncategorized")
+            queryTag = "未分類";
+        piqi.BookmarksFeed(category, restrict, queryTag).then(rec => {
             Cache.SynchroniseIllusts(rec.illusts);
             feed = rec;
             loading = false;
         });
+    }
+
+    Component.onCompleted: {
+        piqi.BookmarkIllustTags(restrict).then(tags_ => {
+            tags.Extend(tags_);
+        });
+    }
+    PikiTags {
+        id: tags
     }
 
     filterSelections: [
@@ -39,7 +56,12 @@ FeedPage {
         Kirigami.Separator {
             Layout.fillHeight: true
         },
-        // TODO: bookmarks query field
+        Controls.ComboBox {
+            onCurrentTextChanged: page.tag = currentText
+            editable: true
+            model: tags
+            displayText: (((currentText != "All") && (currentText != "Uncategorized")) ? "#" : "") + currentText
+        },
         Controls.BusyIndicator {
             visible: page.loading
         },
@@ -48,8 +70,8 @@ FeedPage {
         },
         SelectionButtons {
             id: restrictions
-            value: (page.restrict == "private")
-            onValueChanged: page.restrict = value ? "private" : "public"
+            value: page.restrict
+            onValueChanged: page.restrict = value
             options: ["Public", "Private"]
         }
     ]
@@ -65,5 +87,8 @@ FeedPage {
                 illust: modelData
             }
         }
+    }
+    Item {
+        Layout.fillHeight: true
     }
 }

@@ -49,6 +49,7 @@ ecm_add_qml_module(piki_st
         loginhandler.cpp
         pikicache.cpp
         pikihelper.cpp
+        pikitags.h
     # RESOURCE_PREFIX /
     RESOURCES
         contents/assets/io.github.micro.piki.svg
