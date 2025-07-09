@@ -95,6 +95,7 @@ TBD
   - [ ] Local browsing history (+ online for premium users)
   - [ ] Add Watchlist (aka following a manga or novel series)
   - [ ] Rewrite login process to remove dependency on QtWebEngine
+  - [ ] Cropping for "Set as wallpaper" share option when there's a mismatch between the aspect ratio of the image and the monitor
 - Profile page
   - [ ] More appropriate icon for fanbox link
 - Welcome
