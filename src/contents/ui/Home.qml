@@ -16,15 +16,24 @@ FeedPage {
     property string category: "illust"
     onCategoryChanged: refresh()
     property Recommended feed
+    property RecommendedNovels novelsFeed
 
     function refresh() {
         page.flickable.contentY = 0;
         loading = true;
-        piqi.RecommendedFeed(category, true, false).then(rec => {
-            Cache.SynchroniseIllusts(rec.illusts);
-            feed = rec;
-            loading = false;
-        });
+        if (category == "novel")
+            piqi.RecommendedNovelsFeed(true, false).then(rec => {
+                // Cache.SynchroniseIllusts(rec.novels);
+                novelsFeed = rec;
+                // feed = rec;
+                loading = false;
+            });
+        else
+            piqi.RecommendedFeed(category, true, false).then(rec => {
+                Cache.SynchroniseIllusts(rec.illusts);
+                feed = rec;
+                loading = false;
+            });
     }
 
     filterSelections: [
@@ -98,16 +107,34 @@ FeedPage {
     }
 
     GridLayout {
+        // visible: page.category != "novel"
         rowSpacing: 15
         columnSpacing: 15
         columns: Math.floor((page.width - 25) / 190)
 
         Repeater {
-            model: page.feed
+            model: (page.category != "novel") ? page.feed : page.novelsFeed
+            // model: page.feed
+
             IllustrationButton {
                 required property var modelData
                 illust: modelData
             }
         }
     }
+    // GridLayout {
+    //     visible: page.category == "novel"
+    //     rowSpacing: 15
+    //     columnSpacing: 15
+    //     columns: Math.floor((page.width - 25) / 190)
+
+    //     Repeater {
+    //         model: page.novelsFeed
+
+    //         IllustrationButton {
+    //             required property var modelData
+    //             illust: modelData
+    //         }
+    //     }
+    // }
 }

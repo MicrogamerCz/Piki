@@ -30,7 +30,7 @@ TBD
 ```sh
 # Arch deps
 pacman -S kirigami-addons qt6-webview ki18n extra_cmake_modules kwallet kconfig futuresql qcoro
-# Piqi is additional package dependency. It's not on AUR yet, but there's a compiled binary and PKGBUILD in the source repo (https://github.com/MicrogamerCz/Piki)
+# Piqi is additional package dependency. It's not on AUR yet, but there's a compiled binary and PKGBUILD in the source repo (https://github.com/MicrogamerCz/Piqi)
 
 mkdir build && cd build
 cmake ..
@@ -89,7 +89,7 @@ TBD
   - [ ] Messages from web client
   - [ ] Implementing pixiv Fanbox (least important)
   - [ ] Posting new illusts/manga/novels (button will be in the top right corner)
-  - [ ] Novels overall
+  - [x] Novels overall
   - [ ] Account settings
   - [ ] my Pixiv page
   - [ ] Local browsing history (+ online for premium users)

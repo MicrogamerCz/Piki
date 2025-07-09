@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import org.kde.kirigami as Kirigami
 import QtQuick.Controls as Controls
@@ -8,6 +10,8 @@ import QtQuick.Controls as Controls
 Rectangle {
     id: ilb
     height: topHeight + bottomHeight + 3
+
+    property bool vertical: true
 
     property alias topEnabled: delegateTop.hoverEnabled
     property alias topHeight: delegateTop.height
