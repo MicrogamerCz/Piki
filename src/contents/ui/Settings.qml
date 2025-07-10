@@ -59,20 +59,6 @@ FormCard.FormCardPage {
             }
         }
 
-        FormCard.FormTextFieldDelegate {
-            id: label
-            text: Config.cachePath
-            readOnly: true
-            label: "Cache path"
-            enabled: Config.cacheLevel > 0
-
-            MouseArea {
-                enabled: Config.cacheLevel > 0
-                anchors.fill: parent
-                onClicked: folderDialog.open()
-            }
-        }
-
         FormCard.AbstractFormDelegate {
             background: Item {}
 
@@ -186,15 +172,6 @@ FormCard.FormCardPage {
         XWorkAsWallpaperOptions {
             isSettingsComponent: true
             selectedIndex: (Config.allowR18WorksAsWallpapers <= 1) ? Config.allowR18WorksAsWallpapers : (Config.allowR18WorksAsWallpapers + 1)
-        }
-    }
-
-    FolderDialog {
-        id: folderDialog
-        currentFolder: StandardPaths.standardLocations(StandardPaths.CacheLocation)[0]
-        onAccepted: {
-            Config.cachePath = label.text = (selectedFolder.toString().substring(6) + "piki/");
-            Config.save();
         }
     }
 }

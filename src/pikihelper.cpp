@@ -71,7 +71,8 @@ QCoro::Task<> PikiHelper::SetWallpaperTask(Illustration *illust, uint screen, in
     else
         url = illust->m_metaSinglePage;
 
-    QString path = PikiConfig::self()->cachePath() + "wallpapers/" + url.mid(url.lastIndexOf("/") + 1);
+    QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QString path = cachePath + "/wallpapers/" + url.mid(url.lastIndexOf("/") + 1);
     QFile file(path);
 
     if (!file.exists()) {

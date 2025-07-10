@@ -8,6 +8,7 @@
 #include <qcorotask.h>
 #include <qdir.h>
 #include <qlogging.h>
+#include <qstandardpaths.h>
 #include <qtimer.h>
 
 UserResult UserResult::fromSql(ColumnTypes &&tuple)
@@ -31,10 +32,8 @@ TagHistoryResult TagHistoryResult::fromSql(ColumnTypes &&tuple)
 Cache::Cache(QObject *parent)
     : QObject(parent)
 {
-    conf = PikiConfig::self();
-
     DatabaseConfiguration config;
-    config.setDatabaseName(conf->cachePath() + "data.sqlite");
+    config.setDatabaseName(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/data.sqlite");
     config.setType(DatabaseType::SQLite);
 
     database = ThreadedDatabase::establishConnection(config);

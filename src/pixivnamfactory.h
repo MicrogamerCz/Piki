@@ -37,8 +37,9 @@ public:
 
     inline QNetworkAccessManager *create(QObject *parent) override
     {
-        if (!QDir().exists(cfg->cachePath() + "wallpapers"))
-            QDir(cfg->cachePath()).mkdir("wallpapers");
+        QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        if (!QDir().exists(cachePath + "/wallpapers"))
+            QDir(cachePath).mkdir("/wallpapers");
 
         QNetworkAccessManager *networkAccessManager = new PixivNAM(parent);
         QNetworkDiskCache *diskCache = new QNetworkDiskCache(parent);
@@ -48,8 +49,7 @@ public:
             cache = infinity;
         diskCache->setMaximumCacheSize(cache);
 
-        QString cachePath = PikiConfig::self()->cachePath();
-        diskCache->setCacheDirectory(cachePath + "cache");
+        diskCache->setCacheDirectory(cachePath + "/cache");
 
         networkAccessManager->setCache(diskCache);
 
