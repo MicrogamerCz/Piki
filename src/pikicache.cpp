@@ -2,8 +2,8 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #include "pikicache.h"
-#include "illustration.h"
-#include "imageurls.h"
+#include "piqi/illustration.h"
+#include "piqi/imageurls.h"
 #include <qcoroqmltask.h>
 #include <qcorotask.h>
 #include <qdir.h>

@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
-#include <QtQmlIntegration>
+#include "piqi/qepr.h"
 #include <QCoroQmlTask>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include "qepr.h"
+#include <QtQmlIntegration>
 
 class ImageDownloader : public QObject
 {

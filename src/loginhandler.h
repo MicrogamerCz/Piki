@@ -2,12 +2,12 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #pragma once
-#include "pikicache.h"
-#include "piqi.h"
-#include "piqi/qepr.h"
 #include <KWallet>
+#include <QCoroQmlTask>
 #include <QtQmlIntegration>
-#include <qcoroqmltask.h>
+#include <piqi/Piqi>
+
+#include "pikicache.h"
 
 class LoginHandler : public QObject
 {

@@ -1,8 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
-add_subdirectory(piqi)
-
 qt_standard_project_setup(REQUIRES 6.9)
 
 qt_add_library(piki_st STATIC)
@@ -77,8 +75,7 @@ target_link_libraries(piki_st PUBLIC
     KF6::Wallet
     KF6::Purpose
     FutureSQL6::FutureSQL
-    piqi
-    piqiplugin
+    Piqi::piqi
 )
 target_include_directories(piki_st PUBLIC ${CMAKE_BINARY_DIR})
 
