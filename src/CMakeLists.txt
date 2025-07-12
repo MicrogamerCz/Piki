@@ -38,6 +38,7 @@ ecm_add_qml_module(piki_st
         contents/controls/RequestsCard.qml
         contents/controls/FlatAction.qml
         contents/controls/XWorkAsWallpaperOptions.qml
+        contents/controls/WallpaperSelections.qml
         contents/controls/templates/DoubleAbstractCard.qml
         contents/controls/templates/FeedPage.qml
     SOURCES
@@ -62,20 +63,21 @@ ecm_add_qml_module(piki_st
 target_compile_options (piki_st PUBLIC -fexceptions)
 
 target_link_libraries(piki_st PUBLIC
-    Qt6::Gui
-    Qt6::Quick
     Qt6::QuickControls2
-    Qt6::Svg
     Qt6::WebEngineQuick
-    KF6::KirigamiPlatform
     KF6::I18n
-    KF6::CoreAddons
-    KF6::ConfigCore
     KF6::ConfigGui
     KF6::Wallet
     KF6::Purpose
     FutureSQL6::FutureSQL
     Piqi::piqi
+    # The following dependencies might not be necessary:
+    Qt6::Gui
+    Qt6::Quick
+    Qt6::Svg
+    KF6::KirigamiPlatform
+    KF6::CoreAddons
+    KF6::ConfigCore
 )
 target_include_directories(piki_st PUBLIC ${CMAKE_BINARY_DIR})
 
