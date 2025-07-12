@@ -75,6 +75,8 @@ Kirigami.Page {
             property int index
             text: model.display ?? ""
             icon.name: model.iconName
+
+            onTriggered: root.share(alternativesModel, index)
         }
         onObjectAdded: (index, object) => {
             object.index = index;
@@ -252,14 +254,6 @@ Kirigami.Page {
                         }
                         Controls.Menu {
                             id: contextMenu
-                            Kirigami.Action {
-                                text: "Copy URL"
-                                icon.name: "edit-copy-symbolic"
-                                onTriggered: {
-                                    PikiHelper.ShareToClipboard(page.illust);
-                                    showPassiveNotification("Copied to clipboard!");
-                                }
-                            }
                             Kirigami.Action {
                                 enabled: Config.allowR18WorksAsWallpapers != 2
                                 text: "Set as wallpaper"
