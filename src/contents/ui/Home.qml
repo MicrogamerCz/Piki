@@ -15,8 +15,7 @@ FeedPage {
     title: `Home ・ ${categories.label}`
     property string category: "illust"
     onCategoryChanged: refresh()
-    property Recommended feed
-    property RecommendedNovels novelsFeed
+    property var feed
 
     function refresh() {
         page.flickable.contentY = 0;
@@ -24,13 +23,12 @@ FeedPage {
         if (category == "novel")
             piqi.RecommendedNovelsFeed(true, false).then(rec => {
                 // Cache.SynchroniseIllusts(rec.novels);
-                novelsFeed = rec;
-                // feed = rec;
+                feed = rec;
                 loading = false;
             });
         else
             piqi.RecommendedFeed(category, true, false).then(rec => {
-                Cache.SynchroniseIllusts(rec.illusts);
+                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });
@@ -65,10 +63,6 @@ FeedPage {
         }
     ]
 
-    /*PremiumBanner {
-        visible: Config.enablePremiumSuggestions && !piqi.user.isPremium
-        }*/
-
     ColumnLayout {
         Layout.fillWidth: true
         spacing: Kirigami.Units.largeSpacing
@@ -95,10 +89,11 @@ FeedPage {
             RowLayout {
                 id: row
                 spacing: 15
+
                 Repeater {
-                    model: page.feed.rankingIllusts
+                    model: page.feed.ranking
+
                     IllustrationButton {
-                        required property var modelData
                         illust: modelData
                     }
                 }
@@ -107,34 +102,16 @@ FeedPage {
     }
 
     GridLayout {
-        // visible: page.category != "novel"
         rowSpacing: 15
         columnSpacing: 15
         columns: Math.floor((page.width - 25) / 190)
 
         Repeater {
-            model: (page.category != "novel") ? page.feed : page.novelsFeed
-            // model: page.feed
+            model: page.feed
 
             IllustrationButton {
-                required property var modelData
                 illust: modelData
             }
         }
     }
-    // GridLayout {
-    //     visible: page.category == "novel"
-    //     rowSpacing: 15
-    //     columnSpacing: 15
-    //     columns: Math.floor((page.width - 25) / 190)
-
-    //     Repeater {
-    //         model: page.novelsFeed
-
-    //         IllustrationButton {
-    //             required property var modelData
-    //             illust: modelData
-    //         }
-    //     }
-    // }
 }

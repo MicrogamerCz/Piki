@@ -141,7 +141,7 @@ Kirigami.ScrollablePage {
     }
 
     Shortcut {
-        sequence: StandardKey.Refresh
+        sequences: [StandardKey.Refresh]
         onActivated: {
             fp.flickable.contentY = 0;
             fp.refresh();
