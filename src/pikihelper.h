@@ -2,16 +2,11 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #pragma once
-#include "illustration.h"
+#include "piqi/illustration.h"
+#include "piqi/user.h"
 #include "pixivnamfactory.h"
-#include "user.h"
+#include <QCoroQml>
 #include <QtQmlIntegration>
-#include <qcoroqmltask.h>
-#include <qcorotask.h>
-#include <qhashfunctions.h>
-#include <qnetworkaccessmanager.h>
-#include <qobject.h>
-#include <qqmlintegration.h>
 #include <qtmetamacros.h>
 
 class PikiHelper : public QObject
@@ -38,5 +33,4 @@ public Q_SLOTS:
     QCoro::QmlTask CheckFanbox(User *user);
     QCoro::QmlTask SetWallpaper(Illustration *illust, uint screen = 0, int index = 0);
     uint GetScreenCount(); // -1 is default for unknown number of screens
-    void ShareToClipboard(Illustration *illust);
 };

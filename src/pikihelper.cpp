@@ -2,34 +2,10 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #include "pikihelper.h"
-#include "illustration.h"
-#include "pikiconfig.h"
-#include <QClipboard>
 #include <QCoro>
 #include <QLocalSocket>
+#include <QNetworkReply>
 #include <QtDBus>
-#include <qapplication.h>
-#include <qcontainerfwd.h>
-#include <qcoroqmltask.h>
-#include <qdbusconnection.h>
-#include <qdbusinterface.h>
-#include <qdbusreply.h>
-#include <qdebug.h>
-#include <qdir.h>
-#include <qiodevicebase.h>
-#include <qjsonarray.h>
-#include <qjsondocument.h>
-#include <qjsonobject.h>
-#include <qlocalsocket.h>
-#include <qlogging.h>
-#include <qnetworkaccessmanager.h>
-#include <qnetworkreply.h>
-#include <qnetworkrequest.h>
-#include <qobject.h>
-#include <qstringliteral.h>
-#include <qtenvironmentvariables.h>
-#include <qurl.h>
-#include <qwindowdefs.h>
 
 PikiHelper::PikiHelper(QObject *parent)
     : QObject(parent)
@@ -54,11 +30,6 @@ QCoro::Task<QString> PikiHelper::CheckFanboxTask(int id)
     QString header = reply->header(QNetworkRequest::LocationHeader).toString();
     co_return header;
 }
-void PikiHelper::ShareToClipboard(Illustration *illust)
-{
-    QClipboard *cbd = QApplication::clipboard();
-    cbd->setText("https://pixiv.net/artworks/" + QString::number(illust->m_id));
-}
 QCoro::QmlTask PikiHelper::SetWallpaper(Illustration *illust, uint screen, int index)
 {
     return SetWallpaperTask(illust, screen, index);
@@ -71,7 +42,8 @@ QCoro::Task<> PikiHelper::SetWallpaperTask(Illustration *illust, uint screen, in
     else
         url = illust->m_metaSinglePage;
 
-    QString path = PikiConfig::self()->cachePath() + "wallpapers/" + url.mid(url.lastIndexOf("/") + 1);
+    QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    QString path = cachePath + "/wallpapers/" + url.mid(url.lastIndexOf("/") + 1);
     QFile file(path);
 
     if (!file.exists()) {
