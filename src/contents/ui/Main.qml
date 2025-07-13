@@ -134,10 +134,10 @@ Kirigami.ApplicationWindow {
             let type = String(job);
             if (type.startsWith("ClipboardJob"))
                 root.showPassiveNotification("Copied to clipoboard!");
-            else {
-                print(JSON.stringify(job.data));
-                print(JSON.stringify(job.output));
-            }
+        // else {
+        //     print(JSON.stringify(job.data));
+        //     print(JSON.stringify(job.output));
+        // }
         }
     }
 }
