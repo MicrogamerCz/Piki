@@ -20,7 +20,7 @@ Kirigami.Dialog {
     customFooterActions: [
         Kirigami.Action {
             visible: (wallpaperSelections.requirements > 1) || !restrictCard.visible
-            enabled: displayOptions.selectedIndex >= 0
+            enabled: (page.illust.xRestrict > 0 && displayOptions.selectedIndex >= 0) || page.illust.xRestrict == 0
             icon.name: "answer"
             text: "Proceed"
             onTriggered: {
