@@ -16,9 +16,12 @@ FormCard.FormCardPage {
     property list<string> cacheLevelLabels: ["Permanent cache is disabled", "Only the image variant with the highest definition is cached permanently", "All images are cached", "All images, and illust/profile data is cached"]
 
     FormCard.FormHeader {
+        maximumWidth: Kirigami.Units.gridUnit * 50
         title: "General"
     }
     FormCard.FormCard {
+        maximumWidth: Kirigami.Units.gridUnit * 50
+
         FormCard.FormTextDelegate {
             text: "Cache level"
             description: page.cacheLevelLabels[Config.cacheLevel]
@@ -125,9 +128,57 @@ FormCard.FormCardPage {
         }
     }
     FormCard.FormHeader {
+        maximumWidth: Kirigami.Units.gridUnit * 50
         title: "Defaults"
     }
     FormCard.FormCard {
+        maximumWidth: Kirigami.Units.gridUnit * 50
+        FormCard.FormRadioSelectorDelegate {
+            text: "Startup page"
+            actions: [
+                Kirigami.Action {
+                    text: "Home"
+                    icon.name: "go-home-symbolic"
+                },
+                Kirigami.Action {
+                    text: "Following"
+                    icon.name: "group"
+                },
+                Kirigami.Action {
+                    text: "Watchlist"
+                    icon.name: "view-visible"
+
+                    enabled: false
+                },
+                Kirigami.Action {
+                    text: "My pixiv"
+                    icon.source: "io.github.micro.piki"
+
+                    enabled: false
+                },
+                Kirigami.Action {
+                    text: "Newest"
+                    icon.name: "view-pim-news"
+                },
+                Kirigami.Action {
+                    text: "Bookmarks"
+                    icon.name: "bookmarks"
+                },
+                Kirigami.Action {
+                    text: "History"
+                    icon.name: "view-history"
+                    enabled: false
+                }
+            ]
+            selectedIndex: Config.startupPage
+            onSelectedIndexChanged: {
+                Config.startupPage = selectedIndex;
+                Config.save();
+            }
+        }
+
+        FormCard.FormDelegateSeparator {}
+
         FormCard.FormTextDelegate {
             text: "R-18/R-18G wallpapers"
             description: "Default settings for 'Set wallpaper' behaviour for age restricted works"

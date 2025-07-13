@@ -14,13 +14,12 @@ import "../controls/templates"
 FeedPage {
     id: page
     title: `Home ・ ${categories.label}`
-    onRefresh: refreshF()
-
     property string category: "illust"
-    onCategoryChanged: refreshF()
+    onCategoryChanged: refresh()
     property Recommended feed
 
-    function refreshF() {
+    function refresh() {
+        page.flickable.contentY = 0;
         loading = true;
         piqi.RecommendedFeed(category, true, false).then(rec => {
             Cache.SynchroniseIllusts(rec.illusts);
@@ -29,15 +28,7 @@ FeedPage {
         });
     }
 
-    onFetchNext: {
-        piqi.FetchNextFeed(feed).then(newFeed => {
-            Cache.SynchroniseIllusts(newFeed.illusts);
-            feed.Extend(newFeed);
-            page.loading = false;
-        });
-    }
-
-    RowLayout {
+    filterSelections: [
         SelectionButtons {
             id: categories
             value: page.category
@@ -57,11 +48,14 @@ FeedPage {
                     value: "novel"
                 }
             ]
-        }
+        },
         Controls.BusyIndicator {
             visible: page.loading
+        },
+        Item {
+            Layout.fillWidth: true
         }
-    }
+    ]
 
     /*PremiumBanner {
         visible: Config.enablePremiumSuggestions && !piqi.user.isPremium

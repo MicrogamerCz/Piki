@@ -17,11 +17,12 @@ ecm_add_qml_module(piki_st
         contents/ui/Following.qml
         contents/ui/IllustView.qml
         contents/ui/Search.qml
-        contents/ui/Premium.qml
         contents/ui/Newest.qml
         contents/ui/Collection.qml
         contents/ui/History.qml
         contents/ui/Welcome.qml
+        contents/ui/ProfileView.qml
+
         contents/controls/Header.qml
         contents/controls/Sidebar.qml
         contents/controls/SidebarButton.qml
@@ -39,6 +40,7 @@ ecm_add_qml_module(piki_st
         contents/controls/FlatAction.qml
         contents/controls/XWorkAsWallpaperOptions.qml
         contents/controls/WallpaperSelections.qml
+        contents/controls/WebAction.qml
         contents/controls/templates/DoubleAbstractCard.qml
         contents/controls/templates/FeedPage.qml
     SOURCES
@@ -47,6 +49,7 @@ ecm_add_qml_module(piki_st
         loginhandler.cpp
         pikicache.cpp
         pikihelper.cpp
+        pikitags.h
     # RESOURCE_PREFIX /
     RESOURCES
         contents/assets/io.github.micro.piki.svg

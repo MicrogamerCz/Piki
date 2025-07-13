@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #pragma once
+#include "pikicache.h"
 #include <KWallet>
 #include <QCoroQmlTask>
 #include <QtQmlIntegration>

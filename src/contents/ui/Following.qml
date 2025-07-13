@@ -4,6 +4,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
+import org.kde.kirigami as Kirigami
 import io.github.micro.piki
 import io.github.micro.piqi
 import "../controls"
@@ -12,14 +13,14 @@ import "../controls/templates"
 FeedPage {
     id: page
     title: `Following ・ ${categories.label}`
-    onRefresh: refreshF()
 
     property string category: "illust"
     property string restrict: "all"
-    onRestrictChanged: refreshF()
+    onRestrictChanged: refresh()
     property Illusts feed
 
-    function refreshF() {
+    function refresh() {
+        page.flickable.contentY = 0;
         loading = true;
         piqi.FollowingFeed(category, restrict).then(rec => {
             Cache.SynchroniseIllusts(rec.illusts);
@@ -28,27 +29,19 @@ FeedPage {
         });
     }
 
-    onFetchNext: {
-        piqi.FetchNextFeed(feed).then(newFeed => {
-            Cache.SynchroniseIllusts(newFeed.illusts);
-            feed.Extend(newFeed);
-            page.loading = false;
-        });
-    }
-
-    RowLayout {
+    filterSelections: [
         SelectionButtons {
             id: categories
             value: (page.category == "novel")
             onValueChanged: page.category = value ? "novel" : "illust"
             options: ["Illustrations / Manga", "Novels"]
-        }
+        },
         Controls.BusyIndicator {
             visible: page.loading
-        }
+        },
         Item {
             Layout.fillWidth: true
-        }
+        },
         SelectionButtons {
             id: restrictions
             value: page.restrict
@@ -68,7 +61,7 @@ FeedPage {
                 }
             ]
         }
-    }
+    ]
     GridLayout {
         rowSpacing: 15
         columnSpacing: 15

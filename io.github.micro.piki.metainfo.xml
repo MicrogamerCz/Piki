@@ -4,9 +4,12 @@ SPDX-License-Identifier: FSFAP
 SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
  -->
 <component type="desktop-application">
-   <id>io.github.microgamercz.piki</id>
-
+   <id>io.github.micro.piki</id>
    <name>Piki</name>
+
+   <developer id="io.github">
+     <name>Micro</name>
+   </developer>
 
    <summary>Unofficial Kirigami client for Pixiv</summary>
    <summary xml:lang="cs">Neoficiální Kirigami klient pro pixiv</summary>
@@ -14,9 +17,13 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
    <metadata_license>FSFAP</metadata_license>
    <project_license>GPL-3.0-or-later</project_license>
    <url type="homepage">https://github.com/MicrogamerCz/Piki</url>
-   <categories>
+   <!-- <categories>
+    <category>Qt</category>
+    <category>KDE</category>
     <category>Network</category>
-   </categories>
+    <category>Feed</category>
+    <category>Adult</category>
+   </categories> -->
    <keywords>
     <keyword>Pixiv</keyword>
     <keyword>Kirigami</keyword>
@@ -26,6 +33,9 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
     <binary>piki</binary>
    </provides>
 
+   <content_rating type="oars-1.1">
+       <content_attribute id="social-chat">intense</content_attribute>
+     </content_rating>
 
    <supports>
      <control>pointing</control>
@@ -37,16 +47,8 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
      <p>
        A sleek and feature-rich client for Pixiv using official pixiv Android app API under the hood and Kirigami for UI.
      </p>
-     <p>
-       Extra features: - Offline image cache - Offline history - Set image as wallpaper directly from Piki
-     </p>
-   </description>
-   <description xml:lang="cs">
-     <p>
+     <p xml:lang="cs">
        Elegantní Pixiv klient využivající oficiální API v jádře a Kirigami pro uživatelské rozhraní s funkcemi pro lepší integraci s prostředím.
-     </p>
-     <p>
-       Přidaná funkcionalita: - Offline mezipaměť - Offline historie - Nastavení tapety přímo z Piki
      </p>
    </description>
 
@@ -54,15 +56,26 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
    <screenshots>
      <screenshot type="default">
        <image
-            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/1_welcome.png</image>
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/1_welcome.png</image>
      </screenshot>
      <screenshot>
        <image
-            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/2_home.png</image>
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/2_home.png</image>
      </screenshot>
      <screenshot>
        <image
-            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/3_illust_view.png</image>
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/3_illust_view.png</image>
      </screenshot>
    </screenshots>
+
+   <releases>
+     <release version="0.1.0" date="2025-06-03">
+       <url type="details">
+        https://github.com/MicrogamerCz/Piki/releases/tag/0.1
+        </url>
+       <description>
+         <p>Initial release</p>
+       </description>
+     </release>
+   </releases>
  </component>

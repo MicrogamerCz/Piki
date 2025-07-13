@@ -85,11 +85,10 @@ Rectangle {
                 spacing: 0
 
                 SidebarButton {
-                    page: "Home"
+                    text: "Home"
                     icon.name: "go-home-symbolic"
                     matchPart: true
-                    autoNavigate: false
-                    onNavigate: {
+                    onClicked: {
                         loading = true;
                         piqi.RecommendedFeed("illust", true, true).then(recommended => {
                             Cache.SynchroniseIllusts(recommended.illusts);
@@ -106,11 +105,10 @@ Rectangle {
                     Layout.leftMargin: Kirigami.Units.mediumSpacing
                 }
                 SidebarButton {
-                    page: "Following"
+                    text: "Following"
                     icon.name: "group"
                     matchPart: true
-                    autoNavigate: false
-                    onNavigate: {
+                    onClicked: {
                         loading = true;
                         piqi.FollowingFeed("illust", "all").then(following => {
                             Cache.SynchroniseIllusts(following.illusts);
@@ -122,28 +120,25 @@ Rectangle {
                     }
                 }
                 SidebarButton {
-                    page: "Watchlist"
+                    text: "Watchlist"
                     icon.name: "view-visible"
                     matchPart: true
-                    autoNavigate: false
 
                     enabled: false
                 }
                 SidebarButton {
-                    page: "My pixiv"
+                    text: "My pixiv"
                     icon.source: "qrc:/qt/qml/io/github/micro/piki/contents/assets/io.github.micro.piki.svg"
                     matchPart: true
-                    autoNavigate: false
 
                     enabled: false
                 }
                 SidebarButton {
-                    page: "Newest"
+                    text: "Newest"
                     icon.name: "view-pim-news"
                     matchPart: true
-                    autoNavigate: false
 
-                    onNavigate: {
+                    onClicked: {
                         loading = true;
                         piqi.LatestGlobal("illust").then(latest => {
                             Cache.SynchroniseIllusts(latest.illusts);
@@ -160,14 +155,13 @@ Rectangle {
                     Layout.leftMargin: Kirigami.Units.mediumSpacing
                 }
                 SidebarButton {
-                    page: "Bookmarks"
+                    text: "Bookmarks"
                     icon.name: "bookmarks"
                     matchPart: true
-                    autoNavigate: false
 
-                    onNavigate: {
+                    onClicked: {
                         loading = true;
-                        piqi.BookmarksFeed("illust", "public").then(bkmarks => {
+                        piqi.BookmarksFeed("illust", false).then(bkmarks => {
                             Cache.SynchroniseIllusts(bkmarks.illusts);
                             navigateToPageParm("Collection", {
                                 feed: bkmarks
@@ -177,10 +171,9 @@ Rectangle {
                     }
                 }
                 SidebarButton {
-                    page: "History"
+                    text: "History"
                     icon.name: "view-history"
                     matchPart: true
-                    autoNavigate: false
 
                     enabled: false
                 }
@@ -193,9 +186,8 @@ Rectangle {
         }
         SidebarButton {
             id: accountButton
-            page: piqi.user?.name ?? ""
+            text: piqi.user?.name ?? ""
             icon.source: (piqi.user == null) ? "../assets/pixiv_no_profile.png" : piqi.user?.profileImageUrls?.px50 ?? ""
-            autoNavigate: false
             // onNavigate: // TODO
             onPressAndHold: accountDialog.open()
 
@@ -212,15 +204,15 @@ Rectangle {
         }
         SidebarButton {
             visible: Config.enablePremiumSuggestions && !piqi.user.isPremium
-            page: "pixiv Premium"
+            text: "pixiv Premium"
             icon.name: "favorite"
             icon.color: "gold"
-            autoNavigate: false
-            onNavigate: navigateToPage("Premium")
+            onClicked: Qt.openUrlExternally("https://pixiv.net/premium")
         }
         SidebarButton {
-            page: "Settings"
+            text: "Settings"
             icon.name: "configure"
+            onClicked: root.navigateToPage("Settings")
         }
     }
 

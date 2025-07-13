@@ -8,3 +8,4 @@ src/.qmlls.ini
 local/
 *.flatpak
 .gitl
+flatpak-build/

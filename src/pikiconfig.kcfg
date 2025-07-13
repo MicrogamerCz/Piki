@@ -40,6 +40,10 @@
         </entry>
     </group>
     <group name="Defaults">
+        <entry name="startupPage" type="Int">
+            <label>Page, which opens on startup by default</label>
+            <default>0</default>
+        </entry>
         <entry name="allowR18WorksAsWallpapers" type="Enum">
             <label>Allow R-18/R-18G works as wallpapers</label>
             <choices>
@@ -63,6 +67,12 @@
                 </choice>
                 <choice name="Following">
                     <label>Only the latest from artists you follow</label>
+                </choice>
+                <choice name="Newest">
+                    <label>The latest works from all over the world</label>
+                </choice>
+                <choice name="Bookmarks">
+                    <label>Your favourite works sorted by latest</label>
                 </choice>
             </choices>
             <default>0</default>

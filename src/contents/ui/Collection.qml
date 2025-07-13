@@ -13,51 +13,68 @@ import "../controls/templates"
 FeedPage {
     id: page
     title: `Bookmarks ・ ${categories.label}`
-    onRefresh: refreshF()
 
+    property string tag: "All"
+    onTagChanged: refresh()
     property string category: "illust"
-    property string restrict: "public"
-    onRestrictChanged: refreshF()
+    property bool restrict: false
+    onRestrictChanged: refresh()
     property Illusts feed
 
-    function refreshF() {
+    function refresh() {
+        page.flickable.contentY = 0;
         loading = true;
-        piqi.BookmarksFeed(category, restrict).then(rec => {
+        // Empty tag returns all bookmarked works, uncategorized is hardcoded to use the const tag
+        let queryTag = tag;
+        if (queryTag == "All")
+            queryTag = "";
+        else if (queryTag == "Uncategorized")
+            queryTag = "未分類";
+        piqi.BookmarksFeed(category, restrict, queryTag).then(rec => {
             Cache.SynchroniseIllusts(rec.illusts);
             feed = rec;
             loading = false;
         });
     }
 
-    onFetchNext: {
-        piqi.FetchNextFeed(feed).then(newFeed => {
-            Cache.SynchroniseIllusts(newFeed.illusts);
-            feed.Extend(newFeed);
-            page.loading = false;
+    Component.onCompleted: {
+        piqi.BookmarkIllustTags(restrict).then(tags_ => {
+            tags.Extend(tags_);
         });
     }
+    PikiTags {
+        id: tags
+    }
 
-    RowLayout {
+    filterSelections: [
         SelectionButtons {
             id: categories
             value: (page.category == "novel")
             onValueChanged: page.category = value ? "novel" : "illust"
             options: ["Illustrations / Manga", "Novels"]
-        }
+        },
         Kirigami.Separator {
             Layout.fillHeight: true
-        }
-        SelectionButtons {
-            id: restrictions
-            value: (page.restrict == "private")
-            onValueChanged: page.restrict = value ? "private" : "public"
-            options: ["Public", "Private"]
-        }
-        // Future bookmarks query field
+        },
+        Controls.ComboBox {
+            onCurrentTextChanged: page.tag = currentText
+            editable: true
+            model: tags
+            displayText: (((currentText != "All") && (currentText != "Uncategorized")) ? "#" : "") + currentText
+        },
         Controls.BusyIndicator {
             visible: page.loading
+        },
+        Item {
+            Layout.fillWidth: true
+        },
+        SelectionButtons {
+            id: restrictions
+            value: page.restrict
+            onValueChanged: page.restrict = value
+            options: ["Public", "Private"]
         }
-    }
+    ]
     GridLayout {
         rowSpacing: 15
         columnSpacing: 15
@@ -70,5 +87,8 @@ FeedPage {
                 illust: modelData
             }
         }
+    }
+    Item {
+        Layout.fillHeight: true
     }
 }
