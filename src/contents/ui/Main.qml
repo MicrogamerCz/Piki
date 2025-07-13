@@ -3,6 +3,7 @@
 
 import QtQuick
 import org.kde.kirigami as Kirigami
+import org.kde.purpose as Purpose
 import io.github.micro.piki
 import io.github.micro.piqi
 import "../controls"
@@ -48,6 +49,13 @@ Kirigami.ApplicationWindow {
             });
         });
     }
+    function share(model, index) {
+        jobView.model = model;
+        jobView.index = index;
+
+        jobView.start();
+        shareTimer.start();
+    }
 
     Component.onCompleted: Cache.Setup().then(() => pageStack.currentItem.beginLoginProcess())
 
@@ -83,4 +91,53 @@ Kirigami.ApplicationWindow {
     pageStack.globalToolBar.style: Kirigami.ApplicationHeaderStyle.None
     pageStack.columnView.columnResizeMode: Kirigami.ColumnView.SingleColumn
     pageStack.initialPage: Loading {}
+
+    Kirigami.Dialog {
+        id: shareDialog
+        implicitWidth: jobView.implicitWidth * 2
+        implicitHeight: jobView.implicitHeight * 2
+
+        contentItem: Purpose.JobView {
+            id: jobView
+            anchors.fill: parent
+
+            implicitWidth: Kirigami.Units.gridUnit * 20
+            implicitHeight: Kirigami.Units.gridUnit * 14
+
+            onStateChanged: {
+                if (state === Purpose.PurposeJobController.Finished) {
+                    shareDialog.showNotification(job);
+                    shareDialog.close();
+                } else if (state === Purpose.PurposeJobController.Error) {
+                    // TOOD: Show notification when share fails
+                    shareDialog.close();
+                } else if (state === Purpose.PurposeJobController.Cancelled) {
+                    shareDialog.close();
+                }
+            }
+        }
+
+        Timer {
+            id: shareTimer
+            interval: 50 // Just a tiny interval to find out whether the job is visual (such as the QR code)
+            //              or whether it does stuff in the background (Sending via KDE Connect, Tokodon, etc.)
+            repeat: false
+
+            onTriggered: {
+                print(jobView.state);
+                if (jobView.state === Purpose.PurposeJobController.Configuring)
+                    shareDialog.open();
+            }
+        }
+
+        function showNotification(job) {
+            let type = String(job);
+            if (type.startsWith("ClipboardJob"))
+                root.showPassiveNotification("Copied to clipoboard!");
+        // else {
+        //     print(JSON.stringify(job.data));
+        //     print(JSON.stringify(job.output));
+        // }
+        }
+    }
 }

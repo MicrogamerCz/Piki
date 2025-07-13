@@ -3,13 +3,8 @@
 
 #include "loginhandler.h"
 #include "pikicache.h"
-#include "piqi/user.h"
-#include <qcoroqmltask.h>
-#include <qcorotask.h>
+#include <QJsonDocument>
 #include <qdir.h>
-#include <qjsondocument.h>
-#include <qjsonobject.h>
-#include <qobject.h>
 #include <qtmetamacros.h>
 
 LoginHandler::LoginHandler(QObject* parent) : QObject(parent) {
