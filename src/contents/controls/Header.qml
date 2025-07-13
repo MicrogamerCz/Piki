@@ -77,6 +77,17 @@ Item {
             });
         });
     }
+    function checkIfStringIsUrlAndProcess(str) {
+        try {
+            let url = new URL(str);
+            return str.substring(str.lastIndexOf("/") + 1);
+        } catch (_) {
+            if (!isNaN(str))
+                return str;
+            else
+                return "";
+        }
+    }
 
     Item {
         anchors.fill: parent
@@ -250,6 +261,16 @@ Item {
                                     pushSearchPage();
                                     return;
                                 }
+                                return;
+                            }
+                            let id = checkIfStringIsUrlAndProcess(text);
+                            if (id != "") {
+                                piqi.IllustDetail(Number(id)).then(il => {
+                                    navigateToPageParm("IllustView", {
+                                        illust: il
+                                    });
+                                });
+                                text = "";
                                 return;
                             }
 

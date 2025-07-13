@@ -13,7 +13,6 @@ import "../controls"
 // - change the way comments collapse, make the button visible only when comments > 1
 // - (OPTIONAL) fetching more arts from the artist
 // - clicking profile header will open profile
-// - clicking tags will open a query with that tag
 
 Kirigami.Page {
     id: page
@@ -249,7 +248,6 @@ Kirigami.Page {
                                 enabled: Config.allowR18WorksAsWallpapers != 2
                                 text: "Set as wallpaper"
                                 icon.name: "viewimage"
-                                // TODO: Custom passive notification (+ in the copy url above)
                                 onTriggered: wallpaperSelections.setup()
                             }
                         }
@@ -287,8 +285,6 @@ Kirigami.Page {
                     CommentSection {
                         illust: page.illust
                     }
-                    // TODO: opening profile by clicking profile card, support for following, support for comms info(?)
-                    // TODO: clicking on tabs will open a query
                     GridLayout {
                         rowSpacing: 15
                         columnSpacing: 15

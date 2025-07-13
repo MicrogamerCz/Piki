@@ -55,6 +55,12 @@ Kirigami.ApplicationWindow {
         id: piqi
     }
 
+    function pushTagAndSearch(tag) {
+        hd.selectedTags.append({
+            tagData: tag
+        });
+        hd.pushSearchPage();
+    }
     header: Header {
         id: hd
         visible: !sidebar.collapsed
