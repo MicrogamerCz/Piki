@@ -46,7 +46,7 @@ FeedPage {
     }
 
     Component.onCompleted: {
-        piqi.BookmarkIllustTags(restrict).then(tags_ => {
+        piqi.BookmarkIllustTags(isNovelCategory ? "novel" : "illust", restrict).then(tags_ => {
             tags.Extend(tags_);
         });
     }

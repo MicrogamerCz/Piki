@@ -14,16 +14,23 @@ FeedPage {
     title: `Newest ・ ${categories.label}`
 
     property string category: "illust"
-    property Illusts feed
+    property var feed
 
     function refresh() {
         page.flickable.contentY = 0;
         loading = true;
-        piqi.LatestGlobal(category).then(rec => {
-            Cache.SynchroniseIllusts(rec.illusts);
-            feed = rec;
-            loading = false;
-        });
+        if (category !== "novel")
+            piqi.LatestGlobal(category).then(rec => {
+                Cache.SynchroniseIllusts(rec.illusts);
+                feed = rec;
+                loading = false;
+            });
+        else
+            piqi.LatestNovelsGlobal(rec => {
+                // Cache.SynchroniseIllusts(rec.illusts);
+                feed = rec;
+                loading = false;
+            });
     }
 
     filterSelections: [
@@ -59,9 +66,11 @@ FeedPage {
         Repeater {
             model: page.feed
             IllustrationButton {
-                required property var modelData
                 illust: modelData
             }
         }
+    }
+    Item {
+        Layout.fillHeight: true
     }
 }
