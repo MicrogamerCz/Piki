@@ -97,6 +97,8 @@ TBD
   - [ ] Cropping for "Set as wallpaper" share option when there's a mismatch between the aspect ratio of the image and the monitor
 - Profile page
   - [ ] More appropriate icon for fanbox link
+- Novel page
+  - Custom viewer parsed from the DOM
 - Welcome
   - [ ] Setup showing user the interface
   - [ ] Showing privacy policy popup (same as in the official app)(?)
