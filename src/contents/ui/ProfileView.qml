@@ -316,7 +316,6 @@ FeedPage {
                     }
 
                     Controls.Label {
-                        // elide: Text.ElideRight
                         wrapMode: Text.WordWrap
                         visible: userDetailsSwitch.details == 1
                         text: page.user.comment

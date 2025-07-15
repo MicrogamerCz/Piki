@@ -45,7 +45,9 @@ Kirigami.AbstractCard {
             Repeater {
                 model: card.illust.tags
 
-                TagChip {}
+                TagChip {
+                    onClicked: root.pushTagAndSearch(modelData)
+                }
             }
         }
     }

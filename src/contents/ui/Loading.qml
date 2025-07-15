@@ -36,7 +36,7 @@ Kirigami.Page {
                 }
             case 1:
                 {
-                    piqi.FollowingFeed("illust", "all").then(following => {
+                    piqi.FollowingFeed("all").then(following => {
                         Cache.SynchroniseIllusts(following.illusts);
                         navigateToPageParm("Following", {
                             feed: following
@@ -66,7 +66,7 @@ Kirigami.Page {
                 }
             case 5:
                 {
-                    piqi.BookmarksFeed("illust", false).then(bkmarks => {
+                    piqi.BookmarksFeed(false).then(bkmarks => {
                         Cache.SynchroniseIllusts(bkmarks.illusts);
                         loadingIndicator.opacity = 0;
                         navigateToPageParm("Collection", {

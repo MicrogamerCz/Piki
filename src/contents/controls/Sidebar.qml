@@ -110,7 +110,7 @@ Rectangle {
                     matchPart: true
                     onClicked: {
                         loading = true;
-                        piqi.FollowingFeed("illust", "all").then(following => {
+                        piqi.FollowingFeed("all").then(following => {
                             Cache.SynchroniseIllusts(following.illusts);
                             navigateToPageParm("Following", {
                                 feed: following
@@ -161,7 +161,7 @@ Rectangle {
 
                     onClicked: {
                         loading = true;
-                        piqi.BookmarksFeed("illust", false).then(bkmarks => {
+                        piqi.BookmarksFeed(false).then(bkmarks => {
                             Cache.SynchroniseIllusts(bkmarks.illusts);
                             navigateToPageParm("Collection", {
                                 feed: bkmarks

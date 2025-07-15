@@ -4,7 +4,6 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
-import org.kde.kirigami as Kirigami
 import io.github.micro.piki
 import io.github.micro.piqi
 import "../controls"
@@ -14,26 +13,34 @@ FeedPage {
     id: page
     title: `Following ・ ${categories.label}`
 
-    property string category: "illust"
+    property bool isNovelCategory: false
+    onIsNovelCategoryChanged: refresh()
     property string restrict: "all"
     onRestrictChanged: refresh()
-    property Illusts feed
+    property var feed
 
     function refresh() {
         page.flickable.contentY = 0;
         loading = true;
-        piqi.FollowingFeed(category, restrict).then(rec => {
-            Cache.SynchroniseIllusts(rec.illusts);
-            feed = rec;
-            loading = false;
-        });
+        if (!isNovelCategory)
+            piqi.FollowingFeed(restrict).then(rec => {
+                Cache.SynchroniseIllusts(rec.illusts);
+                feed = rec;
+                loading = false;
+            });
+        else
+            piqi.FollowingNovelsFeed(restrict).then(rec => {
+                // Cache.SynchroniseIllusts(rec.illusts);
+                feed = rec;
+                loading = false;
+            });
     }
 
     filterSelections: [
         SelectionButtons {
             id: categories
-            value: (page.category == "novel")
-            onValueChanged: page.category = value ? "novel" : "illust"
+            value: page.isNovelCategory
+            onValueChanged: page.isNovelCategory = value
             options: ["Illustrations / Manga", "Novels"]
         },
         Controls.BusyIndicator {
@@ -70,9 +77,11 @@ FeedPage {
         Repeater {
             model: page.feed
             IllustrationButton {
-                required property var modelData
                 illust: modelData
             }
         }
+    }
+    Item {
+        Layout.fillHeight: true
     }
 }

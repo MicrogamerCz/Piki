@@ -16,16 +16,23 @@ FeedPage {
     title: `Home ・ ${categories.label}`
     property string category: "illust"
     onCategoryChanged: refresh()
-    property Recommended feed
+    property var feed
 
     function refresh() {
         page.flickable.contentY = 0;
         loading = true;
-        piqi.RecommendedFeed(category, true, false).then(rec => {
-            Cache.SynchroniseIllusts(rec.illusts);
-            feed = rec;
-            loading = false;
-        });
+        if (category == "novel")
+            piqi.RecommendedNovelsFeed(true, false).then(rec => {
+                // Cache.SynchroniseIllusts(rec.novels);
+                feed = rec;
+                loading = false;
+            });
+        else
+            piqi.RecommendedFeed(category, true, false).then(rec => {
+                // Cache.SynchroniseIllusts(rec.illusts);
+                feed = rec;
+                loading = false;
+            });
     }
 
     filterSelections: [
@@ -57,10 +64,6 @@ FeedPage {
         }
     ]
 
-    /*PremiumBanner {
-        visible: Config.enablePremiumSuggestions && !piqi.user.isPremium
-        }*/
-
     ColumnLayout {
         Layout.fillWidth: true
         spacing: Kirigami.Units.largeSpacing
@@ -87,10 +90,11 @@ FeedPage {
             RowLayout {
                 id: row
                 spacing: 15
+
                 Repeater {
-                    model: page.feed.rankingIllusts
+                    model: page.feed.ranking
+
                     IllustrationButton {
-                        required property var modelData
                         illust: modelData
                     }
                 }
@@ -105,8 +109,8 @@ FeedPage {
 
         Repeater {
             model: page.feed
+
             IllustrationButton {
-                required property var modelData
                 illust: modelData
             }
         }

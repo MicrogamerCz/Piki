@@ -16,10 +16,11 @@ FeedPage {
 
     property string tag: "All"
     onTagChanged: refresh()
-    property string category: "illust"
+    property bool isNovelCategory: false
+    onIsNovelCategoryChanged: refresh()
     property bool restrict: false
     onRestrictChanged: refresh()
-    property Illusts feed
+    property var feed
 
     function refresh() {
         page.flickable.contentY = 0;
@@ -30,15 +31,22 @@ FeedPage {
             queryTag = "";
         else if (queryTag == "Uncategorized")
             queryTag = "未分類";
-        piqi.BookmarksFeed(category, restrict, queryTag).then(rec => {
-            Cache.SynchroniseIllusts(rec.illusts);
-            feed = rec;
-            loading = false;
-        });
+        if (!isNovelCategory)
+            piqi.BookmarksFeed(restrict, queryTag).then(rec => {
+                Cache.SynchroniseIllusts(rec.illusts);
+                feed = rec;
+                loading = false;
+            });
+        else
+            piqi.NovelsBookmarksFeed(restrict, queryTag).then(rec => {
+                // Cache.SynchroniseIllusts(rec.illusts);
+                feed = rec;
+                loading = false;
+            });
     }
 
     Component.onCompleted: {
-        piqi.BookmarkIllustTags(restrict).then(tags_ => {
+        piqi.BookmarkIllustTags(isNovelCategory ? "novel" : "illust", restrict).then(tags_ => {
             tags.Extend(tags_);
         });
     }
@@ -49,8 +57,8 @@ FeedPage {
     filterSelections: [
         SelectionButtons {
             id: categories
-            value: (page.category == "novel")
-            onValueChanged: page.category = value ? "novel" : "illust"
+            value: page.isNovelCategory
+            onValueChanged: page.isNovelCategory = value
             options: ["Illustrations / Manga", "Novels"]
         },
         Kirigami.Separator {
@@ -83,7 +91,6 @@ FeedPage {
         Repeater {
             model: page.feed
             IllustrationButton {
-                required property variant modelData
                 illust: modelData
             }
         }

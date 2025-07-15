@@ -139,4 +139,12 @@ Kirigami.ScrollablePage {
             }
         }
     }
+
+    Shortcut {
+        sequences: [StandardKey.Refresh]
+        onActivated: {
+            fp.flickable.contentY = 0;
+            fp.refresh();
+        }
+    }
 }

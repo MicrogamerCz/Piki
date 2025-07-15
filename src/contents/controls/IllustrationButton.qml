@@ -14,7 +14,7 @@ DoubleAbstractCard {
     topHeight: 205
     bottomHeight: 45
     width: 175
-    property Illustration illust
+    property Work illust
     property bool hidden: false
 
     Kirigami.Theme.inherit: true
@@ -25,9 +25,16 @@ DoubleAbstractCard {
             piqi.BookmarkDetail(illust).then(details => illust.isBookmarked = (details.restriction == "private") ? 2 : 1);
     }
 
-    onTopItemClicked: navigateToPageParm("IllustView", {
-        illust: card.illust
-    })
+    onTopItemClicked: {
+        if (illust.novelAiType == undefined) // Simple check if the work is novel or not
+            navigateToPageParm("IllustView", {
+                illust: card.illust
+            });
+        else
+            piqi.FetchNovel(illust).then(nv => navigateToPageParm("NovelView", {
+                    novel: nv
+                }));
+    }
     onBottomItemClicked: piqi.Details(card.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
             details: dtls
         }))
