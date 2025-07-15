@@ -89,7 +89,6 @@ TBD
   - [ ] Messages from web client
   - [ ] Implementing pixiv Fanbox (least important)
   - [ ] Posting new illusts/manga/novels (button will be in the top right corner)
-  - [x] Novels overall
   - [ ] Account settings
   - [ ] my Pixiv page
   - [ ] Local browsing history (+ online for premium users)
