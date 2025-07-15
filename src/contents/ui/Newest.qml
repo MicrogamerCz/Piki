@@ -14,6 +14,7 @@ FeedPage {
     title: `Newest ・ ${categories.label}`
 
     property string category: "illust"
+    onCategoryChanged: refresh()
     property var feed
 
     function refresh() {

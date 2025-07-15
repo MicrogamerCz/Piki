@@ -30,6 +30,10 @@ DoubleAbstractCard {
             navigateToPageParm("IllustView", {
                 illust: card.illust
             });
+        else
+            piqi.FetchNovel(illust).then(nv => navigateToPageParm("NovelView", {
+                    novel: nv
+                }));
     }
     onBottomItemClicked: piqi.Details(card.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
             details: dtls

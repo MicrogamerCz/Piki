@@ -22,6 +22,7 @@ ecm_add_qml_module(piki_st
         contents/ui/History.qml
         contents/ui/Welcome.qml
         contents/ui/ProfileView.qml
+        contents/ui/NovelView.qml
 
         contents/controls/Header.qml
         contents/controls/Sidebar.qml
