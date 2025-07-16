@@ -6,9 +6,14 @@
 #include "piqi/imageurls.h"
 #include <qcoroqmltask.h>
 #include <qcorotask.h>
+#include <qdebug.h>
 #include <qdir.h>
+#include <qiodevicebase.h>
 #include <qlogging.h>
+#include <qstandardpaths.h>
 #include <qtimer.h>
+#include <qtpreprocessorsupport.h>
+#include <sys/socket.h>
 
 UserResult UserResult::fromSql(ColumnTypes &&tuple)
 {
@@ -31,10 +36,8 @@ TagHistoryResult TagHistoryResult::fromSql(ColumnTypes &&tuple)
 Cache::Cache(QObject *parent)
     : QObject(parent)
 {
-    conf = PikiConfig::self();
-
     DatabaseConfiguration config;
-    config.setDatabaseName(conf->cachePath() + "data.sqlite");
+    config.setDatabaseName(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/data.sqlite");
     config.setType(DatabaseType::SQLite);
 
     database = ThreadedDatabase::establishConnection(config);

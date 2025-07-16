@@ -100,6 +100,10 @@ FeedPage {
                 }
             }
         }
+
+        Kirigami.Separator {
+            Layout.fillWidth: true
+        }
     }
 
     GridLayout {

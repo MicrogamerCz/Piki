@@ -26,10 +26,6 @@
             </choices>
             <default>0</default>
         </entry>
-        <entry name="cachePath" type="Path">
-            <label>Cache path</label>
-            <default>$HOME/.cache/piki/</default>
-        </entry>
         <entry name="cacheSize" type="UInt">
             <label>Maximum Cache size in GiB (applies even to memory cache)</label>
             <default>8</default>

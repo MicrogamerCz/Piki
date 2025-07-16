@@ -17,8 +17,7 @@ void ImageDownloader::SetProgress(qint64 bytesReceived, qint64 bytesTotal) {
 
 QCoro::QmlTask ImageDownloader::Download(QString url) { return DownloadTask(url); }
 QCoro::Task<QString> ImageDownloader::DownloadTask(QString url) {
-    PikiConfig* config = PikiConfig::self();
-    QString cachePath = config->cachePath();
+    QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) % QDir::separator() % "images" % QDir::separator();
     if (!QDir().exists(cachePath))
         QDir().mkpath(cachePath);
     cachePath = cachePath + url.mid(url.lastIndexOf("/") + 1);
