@@ -4,9 +4,6 @@
 #include "pikicache.h"
 #include "piqi/illustration.h"
 #include "piqi/imageurls.h"
-#include <KIO/DirectorySizeJob>
-#include <kjob.h>
-#include <qabstractnetworkcache.h>
 #include <qcoroqmltask.h>
 #include <qcorotask.h>
 #include <qdebug.h>
@@ -147,51 +144,4 @@ QCoro::Task<> Cache::WriteUserToCache(User *user)
 QCoro::Task<> Cache::DeleteUserFromCache(User *user)
 {
     co_await database->execute("DELETE FROM accounts WHERE id = ?", user->m_id);
-}
-
-PikiNetworkCache::PikiNetworkCache(QObject *parent)
-    : QAbstractNetworkCache(parent)
-{
-    if (!QDir().exists(cachePath))
-        QDir().mkpath(cachePath);
-
-    job = KIO::directorySize(QUrl("file://" + cachePath));
-    connect(job, &KJob::finished, this, &PikiNetworkCache::directorySizeFinished);
-    job->start();
-}
-void PikiNetworkCache::directorySizeFinished(KJob *j)
-{
-    Q_UNUSED(j);
-    i_cacheSize = job->totalSize();
-    qDebug() << "Cache size" << job->totalSize();
-}
-PikiNetworkCache::~PikiNetworkCache() = default;
-QNetworkCacheMetaData PikiNetworkCache::metaData(const QUrl &url)
-{
-    return QNetworkCacheMetaData();
-}
-void PikiNetworkCache::updateMetaData(const QNetworkCacheMetaData &metadata)
-{
-}
-QIODevice *PikiNetworkCache::data(const QUrl &url)
-{
-    return nullptr;
-}
-bool PikiNetworkCache::remove(const QUrl &url)
-{
-    return false;
-}
-qint64 PikiNetworkCache::cacheSize() const
-{
-    return 0;
-}
-QIODevice *PikiNetworkCache::prepare(const QNetworkCacheMetaData &metaData)
-{
-    return nullptr;
-}
-void PikiNetworkCache::insert(QIODevice *device)
-{
-}
-void PikiNetworkCache::clear()
-{
 }

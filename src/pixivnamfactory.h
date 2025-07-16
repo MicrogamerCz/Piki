@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
-#include "pikicache.h"
 #include "pikiconfig.h"
 #include <QDir>
 #include <QNetworkDiskCache>
@@ -38,9 +37,6 @@ public:
 
     inline QNetworkAccessManager *create(QObject *parent) override
     {
-        PikiNetworkCache *pnc = new PikiNetworkCache(parent);
-        qDebug() << "Cache size? " << pnc->cacheSize();
-
         QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
         if (!QDir().exists(cachePath + "/wallpapers"))
             QDir(cachePath).mkdir("/wallpapers");
@@ -52,11 +48,9 @@ public:
         if (maxSize == 8)
             cache = infinity;
         diskCache->setMaximumCacheSize(cache);
-
         diskCache->setCacheDirectory(cachePath + "/cache");
 
         networkAccessManager->setCache(diskCache);
-
         return networkAccessManager;
     }
 };

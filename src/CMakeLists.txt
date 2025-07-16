@@ -77,7 +77,6 @@ target_link_libraries(piki_st PUBLIC
     KF6::ConfigCore
     KF6::ConfigGui
     KF6::Wallet
-    KF6::KIOCore
     FutureSQL6::FutureSQL
     Piqi::piqi
 )

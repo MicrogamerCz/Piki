@@ -45,7 +45,7 @@ if (NOT ANDROID)
 endif()
 
 find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS Gui QuickControls2 Svg WebEngineQuick ShaderTools ${QT_EXTRA_COMPONENTS})
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Kirigami KirigamiPlatform CoreAddons Config I18n Wallet KIO)
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Kirigami KirigamiPlatform CoreAddons Config I18n Wallet)
 find_package(Piqi)
 find_package(FutureSQL6)
 

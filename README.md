@@ -79,7 +79,6 @@ TBD
   - [ ] pixiv Premium features
   - [ ] Fix object caching
   - [ ] Cancel downloads after navigating to a different page
-  - [x] Write custom network cache (default cache doesn't save data in easily accessible files)
   - [ ] Rewrite SelectionButtons to work based on index, without doing chess with the values
   - [ ] Create templates for certain SelectionButtons implementations, they aren't much different from each other
   - [ ] Bind tags history to each account in local cache
@@ -109,7 +108,3 @@ TBD
 - Settings
   - [ ] Add button for About Piki and About KDE pages
   - [ ] Add individual account settings
-- Sidebar
-  - [ ] Rewrite autoNavigate, it's impractical currently as feeds are downloaded AOT
-  - [ ] Clicking Account button in sidebar will open user profile page
-  - [ ] Use Kirigami avatar cropping for pfp in account sidebar button
