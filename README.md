@@ -22,7 +22,11 @@ Unofficial Kirigami client for Pixiv.
 ## Installation
 
 ### Packages
-TBD
+
+#### AUR
+```sh
+yay -S piki-git
+```
 
 ### Manual
 **Important!** You need to clone the entire repo. Piqi is shipped as a git submodule
