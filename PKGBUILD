@@ -10,14 +10,14 @@ url="https://github.com/MicrogamerCz/Piki"
 license=(GPL-3.0-or-later)
 depends=(qt6-declarative qt6-webengine kirigami kirigami-addons ki18n kconfig kwallet purpose futuresql piqi
     qt6-svg qt6-base kcoreaddons)
-makedepends=(extra-cmake-modules ninja git)
+makedepends=(extra-cmake-modules git)
 conflicts=(piki)
 provides=(piki)
 source=("git+https://github.com/MicrogamerCz/Piki")
 sha256sums=('SKIP')
 
 build() {
-  cmake -GNinja -B build -S Piki \
+  cmake -B build -S Piki \
     -DBUILD_TESTING=OFF \
     -DCMAKE_INSTALL_PREFIX=/usr
 
