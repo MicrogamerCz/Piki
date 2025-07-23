@@ -29,8 +29,7 @@ TBD
 
 ```sh
 # Arch deps
-pacman -S kirigami-addons qt6-webview ki18n extra_cmake_modules kwallet kconfig futuresql qcoro
-# Piqi is additional package dependency. It's not on AUR yet, but there's a compiled binary and PKGBUILD in the source repo (https://github.com/MicrogamerCz/Piqi)
+yay -S piqi-git kirigami-addons qt6-webview ki18n extra_cmake_modules kwallet kconfig futuresql qcoro
 
 mkdir build && cd build
 cmake ..
