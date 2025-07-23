@@ -8,8 +8,9 @@ pkgdesc="Unofficial Kirigami client for Pixiv"
 arch=(x86_64)
 url="https://github.com/MicrogamerCz/Piki"
 license=(GPL-3.0-or-later)
-depends=()
-makedepends=(extra-cmake-modules git)
+depends=(qt6-declarative qt6-webengine kirigami kirigami-addons ki18n kconfig kwallet purpose futuresql piqi
+    qt6-svg qt6-base kcoreaddons)
+makedepends=(extra-cmake-modules ninja git)
 conflicts=(piki)
 provides=(piki)
 source=("git+https://github.com/MicrogamerCz/Piki")
