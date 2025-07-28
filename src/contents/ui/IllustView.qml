@@ -7,6 +7,7 @@ import QtQuick.Controls as Controls
 import org.kde.purpose as Purpose
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.formcard as Form
+import org.kde.kirigamiaddons.components as KIA
 import io.github.micro.piki
 import io.github.micro.piqi
 import "../controls"
@@ -26,6 +27,7 @@ Kirigami.Page {
     property list<Comment> comments
     property Illusts related: null
     property Illusts otherIllusts: null
+    property IllustSeries series: null
 
     ListModel {
         id: images
@@ -54,6 +56,9 @@ Kirigami.Page {
         piqi.RelatedIllusts(illust).then(rels => {
             Cache.SynchroniseIllusts(rels.illusts);
             related = rels;
+        });
+        piqi.IllustSeriesDetails(illust).then(series => {
+            page.series = series;
         });
         if (illust.pageCount > 1)
             download(0);
@@ -237,6 +242,64 @@ Kirigami.Page {
                     }
 
                     // Series details
+                    Kirigami.AbstractCard {
+                        padding: Kirigami.Units.largeSpacing * 2
+                        contentItem: ColumnLayout {
+                            Kirigami.Heading {
+                                text: illust.series.title
+                            }
+
+                            Kirigami.AbstractCard {
+                                visible: series.illustSeriesContext.next.title != ""
+
+                                showClickFeedback: true
+                                contentItem: RowLayout {
+                                    PixivImage {
+                                        Layout.preferredHeight: 50
+                                        Layout.preferredWidth: height
+                                        source: series.illustSeriesContext.next.imageUrls.squareMedium
+                                    }
+
+                                    ColumnLayout {
+                                        Layout.fillWidth: true
+
+                                        Controls.Label {
+                                            text: series.illustSeriesContext.next.title
+                                        }
+                                        Controls.Label {
+                                            text: `${series.illustSeriesContext.next.pageCount} page${series.illustSeriesContext.next.pageCount > 1 ? "s" : ""}`
+                                        }
+                                    }
+                                }
+                                onClicked: navigateToPageParm("IllustView", {
+                                    illust: series.illustSeriesContext.next
+                                })
+                            }
+
+                            RowLayout {
+                                Layout.fillWidth: true
+                                uniformCellSizes: true
+
+                                Controls.Button {
+                                    Layout.fillWidth: true
+                                    flat: true
+                                    text: "Add to watchlist"
+                                    checkable: true
+                                    checked: series.illustSeriesDetail.watchlistAdded
+                                }
+                                Controls.Button {
+                                    Layout.fillWidth: true
+                                    flat: true
+                                    text: "Previous chapter"
+                                }
+                                Controls.Button {
+                                    Layout.fillWidth: true
+                                    flat: true
+                                    text: "Series"
+                                }
+                            }
+                        }
+                    }
 
                     // Later improve by using unintended behaviour of the endpoint,
                     // finding if any of the illusts is the opened one
