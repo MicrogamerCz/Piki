@@ -42,6 +42,8 @@ ecm_add_qml_module(piki_st
         contents/controls/XWorkAsWallpaperOptions.qml
         contents/controls/WallpaperSelections.qml
         contents/controls/WebAction.qml
+        contents/controls/IllustViewProfileCard.qml
+
         contents/controls/templates/DoubleAbstractCard.qml
         contents/controls/templates/FeedPage.qml
     SOURCES
