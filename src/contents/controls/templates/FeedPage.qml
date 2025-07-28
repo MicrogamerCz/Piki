@@ -69,6 +69,33 @@ Kirigami.ScrollablePage {
         spacing: Kirigami.Units.largeSpacing
     }
 
+    ColumnLayout {
+        visible: (feed?.rowCount() ?? 0) == 0
+        anchors.centerIn: parent
+
+        Kirigami.Icon {
+            Layout.preferredWidth: fp.width * 0.25
+            Layout.preferredHeight: width
+
+            source: "folder-crash-symbolic"
+            color: Kirigami.Theme.negativeBackgroundColor
+        }
+
+        Kirigami.Heading {
+            Layout.alignment: Qt.AlignHCenter
+
+            text: "Failed to load"
+            color: Kirigami.Theme.negativeTextColor
+        }
+
+        /* TODO: Add reload feature once Piki can detect whether feed is missing or device is disconnected
+        Controls.Button {
+            flat: true
+            text: "Reload"
+        }
+        */
+    }
+
     Kirigami.AbstractCard {
         z: 5
         visible: fp.loading

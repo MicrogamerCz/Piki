@@ -37,9 +37,12 @@ FeedPage {
         refresh();
     }
     property variant searchRequest
-    property variant searchFeed
+    property variant feed
 
     function refresh() {
+        if (!feed)
+            return;
+
         page.flickable.contentY = 0;
         page.loading = true;
 
@@ -47,13 +50,13 @@ FeedPage {
             piqi.SearchPopularPreview(searchRequest).then(sr => {
                 Cache.SynchroniseIllusts(sr.illusts);
                 loading = false;
-                searchFeed = sr;
+                feed = sr;
             });
         else
             piqi.Search(searchRequest).then(sr => {
                 Cache.SynchroniseIllusts(sr.illusts);
                 loading = false;
-                searchFeed = sr;
+                feed = sr;
             });
     }
 
@@ -161,7 +164,7 @@ FeedPage {
         columns: Math.floor((page.width - 25) / 190)
 
         Repeater {
-            model: page.searchFeed
+            model: page.feed
             IllustrationButton {
                 required property var modelData
                 illust: modelData
@@ -175,5 +178,9 @@ FeedPage {
         font.bold: true
         font.pointSize: 24
         text: "Limited search by popularity"
+    }
+
+    Item {
+        Layout.fillHeight: true
     }
 }

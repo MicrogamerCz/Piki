@@ -158,7 +158,7 @@ Kirigami.Page {
                     id: columnLayout
                     width: parent.width - page.padding
                     anchors.leftMargin: page.padding
-                    anchors.rightMargin: (height > page.height) ? sc.width : 0
+                    anchors.rightMargin: (height > page.height) ? (sc.width + page.padding) : 0
                     anchors {
                         top: parent.top
                         left: parent.left

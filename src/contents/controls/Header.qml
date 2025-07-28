@@ -73,7 +73,7 @@ Item {
             searchField.loading = false;
             navigateToPageParm("Search", {
                 searchRequest: obj,
-                searchFeed: sr
+                feed: sr
             });
         });
     }

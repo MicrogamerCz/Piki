@@ -338,6 +338,8 @@ FeedPage {
                                 // return "Unknown";
                                 case 1:
                                     return "Male";
+                                case 2:
+                                    return "Female";
                                 default:
                                     return page.profile.gender;
                                 }
