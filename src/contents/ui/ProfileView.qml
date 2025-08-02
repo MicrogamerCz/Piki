@@ -66,6 +66,14 @@ FeedPage {
             piqi.UserNovels(user).then(novels => {
                 feed = novels;
             });
+        else if (category == "4")
+            piqi.BookmarksFeed(user).then(bkmarks => {
+                feed = bkmarks;
+            });
+        else if (category == "5")
+            piqi.NovelsBookmarksFeed(user).then(bkmarks => {
+                feed = bkmarks;
+            });
     }
 
     Component.onCompleted: {

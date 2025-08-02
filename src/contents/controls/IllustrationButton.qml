@@ -26,7 +26,7 @@ DoubleAbstractCard {
     }
 
     onTopItemClicked: {
-        if (illust.novelAiType == undefined) // Simple check if the work is novel or not
+        if (illust.novelAiType == undefined)
             navigateToPageParm("IllustView", {
                 illust: card.illust
             });
