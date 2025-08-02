@@ -24,6 +24,7 @@ ecm_add_qml_module(piki_st
         contents/ui/ProfileView.qml
         contents/ui/NovelView.qml
         contents/ui/Watchlist.qml
+        contents/ui/Series.qml
 
         contents/controls/Header.qml
         contents/controls/Sidebar.qml

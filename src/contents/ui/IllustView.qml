@@ -285,7 +285,7 @@ Kirigami.Page {
                                 Controls.Button {
                                     Layout.fillWidth: true
                                     flat: true
-                                    text: "Add to watchlist"
+                                    text: checked ? "In your watchlist" : "Add to watchlist"
                                     checkable: true
                                     checked: series.illustSeriesDetail.watchlistAdded
                                 }

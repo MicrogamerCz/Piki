@@ -9,12 +9,19 @@ Controls.ItemDelegate {
     hoverEnabled: true
     width: 550
     height: 300
+    implicitWidth: implicitBackgroundWidth
+    implicitHeight: implicitBackgroundHeight
+
+    onClicked: {
+        piqi.SeriesFeed(detail.id).then(series => {
+            navigateToPageParm("Series", {
+                feed: series
+            });
+        });
+    }
 
     property SeriesDetail detail
     readonly property real bgalpha: 0.3 + (hovered ? 0.1 : 0) + (pressed ? 0.1 : 0)
-
-    implicitWidth: implicitBackgroundWidth
-    implicitHeight: implicitBackgroundHeight
 
     background: Rectangle {
         width: 550
@@ -30,9 +37,9 @@ Controls.ItemDelegate {
                 Layout.alignment: Qt.AlignHCenter
                 text: card.detail.title
             }
-            Kirigami.Heading {
+            Controls.Label {
                 Layout.alignment: Qt.AlignHCenter
-                level: 3
+                color: Kirigami.Theme.disabledTextColor
                 text: `(${card.detail.seriesWorkCount} ${card.detail.seriesWorkCount > 1 ? "works" : "work"})`
             }
         }
