@@ -246,7 +246,7 @@ Kirigami.Page {
                         padding: Kirigami.Units.largeSpacing * 2
                         contentItem: ColumnLayout {
                             Kirigami.Heading {
-                                text: illust.series.title
+                                text: page.illust.series.title
                             }
 
                             Kirigami.AbstractCard {
@@ -311,7 +311,7 @@ Kirigami.Page {
                         implicitHeight: contentItem.childrenRect.height + 25
                         spacing: 15
                         clip: true
-                        model: otherIllusts
+                        model: page.otherIllusts
 
                         delegate: IllustrationButton {
                             required property var modelData

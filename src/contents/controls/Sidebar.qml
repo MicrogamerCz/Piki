@@ -188,10 +188,19 @@ Rectangle {
             id: accountButton
             text: piqi.user?.name ?? ""
             icon.source: (piqi.user == null) ? "../assets/pixiv_no_profile.png" : piqi.user?.profileImageUrls?.px50 ?? ""
-            // onNavigate: // TODO
             onPressAndHold: accountDialog.open()
+            onClicked: {
+                loading = true;
+                piqi.Details(piqi.user).then(dtls => {
+                    root.navigateToPageParm("ProfileView", {
+                        details: dtls
+                    });
+                    loading = false;
+                });
+            }
 
             Controls.Button {
+                visible: !parent.loading
                 flat: true
                 icon.name: "folder-image-people-symbolic"
                 anchors {

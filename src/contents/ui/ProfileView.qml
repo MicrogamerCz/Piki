@@ -173,6 +173,7 @@ FeedPage {
                         layoutDirection: Qt.RightToLeft
 
                         Controls.Button {
+                            visible: page.user.account != piqi.user.account
                             checkable: true
                             checked: page.user.isFollowed > 0
                             text: checked ? "Following" : "Follow"

@@ -18,6 +18,12 @@ Kirigami.AbstractCard {
     clip: true
     Layout.leftMargin: level * 50
 
+    function processTextEmotes(text) {
+        text = text.replace("(love4)", "😍");
+
+        return text;
+    }
+
     contentItem: Item {
         implicitWidth: cmt.implicitWidth
         implicitHeight: cmt.implicitHeight
@@ -41,11 +47,26 @@ Kirigami.AbstractCard {
                         text: card.comment.user.name
                         font.bold: true
                     }
-                    // Author stamp
+                    Rectangle {
+                        visible: card.comment.user.account == card.illust.user.account
+                        color: Kirigami.Theme.linkColor
+                        border.color: Kirigami.Theme.linkBackgroundColor
+                        radius: Kirigami.Units.cornerRadius
+                        implicitWidth: authorLabel.implicitWidth + Kirigami.Units.largeSpacing * 1.5
+                        implicitHeight: authorLabel.implicitHeight + Kirigami.Units.largeSpacing
+
+                        Controls.Label {
+                            id: authorLabel
+                            anchors.centerIn: parent
+                            text: "Author"
+                            font.pointSize: 7
+                            font.bold: true
+                        }
+                    }
                 }
                 Controls.Label {
                     visible: card.comment.stamp == null
-                    text: card.comment.comment
+                    text: card.processTextEmotes(card.comment.comment)
                     font.bold: true
                     wrapMode: Text.WordWrap
                     anchors {
