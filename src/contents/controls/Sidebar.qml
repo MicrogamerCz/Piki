@@ -124,7 +124,15 @@ Rectangle {
                     icon.name: "view-visible"
                     matchPart: true
 
-                    enabled: false
+                    onClicked: {
+                        loading = true;
+                        piqi.WatchlistFeed().then(wtl => {
+                            navigateToPageParm("Watchlist", {
+                                feed: wtl
+                            })
+                            loading = false
+                        })
+                    }
                 }
                 SidebarButton {
                     text: "My pixiv"
@@ -161,7 +169,7 @@ Rectangle {
 
                     onClicked: {
                         loading = true;
-                        piqi.BookmarksFeed(false).then(bkmarks => {
+                        piqi.BookmarksFeed(null, false).then(bkmarks => {
                             Cache.SynchroniseIllusts(bkmarks.illusts);
                             navigateToPageParm("Collection", {
                                 feed: bkmarks

@@ -47,6 +47,12 @@ Kirigami.Page {
                 }
             case 2:
                 {
+                    piqi.WatchlistFeed().then(wtl => {
+                        navigateToPageParm("Watchlist", {
+                            feed: wtl
+                        })
+                        sidebar.collapsed = false
+                    })
                     break;
                 }
             case 3:

@@ -133,8 +133,6 @@ FormCard.FormCardPage {
                 Kirigami.Action {
                     text: "Watchlist"
                     icon.name: "view-visible"
-
-                    enabled: false
                 },
                 Kirigami.Action {
                     text: "My pixiv"
