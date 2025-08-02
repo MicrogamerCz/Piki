@@ -57,9 +57,10 @@ Kirigami.Page {
             Cache.SynchroniseIllusts(rels.illusts);
             related = rels;
         });
-        piqi.IllustSeriesDetails(illust).then(series => {
-            page.series = series;
-        });
+        if (illust.series != null)
+            piqi.IllustSeriesDetails(illust).then(series => {
+                page.series = series;
+            });
         if (illust.pageCount > 1)
             download(0);
     }
@@ -243,37 +244,38 @@ Kirigami.Page {
 
                     // Series details
                     Kirigami.AbstractCard {
+                        visible: page.illust.series.id != 0
                         padding: Kirigami.Units.largeSpacing * 2
                         contentItem: ColumnLayout {
                             Kirigami.Heading {
                                 text: page.illust.series.title
                             }
 
-                            Kirigami.AbstractCard {
-                                visible: series.illustSeriesContext.next.title != ""
-
-                                showClickFeedback: true
-                                contentItem: RowLayout {
-                                    PixivImage {
-                                        Layout.preferredHeight: 50
-                                        Layout.preferredWidth: height
-                                        source: series.illustSeriesContext.next.imageUrls.squareMedium
-                                    }
-
-                                    ColumnLayout {
-                                        Layout.fillWidth: true
-
-                                        Controls.Label {
-                                            text: series.illustSeriesContext.next.title
-                                        }
-                                        Controls.Label {
-                                            text: `${series.illustSeriesContext.next.pageCount} page${series.illustSeriesContext.next.pageCount > 1 ? "s" : ""}`
-                                        }
-                                    }
+                            ColumnLayout {
+                                visible: page.series.illustSeriesContext.next != null
+                                Kirigami.Heading {
+                                    level: 2
+                                    text: "Next Chapter:"
+                                    color: Kirigami.Theme.disabledTextColor
                                 }
-                                onClicked: navigateToPageParm("IllustView", {
-                                    illust: series.illustSeriesContext.next
-                                })
+                                SeriesChapterCard {
+                                    chapter: page.series.illustSeriesContext.next
+                                }
+                            }
+                            Kirigami.Separator {
+                                visible: (page.series.illustSeriesContext.prev != null) && (page.series.illustSeriesContext.next != null)
+                                Layout.fillWidth: true
+                            }
+                            ColumnLayout {
+                                visible: page.series.illustSeriesContext.prev != null
+                                Kirigami.Heading {
+                                    level: 2
+                                    text: "Previous Chapter:"
+                                    color: Kirigami.Theme.disabledTextColor
+                                }
+                                SeriesChapterCard {
+                                    chapter: page.series.illustSeriesContext.prev
+                                }
                             }
 
                             RowLayout {
@@ -286,11 +288,6 @@ Kirigami.Page {
                                     text: "Add to watchlist"
                                     checkable: true
                                     checked: series.illustSeriesDetail.watchlistAdded
-                                }
-                                Controls.Button {
-                                    Layout.fillWidth: true
-                                    flat: true
-                                    text: "Previous chapter"
                                 }
                                 Controls.Button {
                                     Layout.fillWidth: true

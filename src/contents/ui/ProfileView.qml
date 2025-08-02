@@ -36,7 +36,8 @@ FeedPage {
     property Profile profile: details.profile
     property Workspace workspace: details.workspace
     property string category: "0"
-    property Illusts feed
+    onCategoryChanged: refresh()
+    property var feed
 
     property WebAction fanboxAction: WebAction {
         url: ""
@@ -49,6 +50,22 @@ FeedPage {
     }
 
     function refresh() {
+        if (profile.totalIllusts > 0 && category == "0")
+            piqi.UserIllusts(user, "illust").then(illusts => {
+                feed = illusts;
+            });
+        else if (profile.totalManga > 0 && category == "1")
+            piqi.UserIllusts(user, "manga").then(illusts => {
+                feed = illusts;
+            });
+        else if (profile.totalIllustSeries > 0 && category == "2")
+            piqi.UserSeries(user).then(series => {
+                feed = series;
+            });
+        else if (profile.totalNovels > 0 && category == "3")
+            piqi.UserNovels(user).then(novels => {
+                feed = novels;
+            });
     }
 
     Component.onCompleted: {
@@ -56,12 +73,7 @@ FeedPage {
         if (user.isFollowed > 0)
             piqi.FollowDetail(user).then(details => user.isFollowed = (details.restriction == "private") ? 2 : 1);
 
-        if (profile.totalIllusts > 0 || profile.totalManga > 0)
-            piqi.UserIllusts(user, "illust").then(illusts => {
-                feed = illusts;
-            });
-        // else
-        // return; // novels
+        refresh();
     }
 
     header: null
@@ -433,6 +445,7 @@ FeedPage {
         ]
     }
     GridLayout {
+        visible: page.category != "2"
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.leftMargin: Kirigami.Units.gridUnit
@@ -444,8 +457,24 @@ FeedPage {
         Repeater {
             model: page.feed
             IllustrationButton {
-                required property variant modelData
                 illust: modelData
+            }
+        }
+    }
+    GridLayout {
+        visible: page.category == "2"
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.leftMargin: Kirigami.Units.gridUnit
+        Layout.rightMargin: Kirigami.Units.gridUnit
+        rowSpacing: 15
+        columnSpacing: 15
+        columns: Math.floor((page.width - 25) / 565)
+
+        Repeater {
+            model: page.feed
+            SeriesButton {
+                detail: modelData
             }
         }
     }
