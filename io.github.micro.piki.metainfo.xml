@@ -69,13 +69,25 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
    </screenshots>
 
    <releases>
-     <release version="0.1.0" date="2025-06-03">
-       <url type="details">
-        https://github.com/MicrogamerCz/Piki/releases/tag/0.1
+    <release version="0.2.0" date="2025-07-03">
+        <url type="details">
+        https://github.com/MicrogamerCz/Piki/releases/tag/0.2.0
         </url>
-       <description>
-         <p>Initial release</p>
-       </description>
-     </release>
-   </releases>
+        <description>
+        <p>Plentiful improvements - from small internal and UI tweaks to more features</p>
+        <p>Features:</p>
+        <p>- Startup page options</p>
+        <p>- Setting work as wallpaper on KDE & Hyprland</p>
+        <p>- Profile view</p>
+        </description>
+    </release>
+        <release version="0.1.0" date="2025-06-03">
+        <url type="details">
+            https://github.com/MicrogamerCz/Piki/releases/tag/0.1
+            </url>
+        <description>
+            <p>Initial release</p>
+        </description>
+        </release>
+    </releases>
  </component>
