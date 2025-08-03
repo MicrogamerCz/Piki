@@ -82,7 +82,11 @@ FeedPage {
                     Controls.Button {
                         Layout.fillWidth: true
                         flat: true
-                        text: "Read the latest chapter"
+                        text: "Read from beginning"
+
+                        onClicked: navigateToPageParm("IllustView", {
+                            illust: page.feed.illustSeriesFirstIllust
+                        })
                     }
                 }
             }
