@@ -23,6 +23,13 @@ Unofficial Kirigami client for Pixiv.
 
 ### Packages
 
+#### Flatpak
+
+Download piki.flatpak package from releases and run
+```sh
+flatpak install <path>/piki.flatpak
+```
+
 #### AUR
 ```sh
 yay -S piki-git
