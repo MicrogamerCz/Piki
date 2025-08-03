@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+SPDX-License-Identifier: FSFAP
+SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
+ -->
+<component type="desktop-application">
+   <id>io.github.microgamercz.piki</id>
+   <name>Piki</name>
+
+   <developer id="io.github">
+     <name>Micro</name>
+   </developer>
+
+   <summary>Unofficial Kirigami client for Pixiv</summary>
+   <summary xml:lang="cs">Neoficiální Kirigami klient pro pixiv</summary>
+
+   <metadata_license>FSFAP</metadata_license>
+   <project_license>GPL-3.0-or-later</project_license>
+   <url type="homepage">https://github.com/MicrogamerCz/Piki</url>
+   <!-- <categories>
+    <category>Qt</category>
+    <category>KDE</category>
+    <category>Network</category>
+    <category>Feed</category>
+    <category>Adult</category>
+   </categories> -->
+   <keywords>
+    <keyword>Pixiv</keyword>
+    <keyword>Kirigami</keyword>
+    <keyword>Qt</keyword>
+   </keywords>
+   <provides>
+    <binary>piki</binary>
+   </provides>
+
+   <content_rating type="oars-1.1">
+       <content_attribute id="social-chat">intense</content_attribute>
+     </content_rating>
+
+   <supports>
+     <control>pointing</control>
+     <control>keyboard</control>
+     <control>touch</control>
+   </supports>
+
+   <description>
+     <p>
+       A sleek and feature-rich client for Pixiv using official pixiv Android app API under the hood and Kirigami for UI.
+     </p>
+     <p xml:lang="cs">
+       Elegantní Pixiv klient využivající oficiální API v jádře a Kirigami pro uživatelské rozhraní s funkcemi pro lepší integraci s prostředím.
+     </p>
+   </description>
+
+   <launchable
+        type="desktop-id"
+    >io.github.microgamercz.piki.desktop</launchable>
+   <screenshots>
+     <screenshot type="default">
+       <image
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/1_welcome.png</image>
+     </screenshot>
+     <screenshot>
+       <image
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/2_home.png</image>
+     </screenshot>
+     <screenshot>
+       <image
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/3_illust_view.png</image>
+     </screenshot>
+   </screenshots>
+
+   <releases>
+    <release version="0.2.0" date="2025-07-03">
+        <url type="details">
+        https://github.com/MicrogamerCz/Piki/releases/tag/0.2.0
+        </url>
+        <description>
+        <p
+                >Plentiful improvements - from small internal and UI tweaks to more features</p>
+        <p>Features:</p>
+        <p>- Startup page options</p>
+        <p>- Setting work as wallpaper on KDE and Hyprland</p>
+        <p>- Profile view</p>
+        </description>
+    </release>
+        <release version="0.1.0" date="2025-06-03">
+        <url type="details">
+            https://github.com/MicrogamerCz/Piki/releases/tag/0.1
+            </url>
+        <description>
+            <p>Initial release</p>
+        </description>
+        </release>
+    </releases>
+ </component>
