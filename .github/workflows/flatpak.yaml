@@ -1,0 +1,30 @@
+# Uses https://github.com/flatpak/flatpak-github-actions
+
+on:
+  push:
+    tags:
+      - "*"
+name: CI
+jobs:
+  flatpak:
+    name: "Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.9
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        name: "Build"
+        with:
+          bundle: piki.flatpak
+          manifest-path: io.github.micro.piki.json
+          cache-key: flatpak-builder-${{ github.sha }}
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: piki.flatpak
+          asset_name: piki.flatpak
+          tag: ${{ github.ref }}
+          overwrite: true
