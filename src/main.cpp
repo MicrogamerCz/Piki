@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
                         // u"https://yourwebsite.com"_s);
     // aboutData.setTranslator(i18nc("NAME OF TRANSLATORS", "Your names"), i18nc("EMAIL OF TRANSLATORS", "Your emails"));
     KAboutData::setApplicationData(aboutData);
-    QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.micro.piki"_s));
+    QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.microgamercz.piki"_s));
     // QGuiApplication::setWindowIcon(QIcon("io/github/micro/piki/contents/assets/io.github.micro.piki.svg"));
 
     PikiConfig* config = PikiConfig::self();

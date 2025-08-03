@@ -136,7 +136,7 @@ FormCard.FormCardPage {
                 },
                 Kirigami.Action {
                     text: "My pixiv"
-                    icon.source: "io.github.micro.piki"
+                    icon.source: "io.github.microgamercz.piki"
 
                     enabled: false
                 },

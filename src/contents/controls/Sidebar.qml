@@ -129,14 +129,14 @@ Rectangle {
                         piqi.WatchlistFeed().then(wtl => {
                             navigateToPageParm("Watchlist", {
                                 feed: wtl
-                            })
-                            loading = false
-                        })
+                            });
+                            loading = false;
+                        });
                     }
                 }
                 SidebarButton {
                     text: "My pixiv"
-                    icon.source: "qrc:/qt/qml/io/github/micro/piki/contents/assets/io.github.micro.piki.svg"
+                    icon.source: "qrc:/qt/qml/io/github/micro/piki/contents/assets/io.github.microgamercz.piki.svg"
                     matchPart: true
 
                     enabled: false
