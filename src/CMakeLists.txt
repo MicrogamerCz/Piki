@@ -59,7 +59,7 @@ ecm_add_qml_module(piki_st
         pikitags.h
     # RESOURCE_PREFIX /
     RESOURCES
-        contents/assets/io.github.micro.piki.svg
+        contents/assets/io.github.microgamercz.piki.svg
         contents/assets/ranking.svg
         contents/assets/pixiv_no_profile.png
         contents/assets/pixivLogo2025.svg

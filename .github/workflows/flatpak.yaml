@@ -20,7 +20,7 @@ jobs:
         name: "Build"
         with:
           bundle: piki.flatpak
-          manifest-path: io.github.micro.piki.json
+          manifest-path: io.github.microgamercz.piki.json
           cache-key: flatpak-builder-${{ github.sha }}
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2

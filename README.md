@@ -1,4 +1,4 @@
-<img align="right" width="10%" src="io.github.micro.piki.svg">
+<img align="right" width="10%" src="io.github.microgamercz.piki.svg">
 <br/>
 
 # Piki
@@ -51,8 +51,8 @@ sudo make install
 #### Flatpak
 Requires only flatpak runtime. (Install `org.flatpak.Builder` via Flatpak)
 ```sh
-org.flatpak.Builder flatpak-build --repo=local --force-clean io.github.micro.piki.json
-flatpak build-bundle local piki.flatpak io.github.micro.piki
+org.flatpak.Builder flatpak-build --repo=local --force-clean io.github.microgamercz.piki.json
+flatpak build-bundle local piki.flatpak io.github.microgamercz.piki
 flatpak install ./piki.flatpak
 ```
 

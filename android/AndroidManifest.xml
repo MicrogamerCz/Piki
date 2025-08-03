@@ -5,7 +5,7 @@
  -->
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.micro.piki"
+    package="io.github.microgamercz.piki"
     android:versionName="${versionName}"
     android:versionCode="${versionCode}"
     android:installLocation="auto"

@@ -72,8 +72,8 @@ android {
     defaultConfig {
         minSdkVersion qtMinSdkVersion
         targetSdkVersion qtTargetSdkVersion
-        applicationId "io.github.micro.piki"
-        namespace "io.github.micro.piki"
+        applicationId "io.github.microgamercz.piki"
+        namespace "io.github.microgamercz.piki"
         versionCode timestamp
         versionName projectVersionFull
         manifestPlaceholders = [versionName: projectVersionFull, versionCode: timestamp]

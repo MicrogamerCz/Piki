@@ -60,9 +60,9 @@ endif()
 
 add_subdirectory(src)
 
-install(FILES io.github.micro.piki.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES io.github.micro.piki.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(FILES io.github.micro.piki.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
+install(FILES io.github.microgamercz.piki.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES io.github.microgamercz.piki.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES io.github.microgamercz.piki.svg DESTINATION ${KDE_INSTALL_FULL_ICONDIR}/hicolor/scalable/apps)
 
 ki18n_install(po)
 
