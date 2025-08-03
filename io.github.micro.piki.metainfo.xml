@@ -74,10 +74,11 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
         https://github.com/MicrogamerCz/Piki/releases/tag/0.2.0
         </url>
         <description>
-        <p>Plentiful improvements - from small internal and UI tweaks to more features</p>
+        <p
+                >Plentiful improvements - from small internal and UI tweaks to more features</p>
         <p>Features:</p>
         <p>- Startup page options</p>
-        <p>- Setting work as wallpaper on KDE & Hyprland</p>
+        <p>- Setting work as wallpaper on KDE and Hyprland</p>
         <p>- Profile view</p>
         </description>
     </release>
