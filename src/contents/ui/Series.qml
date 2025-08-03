@@ -71,6 +71,13 @@ FeedPage {
                         text: checked ? "In your watchlist" : "Add to watchlist"
                         checkable: true
                         checked: page.feed.illustSeriesDetail.watchlistAdded
+
+                        onClicked: {
+                            if (checked)
+                                piqi.WatchlistAdd(page.feed.illustSeriesDetail, "manga");
+                            else
+                                piqi.WatchlistAdd(page.feed.illustSeriesDetail, "manga");
+                        }
                     }
                     Controls.Button {
                         Layout.fillWidth: true
@@ -85,8 +92,7 @@ FeedPage {
     GridLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Layout.leftMargin: Kirigami.Units.gridUnit
-        Layout.rightMargin: Kirigami.Units.gridUnit
+        Layout.margins: Kirigami.Units.gridUnit
         rowSpacing: 15
         columnSpacing: 15
         columns: Math.floor((page.width - 25) / 190)

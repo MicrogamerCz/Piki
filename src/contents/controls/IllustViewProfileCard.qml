@@ -8,9 +8,6 @@ import org.kde.kirigami as Kirigami
 import io.github.micro.piki
 import io.github.micro.piqi
 
-// import "../controls"
-// import "../controls/templates"
-
 Kirigami.AbstractCard {
     property User user
 

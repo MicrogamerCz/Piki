@@ -287,12 +287,27 @@ Kirigami.Page {
                                     flat: true
                                     text: checked ? "In your watchlist" : "Add to watchlist"
                                     checkable: true
-                                    checked: series.illustSeriesDetail.watchlistAdded
+                                    checked: page.series.illustSeriesDetail.watchlistAdded
+
+                                    onClicked: {
+                                        if (checked)
+                                            piqi.WatchlistAdd(page.series.illustSeriesDetail, "manga");
+                                        else
+                                            piqi.WatchlistAdd(page.series.illustSeriesDetail, "manga");
+                                    }
                                 }
                                 Controls.Button {
                                     Layout.fillWidth: true
                                     flat: true
                                     text: "Series"
+
+                                    onClicked: {
+                                        piqi.SeriesFeed(page.series.illustSeriesDetail.id).then(series => {
+                                            navigateToPageParm("Series", {
+                                                feed: series
+                                            });
+                                        });
+                                    }
                                 }
                             }
                         }

@@ -250,7 +250,6 @@ FeedPage {
                 horizontalPadding: Kirigami.Units.largeSpacing * 6
                 clip: true
                 implicitHeight: extraInfoCard.implicitHeight
-                // implicitWidth: extraInfoCard.implicitWidth
 
                 visible: (page.user.comment != "") || profileDetailsButton.shouldBeVisible || workspaceDetailsButton.shouldBeVisible
 
