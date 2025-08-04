@@ -59,14 +59,19 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
      <screenshot type="default">
        <image
             >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/1_welcome.png</image>
+        <caption
+            >Acreen showing a welcome card in the center with automatically scrolling presentation of curated illustration works shown</caption>
      </screenshot>
      <screenshot>
        <image
             >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/2_home.png</image>
+        <caption>Home page with feed in adaptive grid layout</caption>
      </screenshot>
      <screenshot>
        <image
             >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/3_illust_view.png</image>
+        <caption
+            >Page showing work, with the contents on the left side and work info, other works by the author, comments and related works on the right side</caption>
      </screenshot>
    </screenshots>
 
