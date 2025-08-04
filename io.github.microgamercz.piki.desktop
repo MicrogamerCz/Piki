@@ -5,7 +5,7 @@
 Name=Piki
 Comment=Unofficial Kirigami client for Pixiv
 Comment[cs]=Neoficiální Kirigami klient pro pixiv
-Version=0.3
+Version=1.0
 Exec=piki
 Icon=io.github.microgamercz.piki
 Type=Application
