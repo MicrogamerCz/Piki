@@ -231,7 +231,7 @@ Kirigami.Page {
                         Controls.Menu {
                             id: contextMenu
                             Kirigami.Action {
-                                enabled: Config.allowR18WorksAsWallpapers != 2
+                                enabled: !(Config.allowR18WorksAsWallpapers != 2 && page.illust.xRestrict > 0)
                                 text: "Set as wallpaper"
                                 icon.name: "viewimage"
                                 onTriggered: wallpaperSelections.setup()
