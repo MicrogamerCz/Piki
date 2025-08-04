@@ -138,7 +138,9 @@ Kirigami.Page {
                     }
                     Controls.Label {
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Welcome to pixiv"
+                        font.bold: true
+                        font.pixelSize: 24
+                        text: "Welcome to piki"
                     }
                 }
             }
