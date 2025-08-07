@@ -9,6 +9,11 @@ Kirigami.Page {
     id: page
 
     function beginLoginProcess() {
+        if (!LoginHandler.IsKeyringPresent()) {
+            missingSecretsProviderDialog.open();
+            return;
+        }
+
         loadingIndicator.opacity = 1;
         LoginHandler.SetCacheIfNotExists(Cache).then(() => {
             let token = LoginHandler.GetToken();
@@ -50,9 +55,9 @@ Kirigami.Page {
                     piqi.WatchlistFeed().then(wtl => {
                         navigateToPageParm("Watchlist", {
                             feed: wtl
-                        })
-                        sidebar.collapsed = false
-                    })
+                        });
+                        sidebar.collapsed = false;
+                    });
                     break;
                 }
             case 3:
@@ -100,15 +105,27 @@ Kirigami.Page {
         });
     }
 
+    Kirigami.PromptDialog {
+        id: missingSecretsProviderDialog
+        title: "Missing keyring"
+        subtitle: "Failed to open keyring implementing 'org.freedesktop.secrets' api (eg. KWallet, Gnome Keyring)\nPiki will work with a single account logged in, without storing session after Piki is closed"
+        standardButtons: Kirigami.Dialog.Ok | Kirigami.Dialog.Cancel
+        showCloseButton: false
+
+        onAccepted: {
+            loadingIndicator.opacity = 1;
+            page.pushWalkthough();
+        }
+        onRejected: root.close()
+    }
+
     Kirigami.LoadingPlaceholder {
         id: loadingIndicator
-
         anchors.centerIn: parent
+        opacity: 0
 
         Behavior on opacity {
-            NumberAnimation {
-                easing.type: Easing.OutQuad
-            }
+            SmoothedAnimation {}
         }
     }
 }

@@ -40,7 +40,7 @@ Kirigami.ApplicationWindow {
             pageStack.pop();
 
             piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                Cache.SynchroniseIllusts(recommended.illusts);
+                // Cache.SynchroniseIllusts(recommended.illusts);
                 navigateToPageParm("Home", {
                     feed: recommended
                 });

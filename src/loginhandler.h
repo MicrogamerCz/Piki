@@ -17,10 +17,13 @@ class LoginHandler : public QObject
     QML_SINGLETON;
 
     QM_PROPERTY(QList<User *>, otherUsers)
+    QM_PROPERTY(bool, keyringProviderInstalled)
 
     KWallet::Wallet* wallet;
     Cache *pkc = nullptr;
-    QString currentUser;
+    // Access and refresh tokens are used for the current session,
+    // on desktops without a keyring provider, until Piki is closed
+    QString currentUser, accessToken, refreshToken;
 
     QString GetUser();
     QCoro::Task<void> RefreshOtherUsersTask();
@@ -30,9 +33,12 @@ public:
 public Q_SLOTS:
     QCoro::QmlTask SetCacheIfNotExists(Cache *cache);
     QCoro::QmlTask SaveUserToCache(QString data, Piqi *client = nullptr);
+    bool IsKeyringPresent();
     void SetUser(QString username);
     void WriteToken(QString token);
     QString GetToken();
     QCoro::QmlTask RefreshOtherUsers();
     QCoro::QmlTask RemoveUser(User *user);
+
+    QCoro::Task<> PlaceholderTask();
 };

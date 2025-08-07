@@ -4,27 +4,48 @@
 #include "loginhandler.h"
 #include "pikicache.h"
 #include <QJsonDocument>
+#include <qcorotask.h>
 #include <qdir.h>
+#include <qtimer.h>
 #include <qtmetamacros.h>
 
 LoginHandler::LoginHandler(QObject* parent) : QObject(parent) {
+}
+bool LoginHandler::IsKeyringPresent()
+{
     wallet = KWallet::Wallet::openWallet(KWallet::Wallet::LocalWallet(), 0);
+    m_keyringProviderInstalled = wallet != nullptr;
+    Q_EMIT keyringProviderInstalledChanged();
+    if (!m_keyringProviderInstalled)
+        return false;
+
     if (!wallet->hasFolder("Piki")) wallet->createFolder("Piki");
     wallet->setFolder("Piki");
+
+    return true;
 }
 QString LoginHandler::GetUser() {
+    if (!m_keyringProviderInstalled)
+        return "";
     QString user;
     wallet->readPassword("current_user", user);
     return user;
 }
 void LoginHandler::SetUser(QString username) {
+    if (!m_keyringProviderInstalled)
+        return;
     wallet->writePassword("current_user", username);
     RefreshOtherUsers();
 }
 void LoginHandler::WriteToken(QString token) {
-    wallet->writePassword(GetUser(), token);
+    if (m_keyringProviderInstalled)
+        wallet->writePassword(GetUser(), token);
+    else
+        refreshToken = token;
 }
 QString LoginHandler::GetToken() {
+    if (!m_keyringProviderInstalled)
+        return accessToken;
     QString token;
     wallet->readPassword(GetUser(), token);
     return token;
@@ -34,7 +55,10 @@ QCoro::QmlTask LoginHandler::SetCacheIfNotExists(Cache *cache)
     if (!pkc)
         pkc = cache;
 
-    return RefreshOtherUsersTask();
+    if (m_keyringProviderInstalled)
+        return RefreshOtherUsersTask();
+    else
+        return PlaceholderTask();
 }
 QCoro::QmlTask LoginHandler::RefreshOtherUsers()
 {
@@ -42,6 +66,8 @@ QCoro::QmlTask LoginHandler::RefreshOtherUsers()
 }
 QCoro::Task<void> LoginHandler::RefreshOtherUsersTask()
 {
+    if (!m_keyringProviderInstalled)
+        co_return;
     m_otherUsers = co_await pkc->ReadUserCache();
     QString currentAccount = GetUser();
     int i = 0;
@@ -56,6 +82,8 @@ QCoro::Task<void> LoginHandler::RefreshOtherUsersTask()
 }
 QCoro::QmlTask LoginHandler::RemoveUser(User *user)
 {
+    if (!m_keyringProviderInstalled)
+        return PlaceholderTask();
     wallet->writePassword(user->m_account, "");
     return pkc->DeleteUserFromCache(user);
 }
@@ -67,5 +95,12 @@ QCoro::QmlTask LoginHandler::SaveUserToCache(QString data, Piqi *client)
         client->m_user = user;
         Q_EMIT client->userChanged();
     }
+    if (!m_keyringProviderInstalled)
+        return PlaceholderTask();
     return pkc->WriteUserToCache(user);
+}
+
+QCoro::Task<> LoginHandler::PlaceholderTask()
+{
+    co_return;
 }

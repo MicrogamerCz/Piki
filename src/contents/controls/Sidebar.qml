@@ -196,7 +196,10 @@ Rectangle {
             id: accountButton
             text: piqi.user?.name ?? ""
             icon.source: (piqi.user == null) ? "../assets/pixiv_no_profile.png" : piqi.user?.profileImageUrls?.px50 ?? ""
-            onPressAndHold: accountDialog.open()
+            onPressAndHold: {
+                if (LoginHandler.keyringProviderInstalled)
+                    accountDialog.open();
+            }
             onClicked: {
                 loading = true;
                 piqi.Details(piqi.user).then(dtls => {
@@ -208,7 +211,7 @@ Rectangle {
             }
 
             Controls.Button {
-                visible: !parent.loading
+                visible: !parent.loading && LoginHandler.keyringProviderInstalled
                 flat: true
                 icon.name: "folder-image-people-symbolic"
                 anchors {
