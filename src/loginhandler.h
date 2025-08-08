@@ -3,7 +3,6 @@
 
 #pragma once
 #include "pikicache.h"
-#include <KWallet>
 #include <QCoroQmlTask>
 #include <QtQmlIntegration>
 #include <piqi/Piqi>
@@ -19,13 +18,14 @@ class LoginHandler : public QObject
     QM_PROPERTY(QList<User *>, otherUsers)
     QM_PROPERTY(bool, keyringProviderInstalled)
 
-    KWallet::Wallet* wallet;
     Cache *pkc = nullptr;
     // Access and refresh tokens are used for the current session,
     // on desktops without a keyring provider, until Piki is closed
     QString currentUser, accessToken, refreshToken;
 
-    QString GetUser();
+    QCoro::Task<QString> GetPassword(QString key);
+    QCoro::Task<> WritePassword(QString key, QString password);
+    QCoro::Task<QString> GetUser();
     QCoro::Task<void> RefreshOtherUsersTask();
 
 public:
@@ -34,7 +34,7 @@ public Q_SLOTS:
     QCoro::QmlTask SetCacheIfNotExists(Cache *cache);
     QCoro::QmlTask SaveUserToCache(QString data, Piqi *client = nullptr);
     bool IsKeyringPresent();
-    void SetUser(QString username);
+    QCoro::QmlTask SetUser(QString username);
     void WriteToken(QString token);
     QString GetToken();
     QCoro::QmlTask RefreshOtherUsers();

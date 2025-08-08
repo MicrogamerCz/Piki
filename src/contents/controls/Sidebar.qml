@@ -24,10 +24,12 @@ Rectangle {
 
     function switchAccount(data) {
         reloadingAccount = true;
-        LoginHandler.SetUser(data.account);
-        piqi.Login(LoginHandler.GetToken()).then(() => {
-            pageStack.currentItem.refresh();
-            reloadingAccount = false;
+        LoginHandler.SetUser(data.account).then(() => {
+            if (LoginHandler.keyringProviderInstalled)
+                piqi.Login(LoginHandler.GetToken()).then(() => {
+                    pageStack.currentItem.refresh();
+                    reloadingAccount = false;
+                });
         });
     }
     function removeAccount(data) {
