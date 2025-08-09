@@ -19,6 +19,7 @@ LoginHandler::LoginHandler(QObject *parent)
     : QObject(parent)
 {
     m_keyringProviderInstalled = QKeychain::isAvailable();
+    Q_EMIT keyringProviderInstalledChanged();
 }
 
 QCoro::Task<QString> LoginHandler::GetPassword(QString key)

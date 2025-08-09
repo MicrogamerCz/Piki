@@ -10,7 +10,8 @@
     "--share=ipc",
     "--share=network",
     "--socket=wayland",
-    "--device=dri"
+    "--device=dri",
+    "--talk-name=org.freedesktop.secrets"
   ],
   "separate-locales": false,
 
