@@ -24,10 +24,12 @@ Rectangle {
 
     function switchAccount(data) {
         reloadingAccount = true;
-        LoginHandler.SetUser(data.account);
-        piqi.Login(LoginHandler.GetToken()).then(() => {
-            pageStack.currentItem.refresh();
-            reloadingAccount = false;
+        LoginHandler.SetUser(data.account).then(() => {
+            if (LoginHandler.keyringProviderInstalled)
+                piqi.Login(LoginHandler.GetToken()).then(() => {
+                    pageStack.currentItem.refresh();
+                    reloadingAccount = false;
+                });
         });
     }
     function removeAccount(data) {
@@ -49,7 +51,7 @@ Rectangle {
             });
         } else
             // Removes user > refreshes the cache > removes the lock
-            LoginHandler.RemoveUser(data).then(() => LoginHandler.RefreshOtherUsers().then(() => reloadingAccount = false));
+            LoginHandler.RemoveUser(data).then(() => reloadingAccount = false);
     }
 
     Behavior on x {

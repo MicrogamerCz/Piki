@@ -33,19 +33,24 @@ Kirigami.ApplicationWindow {
     function loggedIn(response) {
         let json = JSON.parse(response);
         piqi.SetLogin(json["access_token"], json["refresh_token"]);
-        LoginHandler.SetUser(json["user"]["account"]);
-        LoginHandler.WriteToken(json["refresh_token"]);
-        LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
-            pageStack.pop();
-            pageStack.pop();
+        LoginHandler.SetUser(json["user"]["account"]).then(() => {
+            if (!LoginHandler.keyringProviderInstalled)
+                return;
 
-            piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                // Cache.SynchroniseIllusts(recommended.illusts);
-                navigateToPageParm("Home", {
-                    feed: recommended
+            LoginHandler.WriteToken(json["refresh_token"]).then(() => {
+                LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
+                    pageStack.pop();
+                    pageStack.pop();
+
+                    piqi.RecommendedFeed("illust", true, true).then(recommended => {
+                        // Cache.SynchroniseIllusts(recommended.illusts);
+                        navigateToPageParm("Home", {
+                            feed: recommended
+                        });
+
+                        sidebar.collapsed = false;
+                    });
                 });
-
-                sidebar.collapsed = false;
             });
         });
     }
