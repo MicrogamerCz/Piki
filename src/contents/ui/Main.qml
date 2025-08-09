@@ -37,18 +37,19 @@ Kirigami.ApplicationWindow {
             if (!LoginHandler.keyringProviderInstalled)
                 return;
 
-            LoginHandler.WriteToken(json["refresh_token"]);
-            LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
-                pageStack.pop();
-                pageStack.pop();
+            LoginHandler.WriteToken(json["refresh_token"]).then(() => {
+                LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
+                    pageStack.pop();
+                    pageStack.pop();
 
-                piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                    // Cache.SynchroniseIllusts(recommended.illusts);
-                    navigateToPageParm("Home", {
-                        feed: recommended
+                    piqi.RecommendedFeed("illust", true, true).then(recommended => {
+                        // Cache.SynchroniseIllusts(recommended.illusts);
+                        navigateToPageParm("Home", {
+                            feed: recommended
+                        });
+
+                        sidebar.collapsed = false;
                     });
-
-                    sidebar.collapsed = false;
                 });
             });
         });

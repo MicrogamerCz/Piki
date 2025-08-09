@@ -6,6 +6,7 @@
 #include <QCoroQmlTask>
 #include <QtQmlIntegration>
 #include <piqi/Piqi>
+#include <piqi/user.h>
 
 #include "pikicache.h"
 
@@ -25,20 +26,30 @@ class LoginHandler : public QObject
 
     QCoro::Task<QString> GetPassword(QString key);
     QCoro::Task<> WritePassword(QString key, QString password);
+
     QCoro::Task<QString> GetUser();
-    QCoro::Task<void> RefreshOtherUsersTask();
+    QCoro::Task<> SetUserTask(QString user);
+
+    QCoro::Task<QString> GetTokenTask();
+    QCoro::Task<> WriteTokenTask(QString token);
+
+    QCoro::Task<> SetCacheIfNotExistsTask(Cache *cache);
+    QCoro::Task<> RefreshOtherUsersTask();
+
+    QCoro::Task<> SaveUserToCacheTask(QString data, Piqi *client = nullptr);
+
+    QCoro::Task<> RemoveUserTask(User *user);
 
 public:
     LoginHandler(QObject *parent = nullptr);
 public Q_SLOTS:
+    QCoro::QmlTask SetUser(QString username);
+
+    QCoro::QmlTask GetToken();
+    QCoro::QmlTask WriteToken(QString token);
+
     QCoro::QmlTask SetCacheIfNotExists(Cache *cache);
     QCoro::QmlTask SaveUserToCache(QString data, Piqi *client = nullptr);
-    bool IsKeyringPresent();
-    QCoro::QmlTask SetUser(QString username);
-    void WriteToken(QString token);
-    QString GetToken();
-    QCoro::QmlTask RefreshOtherUsers();
-    QCoro::QmlTask RemoveUser(User *user);
 
-    QCoro::Task<> PlaceholderTask();
+    QCoro::QmlTask RemoveUser(User *user);
 };

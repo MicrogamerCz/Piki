@@ -9,18 +9,19 @@ Kirigami.Page {
     id: page
 
     function beginLoginProcess() {
-        if (!LoginHandler.IsKeyringPresent()) {
+        if (!LoginHandler.keyringProviderInstalled) {
             missingSecretsProviderDialog.open();
             return;
         }
 
         loadingIndicator.opacity = 1;
         LoginHandler.SetCacheIfNotExists(Cache).then(() => {
-            let token = LoginHandler.GetToken();
-            if (token == "")
-                pushWalkthough();
-            else
-                piqi.Login(token).then(diverge);
+            LoginHandler.GetToken().then(token => {
+                if (token == "")
+                    pushWalkthough();
+                else
+                    piqi.Login(token).then(diverge);
+            });
         });
     }
 

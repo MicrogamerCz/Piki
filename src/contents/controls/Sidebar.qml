@@ -51,7 +51,7 @@ Rectangle {
             });
         } else
             // Removes user > refreshes the cache > removes the lock
-            LoginHandler.RemoveUser(data).then(() => LoginHandler.RefreshOtherUsers().then(() => reloadingAccount = false));
+            LoginHandler.RemoveUser(data).then(() => reloadingAccount = false);
     }
 
     Behavior on x {

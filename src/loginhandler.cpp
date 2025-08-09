@@ -6,6 +6,7 @@
 #include <QCoro>
 #include <QCoroSignal>
 #include <QJsonDocument>
+#include <qcontainerfwd.h>
 #include <qcorofuture.h>
 #include <qcoroqmltask.h>
 #include <qcorotask.h>
@@ -14,18 +15,12 @@
 #include <qtimer.h>
 #include <qtmetamacros.h>
 
-LoginHandler::LoginHandler(QObject* parent) : QObject(parent) {
-}
-bool LoginHandler::IsKeyringPresent()
+LoginHandler::LoginHandler(QObject *parent)
+    : QObject(parent)
 {
     m_keyringProviderInstalled = QKeychain::isAvailable();
-
-    Q_EMIT keyringProviderInstalledChanged();
-    if (!m_keyringProviderInstalled)
-        return false;
-
-    return true;
 }
+
 QCoro::Task<QString> LoginHandler::GetPassword(QString key)
 {
     if (!m_keyringProviderInstalled)
@@ -54,46 +49,62 @@ QCoro::Task<> LoginHandler::WritePassword(QString key, QString password)
     writeJob.start();
     co_await qCoro(&writeJob, &QKeychain::ReadPasswordJob::finished);
 }
+
 QCoro::Task<QString> LoginHandler::GetUser()
 {
     return GetPassword("current_user");
 }
 QCoro::QmlTask LoginHandler::SetUser(QString username)
 {
-    return WritePassword("current_user", username).then([this]() {
-        if (m_keyringProviderInstalled)
-            RefreshOtherUsers();
-    });
+    return SetUserTask(username);
 }
-void LoginHandler::WriteToken(QString token) {
-    // return GetUser().then([this](QString username) {
-    // });
-    // if (m_keyringProviderInstalled)
-    // wallet->writePassword(GetUser(), token);
-    // else
-    // refreshToken = token;
+QCoro::Task<> LoginHandler::SetUserTask(QString username)
+{
+    co_await WritePassword("current_user", username);
+
+    if (m_keyringProviderInstalled)
+        co_await RefreshOtherUsersTask();
 }
-QString LoginHandler::GetToken() {
+
+QCoro::QmlTask LoginHandler::GetToken()
+{
+    return GetTokenTask();
+}
+QCoro::Task<QString> LoginHandler::GetTokenTask()
+{
     if (!m_keyringProviderInstalled)
-        return accessToken;
-    QString token;
-    // wallet->readPassword(GetUser(), token);
-    return token;
+        co_return accessToken;
+    QString user = co_await GetUser();
+    co_return (co_await GetPassword(user));
 }
+
+QCoro::QmlTask LoginHandler::WriteToken(QString token)
+{
+    return WriteTokenTask(token);
+}
+QCoro::Task<> LoginHandler::WriteTokenTask(QString token)
+{
+    if (!m_keyringProviderInstalled) {
+        refreshToken = token;
+        co_return;
+    }
+    QString user = co_await GetUser();
+    co_await WritePassword(user, token);
+}
+
 QCoro::QmlTask LoginHandler::SetCacheIfNotExists(Cache *cache)
+{
+    return SetCacheIfNotExistsTask(cache);
+}
+QCoro::Task<> LoginHandler::SetCacheIfNotExistsTask(Cache *cache)
 {
     if (!pkc)
         pkc = cache;
 
     if (m_keyringProviderInstalled)
-        return RefreshOtherUsersTask();
-    else
-        return PlaceholderTask();
+        co_await RefreshOtherUsersTask();
 }
-QCoro::QmlTask LoginHandler::RefreshOtherUsers()
-{
-    return RefreshOtherUsersTask();
-}
+
 QCoro::Task<void> LoginHandler::RefreshOtherUsersTask()
 {
     if (!m_keyringProviderInstalled)
@@ -110,14 +121,12 @@ QCoro::Task<void> LoginHandler::RefreshOtherUsersTask()
         m_otherUsers.remove(i);
     Q_EMIT otherUsersChanged();
 }
-QCoro::QmlTask LoginHandler::RemoveUser(User *user)
-{
-    if (!m_keyringProviderInstalled)
-        return PlaceholderTask();
-    // wallet->writePassword(user->m_account, "");
-    return pkc->DeleteUserFromCache(user);
-}
+
 QCoro::QmlTask LoginHandler::SaveUserToCache(QString data, Piqi *client)
+{
+    return SaveUserToCacheTask(data, client);
+}
+QCoro::Task<> LoginHandler::SaveUserToCacheTask(QString data, Piqi *client)
 {
     QJsonObject obj = QJsonDocument::fromJson(data.toUtf8()).object();
     Account *user = new Account(nullptr, obj);
@@ -125,12 +134,19 @@ QCoro::QmlTask LoginHandler::SaveUserToCache(QString data, Piqi *client)
         client->m_user = user;
         Q_EMIT client->userChanged();
     }
-    if (!m_keyringProviderInstalled)
-        return PlaceholderTask();
-    return pkc->WriteUserToCache(user);
+    if (m_keyringProviderInstalled)
+        co_await pkc->WriteUserToCache(user);
 }
 
-QCoro::Task<> LoginHandler::PlaceholderTask()
+QCoro::QmlTask LoginHandler::RemoveUser(User *user)
 {
-    co_return;
+    return RemoveUserTask(user);
+}
+QCoro::Task<> LoginHandler::RemoveUserTask(User *user)
+{
+    if (!m_keyringProviderInstalled)
+        co_return;
+    co_await WritePassword(user->m_account, "");
+    co_await pkc->DeleteUserFromCache(user);
+    co_await RefreshOtherUsersTask();
 }
