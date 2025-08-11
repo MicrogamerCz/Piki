@@ -9,20 +9,57 @@
   "finish-args": [
     "--share=ipc",
     "--share=network",
+    "--socket=fallback-x11",
     "--socket=wayland",
     "--device=dri",
-    "--talk-name=org.freedesktop.secrets"
+    "--talk-name=org.kde.kwalletd6",
+    "--talk-name=org.kde.plasmashell",
+    "--talk-name=org.freedesktop.secrets",
+    "--filesystem=xdg-run/hypr"
   ],
-  "separate-locales": false,
 
   "modules": [
     {
-      "name": "futuresql",
+      "name": "qcoro",
       "buildsystem": "cmake-ninja",
+      "config-opts": [
+        "-DBUILD_TESTING=OFF",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
+      ],
       "sources": [
         {
-          "type": "git",
-          "url": "https://invent.kde.org/libraries/futuresql.git"
+          "type": "archive",
+          "url": "https://github.com/danvratil/qcoro/archive/refs/tags/v0.12.0.tar.gz",
+          "sha256": "809afafab61593f994c005ca6e242300e1e3e7f4db8b5d41f8c642aab9450fbc",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 236236,
+            "stable-only": true,
+            "url-template": "https://github.com/danvratil/qcoro/archive/refs/tags/v$version.tar.gz"
+          }
+        }
+      ]
+    },
+    {
+      "name": "futuresql",
+      "buildsystem": "cmake-ninja",
+      "config-opts": [
+        "-DBUILD_TESTING=OFF",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DQT_MAJOR_VERSION=6"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://download.kde.org/stable/futuresql/futuresql-0.1.1.tar.xz",
+          "sha256": "e44ed8d5a9618b3ca7ba2983ed9c5f7572e6e0a5b199f94868834b71ccbebd43",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 368957,
+            "stable-only": true,
+            "url-template": "https://download.kde.org/stable/futuresql/futuresql-$version.tar.xz"
+          }
         }
       ]
     },
@@ -93,11 +130,12 @@
     {
       "name": "piqi",
       "buildsystem": "cmake-ninja",
+      "config-opts": ["-DCMAKE_POSITION_INDEPENDENT_CODE=ON"],
       "sources": [
         {
           "type": "git",
           "url": "https://github.com/MicrogamerCz/Piqi",
-          "branch": "main"
+          "commit": "c8e00686caba838f550a986aafc4141e77c4d8b8"
         }
       ]
     },
@@ -105,7 +143,13 @@
       "name": "piki",
       "buildsystem": "cmake-ninja",
       "builddir": true,
-      "sources": [{ "type": "dir", "path": ".", "skip": [".git"] }]
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/MicrogamerCz/Piki",
+          "commit": "d174593cda7ca4cae3670f2a2bd629d42536d7af"
+        }
+      ]
     }
   ]
 }
