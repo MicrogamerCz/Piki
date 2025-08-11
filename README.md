@@ -40,7 +40,7 @@ yay -S piki-git
 
 ```sh
 # Arch deps
-yay -S piqi-git kirigami-addons qt6-webview ki18n extra_cmake_modules kwallet kconfig futuresql qcoro
+yay -S piqi-git kirigami-addons qt6-webview qt6-keychain ki18n extra_cmake_modules kconfig futuresql qcoro
 
 mkdir build && cd build
 cmake ..

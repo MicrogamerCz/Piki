@@ -84,7 +84,7 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
     <release version="0.3.2" date="2025-08-09">
         <url type="details">https://github.com/MicrogamerCz/Piki/releases/tag/0.3.2</url>
         <description>
-        <p>Switched keyring library from KWallet to QtKeyring</p>
+        <p>Switched from KWallet to QtKeychain for better compatibility on environments without KWallet</p>
         </description>
     </release>
     <release version="0.3.1" date="2025-08-07">
@@ -98,8 +98,8 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
         <description>
         <p>Plentiful improvements - from small internal and UI tweaks to more features</p>
         <p>Features:</p>
-        <p>- Share menu with a few common options & improved "Set as wallpaper" option</p>
-        <p>- Novel option in feed pages categories & novels reading (reader is barebones - passing HTML data into a webview)</p>
+        <p>- Share menu with a few common options, improved "Set as wallpaper" option</p>
+        <p>- Novel option in feed pages categories and novels reading (reader is barebones - passing HTML data into a webview)</p>
         <p>- Pasting URL or work ID in search box opens the work</p>
         <p>- Added series, option to add/remove from watchlist, added series section on work page</p>
         <p>- Added Watchlist feed (= followed series)</p>
