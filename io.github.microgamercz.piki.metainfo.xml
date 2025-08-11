@@ -11,8 +11,8 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
      <name>Micro</name>
    </developer>
 
-   <summary>Unofficial Kirigami client for Pixiv</summary>
-   <summary xml:lang="cs">Neoficiální Kirigami klient pro pixiv</summary>
+   <summary>Unofficial Pixiv app</summary>
+   <summary xml:lang="cs">Neoficiální pixiv aplikace</summary>
 
    <metadata_license>FSFAP</metadata_license>
    <project_license>GPL-3.0-or-later</project_license>
@@ -45,10 +45,10 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
    <description>
      <p>
-       A sleek and feature-rich client for Pixiv using official pixiv Android app API under the hood and Kirigami for UI.
+        Browse illustrations and read mangas or novels by talented artists and writers from Pixiv.
      </p>
      <p xml:lang="cs">
-       Elegantní Pixiv klient využivající oficiální API v jádře a Kirigami pro uživatelské rozhraní s funkcemi pro lepší integraci s prostředím.
+        Prohlížejte ilustrace nebo čtěte manga komiksy či novely od talentovaných umělců a spisovatelů na Pixivu.
      </p>
    </description>
 
@@ -60,7 +60,7 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
        <image
             >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/1_welcome.png</image>
         <caption
-            >Acreen showing a welcome card in the center with automatically scrolling presentation of curated illustration works shown</caption>
+            >Screen showing a welcome card in the center with automatically scrolling presentation of curated illustration works shown</caption>
      </screenshot>
      <screenshot>
        <image
@@ -75,7 +75,18 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
      </screenshot>
    </screenshots>
 
+   <branding>
+     <color type="primary" scheme_preference="light">#99c1f1</color>
+     <color type="primary" scheme_preference="dark">#241f31</color>
+   </branding>
+
    <releases>
+    <release version="0.3.2" date="2025-08-09">
+        <url type="details">https://github.com/MicrogamerCz/Piki/releases/tag/0.3.2</url>
+        <description>
+        <p>Switched keyring library from KWallet to QtKeyring</p>
+        </description>
+    </release>
     <release version="0.3.1" date="2025-08-07">
         <url type="details">https://github.com/MicrogamerCz/Piki/releases/tag/0.3.1</url>
         <description>
