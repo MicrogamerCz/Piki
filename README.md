@@ -25,9 +25,8 @@ Unofficial Kirigami client for Pixiv.
 
 #### Flatpak
 
-Download piki.flatpak package from releases and run
 ```sh
-flatpak install <path>/piki.flatpak
+flatpak install io.github.microgamercz.piki
 ```
 
 #### AUR
@@ -48,14 +47,6 @@ make # use -j<threads> for faster compilation
 sudo make install
 ```
 
-#### Flatpak
-Requires only flatpak runtime. (Install `org.flatpak.Builder` via Flatpak)
-```sh
-org.flatpak.Builder flatpak-build --repo=local --force-clean io.github.microgamercz.piki.json
-flatpak build-bundle local piki.flatpak io.github.microgamercz.piki
-flatpak install ./piki.flatpak
-```
-
 ---
 
 ## Contributions
@@ -68,11 +59,13 @@ TBD
 ---
 
 ## Used libraries and assets
+- **Qt + Kirigami (and other KDE Frameworks) + Kirigami Addons**
 - **L4ki** - icons from *Vivid Glassy Dark* icon pack (favorites-symbolic, folder-paint-symbolic)
 - **ZipFile** - [Pixiv auth process](https://gist.github.com/ZipFile/c9ebedb224406f4f11845ab700124362)
 - [**Crown icon for Rankings**](https://www.svgrepo.com/svg/120683/royal-crown)
 - **Audiotube** - design style of sidebar and header
 - **QCoro**
+- **QtKeyring**
 
 **If you like Pixiv, consider paying for Pixiv premium.**
 
@@ -80,7 +73,6 @@ TBD
 
 # (A lot of) TODOs
 - General
-  - [ ] Add missing info in metainfo
   - [ ] Localisation
   - [ ] Improve performance (especially after navigating a few feed pages)
   - [ ] Network error handling - either with passive notifications or dialogs
@@ -106,7 +98,7 @@ TBD
 - Profile page
   - [ ] More appropriate icon for fanbox link
 - Novel page
-  - Custom viewer parsed from the DOM
+  - [ ] Custom viewer parsed from the DOM
 - Welcome
   - [ ] Setup showing user the interface
   - [ ] Showing privacy policy popup (same as in the official app)(?)
