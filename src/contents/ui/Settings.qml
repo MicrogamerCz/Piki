@@ -97,21 +97,6 @@ FormCard.FormCardPage {
                 }
             }
         }
-
-        FormCard.FormDelegateSeparator {
-            visible: !piqi.user.isPremium
-        }
-
-        FormCard.FormCheckDelegate {
-            visible: !piqi.user.isPremium
-            text: "pixiv Premium suggestions"
-            description: "Enable pixiv Premium sidebar button and page banner\n(doesn't apply to popular search preview)"
-            checked: Config.enablePremiumSuggestions
-            onCheckedChanged: {
-                Config.enablePremiumSuggestions = checked;
-                Config.save();
-            }
-        }
     }
     FormCard.FormHeader {
         maximumWidth: Kirigami.Units.gridUnit * 50

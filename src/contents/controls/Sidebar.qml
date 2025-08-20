@@ -223,14 +223,7 @@ Rectangle {
             }
         }
         SidebarButton {
-            visible: Config.enablePremiumSuggestions && !piqi.user.isPremium
-            text: "pixiv Premium"
-            icon.name: "favorite"
-            icon.color: "gold"
-            onClicked: Qt.openUrlExternally("https://pixiv.net/premium")
-        }
-        SidebarButton {
-            text: "Settings"
+            text: i18n("Settings")
             icon.name: "configure"
             onClicked: root.navigateToPage("Settings")
         }

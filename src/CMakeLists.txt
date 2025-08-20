@@ -19,7 +19,7 @@ ecm_add_qml_module(piki_st
         contents/ui/Search.qml
         contents/ui/Newest.qml
         contents/ui/Collection.qml
-        contents/ui/History.qml
+        # contents/ui/History.qml # TODO
         contents/ui/Welcome.qml
         contents/ui/ProfileView.qml
         contents/ui/NovelView.qml
@@ -37,7 +37,6 @@ ecm_add_qml_module(piki_st
         contents/controls/CommentCard.qml
         contents/controls/CommentSection.qml
         contents/controls/TagChip.qml
-        contents/controls/PremiumBanner.qml
         contents/controls/AccountsManager.qml
         contents/controls/RequestsCard.qml
         contents/controls/FlatAction.qml
