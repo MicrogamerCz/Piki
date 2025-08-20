@@ -40,7 +40,7 @@ Controls.ItemDelegate {
             Controls.Label {
                 Layout.alignment: Qt.AlignHCenter
                 color: Kirigami.Theme.disabledTextColor
-                text: `(${card.detail.seriesWorkCount} ${card.detail.seriesWorkCount > 1 ? "works" : "work"})`
+                text: i18np("%1 work", "%1 works", card.detail.seriesWorkCount)
             }
         }
 

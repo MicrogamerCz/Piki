@@ -107,8 +107,8 @@ Kirigami.Page {
 
     Kirigami.PromptDialog {
         id: missingSecretsProviderDialog
-        title: "Missing keyring"
-        subtitle: "Failed to open keyring implementing 'org.freedesktop.secrets' api (eg. KWallet, Gnome Keyring)\nPiki will work with a single account logged in, without storing session after Piki is closed"
+        title: i18n("Missing keyring")
+        subtitle: i18n("Failed to open keyring implementing 'org.freedesktop.secrets' api (eg. KWallet, Gnome Keyring)\nPiki will work with a single account logged in, without storing session after Piki is closed")
         standardButtons: Kirigami.Dialog.Ok | Kirigami.Dialog.Cancel
         showCloseButton: false
 

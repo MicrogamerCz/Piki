@@ -36,7 +36,7 @@ Kirigami.AbstractCard {
             Layout.fillWidth: true
             checkable: true
             checked: page.illust.user.isFollowed > 0
-            text: checked ? "Following" : "Follow"
+            text: checked ? i18n("Following") : i18n("Follow")
             icon.name: (page.illust.user.isFollowed == 2) ? "view-private" : ""
             onClicked: {
                 if (page.illust.user.isFollowed == 0)

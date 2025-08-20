@@ -22,7 +22,7 @@ Kirigami.Dialog {
             visible: (wallpaperSelections.requirements > 1) || !restrictCard.visible
             enabled: (page.illust.xRestrict > 0 && displayOptions.selectedIndex >= 0) || page.illust.xRestrict == 0
             icon.name: "answer"
-            text: "Proceed"
+            text: i18n("Proceed")
             onTriggered: {
                 wallpaperSelections.close();
                 if (displayOptions.selectedIndex <= 1)
@@ -57,12 +57,12 @@ Kirigami.Dialog {
             property int option: 0
             property bool singleOption: visible && (wallpaperSelections.requirements == 1)
             Form.FormTextDelegate {
-                text: "R-18 work!"
+                text: i18n("R-18 work!")
                 font.bold: true
                 font.pointSize: 13
             }
             Form.FormSectionText {
-                text: `Warning! This work is marked as ${page.illust.xRestrict > 1 ? "R-18G" : "R-18"}! Other people might see this image on your background in public or if you don't properly hide/crop the contents from your screenshots. Do you want to proceed?`
+                text: i18n("Warning! This work is marked as %1! Other people might see this image on your background in public or if you don't properly hide/crop the contents from your screenshots. Do you want to proceed?", (page.illust.xRestrict > 1 ? "R-18G" : "R-18"))
             }
             XWorkAsWallpaperOptions {
                 id: displayOptions
@@ -83,7 +83,7 @@ Kirigami.Dialog {
                 id: pageSelector
                 from: 1
                 to: page.illust.pageCount
-                label: "Which image should be used for the wallpaper?"
+                label: i18n("Which image should be used for the wallpaper?")
                 onValueChanged: refreshPreview()
                 function refreshPreview() {
                     preview.source = images.get(value - 1).url;
@@ -112,7 +112,7 @@ Kirigami.Dialog {
                 id: monitorSelector
                 from: 1
                 to: Math.max(1, wallpaperSelections.screenCount)
-                label: "Which monitor should have the wallpaper?"
+                label: i18n("Which monitor should have the wallpaper?")
             }
         }
     }

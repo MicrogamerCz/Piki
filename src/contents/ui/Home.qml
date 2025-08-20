@@ -13,7 +13,7 @@ import "../controls/templates"
 
 FeedPage {
     id: page
-    title: `Home ・ ${categories.label}`
+    title: i18n("Home ・ %1", categories.label)
     property string category: "illust"
     onCategoryChanged: refresh()
     property var feed
@@ -43,15 +43,15 @@ FeedPage {
 
             options: [
                 {
-                    label: "Illustrations",
+                    label: i18n("Illustrations"),
                     value: "illust"
                 },
                 {
-                    label: "Manga",
+                    label: i18n("Manga"),
                     value: "manga"
                 },
                 {
-                    label: "Novel",
+                    label: i18n("Novel"),
                     value: "novel"
                 }
             ]
@@ -77,7 +77,7 @@ FeedPage {
                 Layout.preferredHeight: 24
             }
             Controls.Label {
-                text: "Rankings"
+                text: i18n("Rankings")
                 font.bold: true
                 font.pointSize: 16
             }

@@ -11,7 +11,7 @@ import io.github.micro.piqi
 Kirigami.Dialog {
     id: accountDialog
     closePolicy: reloadingAccount ? Controls.Popup.NoAutoClose : (Controls.Popup.CloseOnEscape | Controls.Popup.CloseOnReleaseOutside)
-    title: "Accounts"
+    title: i18n("Accounts")
     standardButtons: Kirigami.Dialog.NoButton
     showCloseButton: false
     topPadding: 0
@@ -61,7 +61,7 @@ Kirigami.Dialog {
                     source: "list-add"
                 }
                 Kirigami.Heading {
-                    text: "Add account"
+                    text: i18n("Add account")
                 }
             }
             onClicked: {

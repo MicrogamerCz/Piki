@@ -13,7 +13,7 @@ import "../controls/templates"
 
 FeedPage {
     id: page
-    title: `Series・${feed.illustSeriesDetail.title}`
+    title: i18n("Series ・ %1", feed.illustSeriesDetail.title)
     padding: 0
     header: null
 
@@ -68,7 +68,7 @@ FeedPage {
                     Controls.Button {
                         Layout.fillWidth: true
                         flat: true
-                        text: checked ? "In your watchlist" : "Add to watchlist"
+                        text: checked ? i18n("In your watchlist") : i18n("Add to watchlist")
                         checkable: true
                         checked: page.feed.illustSeriesDetail.watchlistAdded
 

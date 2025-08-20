@@ -71,15 +71,15 @@ FeedPage {
 
             options: [
                 {
-                    label: "Newest",
+                    label: i18n("Newest"),
                     value: "date_desc"
                 },
                 {
-                    label: "Popular",
+                    label: i18n("Popular"),
                     value: "popular"
                 },
                 {
-                    label: "Oldest",
+                    label: i18n("Oldest"),
                     value: "date_asc"
                 }
             ]
@@ -95,15 +95,15 @@ FeedPage {
 
             options: [
                 {
-                    label: "Partial tag match",
+                    label: i18n("Partial tag match"),
                     value: "partial"
                 },
                 {
-                    label: "Perfect tag match",
+                    label: i18n("Perfect tag match"),
                     value: "perfect"
                 },
                 {
-                    label: "Title, description",
+                    label: i18n("Title, description"),
                     value: "tides"
                 }
             ]
@@ -117,31 +117,31 @@ FeedPage {
             textRole: "text"
             model: [
                 {
-                    "text": "All periods",
+                    "text": i18n("All periods",
                     "value": 0
                 },
                 {
-                    "text": "24 hours",
+                    "text": i18n("24 hours"),
                     "value": 1
                 },
                 {
-                    "text": "One Week",
+                    "text": i18n("One Week"),
                     "value": 2
                 },
                 {
-                    "text": "One Month",
+                    "text": i18n("One Month"),
                     "value": 3
                 },
                 {
-                    "text": "6 Months",
+                    "text": i18n("6 Months"),
                     "value": 4
                 },
                 {
-                    "text": "One Year",
+                    "text": i18n("One Year"),
                     "value": 5
                 },
                 {
-                    "text": "Indicate Date",
+                    "text": i18n("Indicate Date"),
                     "value": 6
                 }
             ]
@@ -177,7 +177,7 @@ FeedPage {
         Layout.alignment: Qt.AlignHCenter
         font.bold: true
         font.pointSize: 24
-        text: "Limited search by popularity"
+        text: i18n("Limited search by popularity")
     }
 
     Item {

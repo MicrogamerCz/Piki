@@ -13,7 +13,7 @@ import "../controls/templates"
 
 FeedPage {
     id: page
-    title: `Watchlist ・ ${categories.label}`
+    title: i18n("Watchlist ・ %1", categories.label)
     property bool isNovelCategory: false
     onIsNovelCategoryChanged: refresh()
     property SeriesDetails feed
@@ -38,7 +38,7 @@ FeedPage {
             value: page.isNovelCategory
             onValueChanged: page.isNovelCategory = value
 
-            options: ["Manga", "Novel"]
+            options: [i18n("Manga"), i18n("Novel")]
         },
         Controls.BusyIndicator {
             visible: page.loading

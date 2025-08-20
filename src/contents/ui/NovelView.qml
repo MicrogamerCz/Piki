@@ -10,7 +10,7 @@ import io.github.micro.piqi
 Kirigami.Page {
     id: page
     padding: 0
-    title: "piki"
+    title: ""
 
     property string novel
     onNovelChanged: web.loadHtml(novel)

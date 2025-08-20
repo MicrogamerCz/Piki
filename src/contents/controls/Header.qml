@@ -319,7 +319,7 @@ Item {
 
                         Controls.Label {
                             visible: (queryBox.text == 0) && (head.selectedTags.count == 0)
-                            text: "Search..."
+                            text: i18n("Search...")
                             color: Kirigami.Theme.disabledTextColor
                         }
                     }

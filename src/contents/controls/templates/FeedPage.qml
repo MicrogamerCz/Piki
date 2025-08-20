@@ -84,7 +84,7 @@ Kirigami.ScrollablePage {
         Kirigami.Heading {
             Layout.alignment: Qt.AlignHCenter
 
-            text: "Failed to load"
+            text: i18n("Failed to load")
             color: Kirigami.Theme.negativeTextColor
         }
 

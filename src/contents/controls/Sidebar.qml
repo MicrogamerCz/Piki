@@ -85,7 +85,7 @@ Rectangle {
                 spacing: 0
 
                 SidebarButton {
-                    text: "Home"
+                    text: i18n("Home")
                     icon.name: "go-home-symbolic"
                     matchPart: true
                     onClicked: {
@@ -105,7 +105,7 @@ Rectangle {
                     Layout.leftMargin: Kirigami.Units.mediumSpacing
                 }
                 SidebarButton {
-                    text: "Following"
+                    text: i18n("Following")
                     icon.name: "group"
                     matchPart: true
                     onClicked: {
@@ -120,7 +120,7 @@ Rectangle {
                     }
                 }
                 SidebarButton {
-                    text: "Watchlist"
+                    text: i18n("Watchlist")
                     icon.name: "view-visible"
                     matchPart: true
 
@@ -135,14 +135,14 @@ Rectangle {
                     }
                 }
                 SidebarButton {
-                    text: "My pixiv"
+                    text: i18n("My pixiv")
                     icon.source: "qrc:/qt/qml/io/github/micro/piki/contents/assets/io.github.microgamercz.piki.svg"
                     matchPart: true
 
                     enabled: false
                 }
                 SidebarButton {
-                    text: "Newest"
+                    text: i18n("Newest")
                     icon.name: "view-pim-news"
                     matchPart: true
 
@@ -163,7 +163,7 @@ Rectangle {
                     Layout.leftMargin: Kirigami.Units.mediumSpacing
                 }
                 SidebarButton {
-                    text: "Bookmarks"
+                    text: i18n("Bookmarks")
                     icon.name: "bookmarks"
                     matchPart: true
 
@@ -179,7 +179,7 @@ Rectangle {
                     }
                 }
                 SidebarButton {
-                    text: "History"
+                    text: i18n("History")
                     icon.name: "view-history"
                     matchPart: true
 

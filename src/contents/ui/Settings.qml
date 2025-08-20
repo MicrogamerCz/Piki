@@ -12,22 +12,22 @@ import io.github.micro.piki
 
 FormCard.FormCardPage {
     id: page
-    title: "Settings"
-    property list<string> cacheLevelLabels: ["Permanent cache is disabled", "Only the image variant with the highest definition is cached permanently", "All images are cached", "All images, and illust/profile data is cached"]
+    title: i18n("Settings")
+    property list<string> cacheLevelLabels: [i18n("Permanent cache is disabled"), i18n("Only the image variant with the highest definition is cached permanently"), i18n("All images are cached"), i18n("All images, and illust/profile data is cached")]
 
     FormCard.FormHeader {
         maximumWidth: Kirigami.Units.gridUnit * 50
-        title: "General"
+        title: i18n("General")
     }
     FormCard.FormCard {
         maximumWidth: Kirigami.Units.gridUnit * 50
 
         FormCard.FormTextDelegate {
-            text: "Cache level"
+            text: i18n("Cache level")
             description: page.cacheLevelLabels[Config.cacheLevel]
         }
         FormCard.FormRadioDelegate {
-            text: "None"
+            text: i18n("None")
             checked: Config.cacheLevel == 0
             onClicked: {
                 Config.cacheLevel = 0;
@@ -35,7 +35,7 @@ FormCard.FormCardPage {
             }
         }
         FormCard.FormRadioDelegate {
-            text: "Optimised"
+            text: i18n("Optimised")
             checked: Config.cacheLevel == 1
             onClicked: {
                 Config.cacheLevel = 1;
@@ -43,7 +43,7 @@ FormCard.FormCardPage {
             }
         }
         FormCard.FormRadioDelegate {
-            text: "Images"
+            text: i18n("Images")
             checked: Config.cacheLevel == 2
             onClicked: {
                 Config.cacheLevel = 2;
@@ -51,7 +51,7 @@ FormCard.FormCardPage {
             }
         }
         FormCard.FormRadioDelegate {
-            text: "Everything"
+            text: i18n("Everything")
             checked: Config.cacheLevel == 3
             onClicked: {
                 Config.cacheLevel = 3;
@@ -70,7 +70,7 @@ FormCard.FormCardPage {
                     anchors.fill: parent
                     spacing: Kirigami.Units.mediumSpacing
                     Controls.Label {
-                        text: "Maximum cache size"
+                        text: i18n("Maximum cache size")
                     }
                     RowLayout {
                         Layout.fillWidth: true
@@ -91,7 +91,7 @@ FormCard.FormCardPage {
                         }
                         Controls.Label {
                             font.bold: true
-                            text: cacheLimitSlider.expval > 100 ? "Unlimited" : (cacheLimitSlider.expval + "GB")
+                            text: cacheLimitSlider.expval > 100 ? i18n("Unlimited") : (cacheLimitSlider.expval + "GB")
                         }
                     }
                 }
@@ -100,41 +100,41 @@ FormCard.FormCardPage {
     }
     FormCard.FormHeader {
         maximumWidth: Kirigami.Units.gridUnit * 50
-        title: "Defaults"
+        title: i18n("Defaults")
     }
     FormCard.FormCard {
         maximumWidth: Kirigami.Units.gridUnit * 50
         FormCard.FormRadioSelectorDelegate {
-            text: "Startup page"
+            text: i18n("Startup page")
             actions: [
                 Kirigami.Action {
-                    text: "Home"
+                    text: i18n("Home")
                     icon.name: "go-home-symbolic"
                 },
                 Kirigami.Action {
-                    text: "Following"
+                    text: i18n("Following")
                     icon.name: "group"
                 },
                 Kirigami.Action {
-                    text: "Watchlist"
+                    text: i18n("Watchlist")
                     icon.name: "view-visible"
                 },
                 Kirigami.Action {
-                    text: "My pixiv"
+                    text: i18n("My pixiv")
                     icon.source: "io.github.microgamercz.piki"
 
                     enabled: false
                 },
                 Kirigami.Action {
-                    text: "Newest"
+                    text: i18n("Newest")
                     icon.name: "view-pim-news"
                 },
                 Kirigami.Action {
-                    text: "Bookmarks"
+                    text: i18n("Bookmarks")
                     icon.name: "bookmarks"
                 },
                 Kirigami.Action {
-                    text: "History"
+                    text: i18n("History")
                     icon.name: "view-history"
                     enabled: false
                 }
@@ -149,8 +149,8 @@ FormCard.FormCardPage {
         FormCard.FormDelegateSeparator {}
 
         FormCard.FormTextDelegate {
-            text: "R-18/R-18G wallpapers"
-            description: "Default settings for 'Set wallpaper' behaviour for age restricted works"
+            text: i18n("R-18/R-18G wallpapers")
+            description: i18n("Default settings for 'Set wallpaper' behaviour for age restricted works")
         }
         XWorkAsWallpaperOptions {
             isSettingsComponent: true
