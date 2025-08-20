@@ -14,7 +14,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-#"Language-Team: LANGUAGE <LL@li.org>\n"
 
 #: src/contents/controls/Sidebar.qml:88 src/contents/ui/Settings.qml:111
 msgid "Home"
@@ -53,27 +52,22 @@ msgstr "Historie"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: build/io/github/micro/piki/contents/controls/AccountsManager.qml:14
 #: src/contents/controls/AccountsManager.qml:14
 msgid "Accounts"
 msgstr "Profily"
 
-#: build/io/github/micro/piki/contents/controls/AccountsManager.qml:64
 #: src/contents/controls/AccountsManager.qml:64
 msgid "Add account"
 msgstr "Přidat profil"
 
-#: build/io/github/micro/piki/contents/controls/RequestsCard.qml:26
 #: src/contents/controls/RequestsCard.qml:26
 msgid "Accepting requests"
 msgstr "Přijímá žádosti"
 
-#: build/io/github/micro/piki/contents/controls/templates/FeedPage.qml:87
 #: src/contents/controls/templates/FeedPage.qml:87
 msgid "Failed to load"
 msgstr ""
 
-#: build/io/github/micro/piki/contents/controls/SeriesChapterCard.qml:28
 #: src/contents/controls/SeriesChapterCard.qml:28
 msgid "%1 page"
 msgid_plural "%1 pages"
@@ -131,7 +125,7 @@ msgstr "Ne (automaticky pro věkově omezené práce)"
 msgid "%1 work"
 msgid_plural "%1 works"
 msgstr[0] "%1 část"
-msgstr[1] "%1 části"
+msgstr[1] "%1 části" # TODO: opravit chybu u množného tvaru pro 5 a více částÍ :)
 
 #: src/contents/controls/CommentCard.qml:61
 msgid "Author"
@@ -375,10 +369,6 @@ msgstr "Vybrat období"
 #: src/contents/ui/Search.qml:180
 msgid "Limited search by popularity"
 msgstr "Omezené hledání podle popularity"
-
-#: src/contents/ui/Search.qml:120
-msgid "All periods"
-msgstr "Všechna období"
 
 #: src/contents/ui/Newest.qml:14
 msgid "Newest ・ %1"

@@ -117,7 +117,7 @@ FeedPage {
             textRole: "text"
             model: [
                 {
-                    "text": i18n("All periods",
+                    "text": i18n("All periods"),
                     "value": 0
                 },
                 {
