@@ -62,7 +62,7 @@ Kirigami.Dialog {
                 font.pointSize: 13
             }
             Form.FormSectionText {
-                text: i18n("Warning! This work is marked as %1! Other people might see this image on your background in public or if you don't properly hide/crop the contents from your screenshots. Do you want to proceed?", (page.illust.xRestrict > 1 ? "R-18G" : "R-18"))
+                text: i18n("Warning! This work is marked as %1! Do you want to set this image as your wallpaper?", (page.illust.xRestrict > 1 ? "R-18G" : "R-18"))
             }
             XWorkAsWallpaperOptions {
                 id: displayOptions
