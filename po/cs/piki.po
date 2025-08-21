@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: piki\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-20 11:19+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2025-08-21 HO:MI+ZONE\n"
 "Last-Translator: Micro <microgamercz@proton.me>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -341,6 +341,10 @@ msgstr "Perfektní shoda tagů"
 #: src/contents/ui/Search.qml:106
 msgid "Title, description"
 msgstr "Shoda v titulku a popisu"
+
+#: src/contents/ui/Search.qml:120
+msgid "All periods"
+msgstr ""
 
 #: src/contents/ui/Search.qml:124
 msgid "24 hours"

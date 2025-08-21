@@ -75,6 +75,7 @@ target_link_libraries(piki_st PUBLIC
     Qt6::QuickControls2
     Qt6::WebEngineQuick
     KF6::I18n
+    KF6::I18nQml
     KF6::ConfigGui
     KF6::Wallet
     KF6::Purpose
