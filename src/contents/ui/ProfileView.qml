@@ -164,7 +164,7 @@ FeedPage {
                                         text: page.profile.totalFollowUsers
                                     }
                                     Controls.Label {
-                                        text: "Following"
+                                        text: i18n("Following")
                                         color: Kirigami.Theme.disabledTextColor
                                     }
                                 }
@@ -196,7 +196,7 @@ FeedPage {
                             visible: page.user.account != piqi.user.account
                             checkable: true
                             checked: page.user.isFollowed > 0
-                            text: checked ? "Following" : "Follow"
+                            text: checked ? i18n("Following") : i18n("Follow")
                             icon.name: (page.user.isFollowed == 2) ? "view-private" : ""
                             onClicked: {
                                 if (page.user.isFollowed == 0)
@@ -207,11 +207,11 @@ FeedPage {
                             onPressAndHold: piqi.Follow(page.user, page.user.isFollowed < 2)
                         }
                         Controls.Button {
-                            text: "My pixiv request"
+                            text: i18n("My pixiv request")
                             enabled: false
                         }
                         Controls.Button {
-                            text: "Recommended Users"
+                            text: i18n("Recommended Users")
                             enabled: false
                         }
                         /*Controls.Button {
@@ -346,7 +346,7 @@ FeedPage {
                         visible: userDetailsSwitch.details == 2
 
                         Controls.TextField {
-                            Kirigami.FormData.label: "Gender"
+                            Kirigami.FormData.label: i18n("Gender")
                             visible: text != ""
                             readOnly: true
                             text: {
@@ -357,22 +357,22 @@ FeedPage {
                                     return "";
                                 // return "Unknown";
                                 case 1:
-                                    return "Male";
+                                    return i18n("Male");
                                 case 2:
-                                    return "Female";
+                                    return i18n("Female");
                                 default:
                                     return page.profile.gender;
                                 }
                             }
                         }
                         Controls.TextField {
-                            Kirigami.FormData.label: "Age"
+                            Kirigami.FormData.label: i18n("Age")
                             visible: text != ""
                             readOnly: true
                             text: (page.profile.birth != "") ? page.calculateAge(new Date(Date.parse(page.profile.birth))) : ""
                         }
                         Controls.TextField {
-                            Kirigami.FormData.label: "Birthday"
+                            Kirigami.FormData.label: i18n("Birthday")
                             visible: text != ""
                             readOnly: true
                             // text: `${page.profile.birthDay} ${page.profile.birthYear}`
@@ -384,19 +384,19 @@ FeedPage {
                         visible: userDetailsSwitch.details == 3
 
                         Controls.TextField {
-                            Kirigami.FormData.label: "Computer"
+                            Kirigami.FormData.label: i18n("Computer")
                             visible: text != ""
                             readOnly: true
                             text: page.workspace.pc
                         }
                         Controls.TextField {
-                            Kirigami.FormData.label: "Software used"
+                            Kirigami.FormData.label: i18n("Software used")
                             visible: text != ""
                             readOnly: true
                             text: page.workspace.tool
                         }
                         Controls.TextField {
-                            Kirigami.FormData.label: "Graphic tablet"
+                            Kirigami.FormData.label: i18n("Graphic tablet")
                             visible: text != ""
                             readOnly: true
                             text: page.workspace.tablet
@@ -426,27 +426,27 @@ FeedPage {
 
         options: [
             {
-                label: "Illustrations",
+                label: i18n("Illustrations"),
                 value: "0"
             },
             {
-                label: "Manga",
+                label: i18n("Manga"),
                 value: "1"
             },
             {
-                label: "Manga series",
+                label: i18n("Manga series"),
                 value: "2"
             },
             {
-                label: "Novels",
+                label: i18n("Novels"),
                 value: "3"
             },
             {
-                label: "Illustrations / Manga (Bookmarks)",
+                label: i18n("Illustrations / Manga (Bookmarks)"),
                 value: "4"
             },
             {
-                label: "Novels (Bookmarks)",
+                label: i18n("Novels (Bookmarks)"),
                 value: "5"
             }
         ]

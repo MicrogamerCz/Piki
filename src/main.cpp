@@ -18,6 +18,7 @@
 #include "version-piki.h"
 #include <KAboutData>
 #include <KLocalizedContext>
+#include <KLocalizedQmlContext>
 #include <KLocalizedString>
 
 #include "pikiconfig.h"
@@ -83,10 +84,11 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("io.github.micro.piki", 1, 0, "Config", config);
 
     QQmlApplicationEngine engine;
+    KLocalization::setupLocalizedContext(&engine);
+    // engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     PixivNAMFactory *nam = new PixivNAMFactory;
     nam->cfg = config;
     engine.setNetworkAccessManagerFactory(nam);
-    engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.loadFromModule("io.github.micro.piki", u"Main");
 
     if (engine.rootObjects().isEmpty())

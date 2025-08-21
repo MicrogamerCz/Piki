@@ -9,7 +9,7 @@ import io.github.micro.piki
 Kirigami.Page {
     id: page
     padding: 0
-    title: "piki"
+    title: ""
 
     Component.onCompleted: {
         processor.AddInterceptor(profile);

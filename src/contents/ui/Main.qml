@@ -12,7 +12,7 @@ Kirigami.ApplicationWindow {
     id: root
     width: Kirigami.Settings.isMobile ? Kirigami.Units.gridUnit * 30 : Kirigami.Units.gridUnit * 55
     height: Kirigami.Settings.isMobile ? Kirigami.Units.gridUnit * 45 : Kirigami.Units.gridUnit * 40
-    title: "Piki"
+    title: i18n("Piki")
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 20
     pageStack.anchors.leftMargin: sidebar.x + 250
@@ -144,7 +144,7 @@ Kirigami.ApplicationWindow {
         function showNotification(job) {
             let type = String(job);
             if (type.startsWith("ClipboardJob"))
-                root.showPassiveNotification("Copied to clipoboard!");
+                root.showPassiveNotification(i18n("Copied to clipoboard!"));
         // else {
         //     print(JSON.stringify(job.data));
         //     print(JSON.stringify(job.output));

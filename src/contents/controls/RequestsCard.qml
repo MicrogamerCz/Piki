@@ -23,7 +23,7 @@ Controls.ItemDelegate {
         }
         Controls.Label {
             anchors.verticalCenter: parent.verticalCenter
-            text: "Accepting requests"
+            text: i18n("Accepting requests")
         }
     }
     background: Rectangle {

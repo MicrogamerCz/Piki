@@ -25,7 +25,7 @@ Kirigami.AbstractCard {
                 text: card.chapter.title
             }
             Controls.Label {
-                text: `${card.chapter.pageCount} ${card.chapter.pageCount > 1 ? "pages" : "page"}`
+                text: i18np("%1 page", "%1 pages", card.chapter.pageCount)
             }
         }
     }

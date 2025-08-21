@@ -30,10 +30,6 @@
             <label>Maximum Cache size in GiB (applies even to memory cache)</label>
             <default>8</default>
         </entry>
-        <entry name="enablePremiumSuggestions" type="bool">
-            <label>Enable pixiv Premium sidebar button and page banner. (can't be enabled when user is subscribed to pixiv Premium)</label>
-            <default>true</default>
-        </entry>
     </group>
     <group name="Defaults">
         <entry name="startupPage" type="Int">

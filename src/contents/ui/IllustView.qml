@@ -232,7 +232,7 @@ Kirigami.Page {
                             id: contextMenu
                             Kirigami.Action {
                                 enabled: !(Config.allowR18WorksAsWallpapers != 2 && page.illust.xRestrict > 0)
-                                text: "Set as wallpaper"
+                                text: i18n("Set as wallpaper")
                                 icon.name: "viewimage"
                                 onTriggered: wallpaperSelections.setup()
                             }
@@ -255,7 +255,7 @@ Kirigami.Page {
                                 visible: page.series.illustSeriesContext.next != null
                                 Kirigami.Heading {
                                     level: 2
-                                    text: "Next Chapter:"
+                                    text: i18n("Next Chapter:")
                                     color: Kirigami.Theme.disabledTextColor
                                 }
                                 SeriesChapterCard {
@@ -270,7 +270,7 @@ Kirigami.Page {
                                 visible: page.series.illustSeriesContext.prev != null
                                 Kirigami.Heading {
                                     level: 2
-                                    text: "Previous Chapter:"
+                                    text: i18n("Previous Chapter:")
                                     color: Kirigami.Theme.disabledTextColor
                                 }
                                 SeriesChapterCard {
@@ -285,7 +285,7 @@ Kirigami.Page {
                                 Controls.Button {
                                     Layout.fillWidth: true
                                     flat: true
-                                    text: checked ? "In your watchlist" : "Add to watchlist"
+                                    text: checked ? i18n("In your watchlist") : i18n("Add to watchlist")
                                     checkable: true
                                     checked: page.series.illustSeriesDetail.watchlistAdded
 
@@ -299,7 +299,7 @@ Kirigami.Page {
                                 Controls.Button {
                                     Layout.fillWidth: true
                                     flat: true
-                                    text: "Series"
+                                    text: i18n("Series")
 
                                     onClicked: {
                                         piqi.SeriesFeed(page.series.illustSeriesDetail.id).then(series => {

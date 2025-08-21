@@ -12,7 +12,7 @@ import "../controls/templates"
 
 FeedPage {
     id: page
-    title: `Bookmarks ・ ${categories.label}`
+    title: i18n("Bookmarks ・ %1", categories.label)
 
     property string tag: "All"
     onTagChanged: refresh()
@@ -68,7 +68,14 @@ FeedPage {
             onCurrentTextChanged: page.tag = currentText
             editable: true
             model: tags
-            displayText: (((currentText != "All") && (currentText != "Uncategorized")) ? "#" : "") + currentText
+            displayText: {
+                if (currentText == "All")
+                    return i18n("All");
+                else if (currentText != "Uncategorized")
+                    return i18n("Uncategorized");
+                else
+                    return "#" + currentText;
+            }
         },
         Controls.BusyIndicator {
             visible: page.loading
@@ -80,7 +87,7 @@ FeedPage {
             id: restrictions
             value: page.restrict
             onValueChanged: page.restrict = value
-            options: ["Public", "Private"]
+            options: [i18n("Public"), ("i18n")]
         }
     ]
     GridLayout {

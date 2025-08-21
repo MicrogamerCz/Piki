@@ -140,7 +140,7 @@ Kirigami.Page {
                         Layout.alignment: Qt.AlignHCenter
                         font.bold: true
                         font.pixelSize: 24
-                        text: "Welcome to piki"
+                        text: i18n("Welcome to piki")
                     }
                 }
             }
@@ -157,7 +157,7 @@ Kirigami.Page {
                     }
                     Controls.Label {
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Illustrations, manga, and novels.\nYou can find them all on pixiv."
+                        text: i18n("Illustrations, manga, and novels.\nYou can find them all on pixiv.")
                     }
                 }
             }
@@ -174,7 +174,7 @@ Kirigami.Page {
                     }
                     Controls.Label {
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Here, you are bound to find\nsomething you like."
+                        text: i18n("Here, you are bound to find\nsomething you like.")
                     }
                 }
             }
@@ -184,10 +184,10 @@ Kirigami.Page {
                     anchors.centerIn: parent
                     Controls.Label {
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Find something you like"
+                        text: i18n("Find something you like")
                     }
                     Controls.Button {
-                        text: "Login"
+                        text: i18n("Login")
                         onClicked: navigateToPage("Login")
                     }
                 }
@@ -206,7 +206,7 @@ Kirigami.Page {
 
             Controls.Button {
                 flat: true
-                text: "Skip"
+                text: i18n("Skip")
                 padding: 2
                 onClicked: view.currentIndex = view.count - 1
             }
@@ -218,7 +218,7 @@ Kirigami.Page {
             }
             Controls.Button {
                 flat: true
-                text: "Next"
+                text: i18n("Next")
                 padding: 2
                 Layout.alignment: Qt.AlignRight
                 onClicked: {

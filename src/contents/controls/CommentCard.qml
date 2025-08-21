@@ -58,7 +58,7 @@ Kirigami.AbstractCard {
                         Controls.Label {
                             id: authorLabel
                             anchors.centerIn: parent
-                            text: "Author"
+                            text: i18n("Author")
                             font.pointSize: 7
                             font.bold: true
                         }
@@ -88,7 +88,7 @@ Kirigami.AbstractCard {
                     }
                     Controls.Button {
                         flat: true
-                        text: "Reply"
+                        text: i18n("Reply")
                     }
                 }
             }

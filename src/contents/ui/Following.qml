@@ -11,7 +11,7 @@ import "../controls/templates"
 
 FeedPage {
     id: page
-    title: `Following ・ ${categories.label}`
+    title: i18n("Following ・ %1", categories.label)
 
     property bool isNovelCategory: false
     onIsNovelCategoryChanged: refresh()
@@ -41,7 +41,7 @@ FeedPage {
             id: categories
             value: page.isNovelCategory
             onValueChanged: page.isNovelCategory = value
-            options: ["Illustrations / Manga", "Novels"]
+            options: [i18n("Illustrations / Manga"), i18n("Novels")]
         },
         Controls.BusyIndicator {
             visible: page.loading
@@ -55,15 +55,15 @@ FeedPage {
             onValueChanged: page.restrict = value
             options: [
                 {
-                    label: "All",
+                    label: i18n("All"),
                     value: "all"
                 },
                 {
-                    label: "Public only",
+                    label: i18n("Public only"),
                     value: "public"
                 },
                 {
-                    label: "Private only",
+                    label: i18n("Private only"),
                     value: "private"
                 }
             ]

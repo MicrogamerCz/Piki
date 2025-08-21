@@ -14,5 +14,5 @@ import "../controls/templates"
 
 FeedPage {
     id: page
-    title: "History"
+    title: i18n("History")
 }

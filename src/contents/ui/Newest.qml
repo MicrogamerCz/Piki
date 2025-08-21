@@ -11,7 +11,7 @@ import "../controls/templates"
 
 FeedPage {
     id: page
-    title: `Newest ・ ${categories.label}`
+    title: i18n("Newest ・ %1", categories.label)
 
     property string category: "illust"
     onCategoryChanged: refresh()
@@ -42,15 +42,15 @@ FeedPage {
 
             options: [
                 {
-                    label: "Illustrations",
+                    label: i18n("Illustrations"),
                     value: "illust"
                 },
                 {
-                    label: "Manga",
+                    label: i18n("Manga"),
                     value: "manga"
                 },
                 {
-                    label: "Novel",
+                    label: i18n("Novel"),
                     value: "novel"
                 }
             ]

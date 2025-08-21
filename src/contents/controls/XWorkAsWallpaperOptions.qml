@@ -15,17 +15,17 @@ Form.FormRadioSelectorDelegate {
 
     actions: [
         Kirigami.Action {
-            text: !ct.isSettingsComponent ? "Yes" : "Always Ask"
+            text: !ct.isSettingsComponent ? i18n("Yes") : i18n("Always Ask")
         },
         Kirigami.Action {
-            text: "Yes (never show again)"
+            text: i18n("Yes (never show again)")
         },
         Kirigami.Action {
             visible: !ct.isSettingsComponent
-            text: "No"
+            text: i18n("No")
         },
         Kirigami.Action {
-            text: "No (disable for restricted works)"
+            text: i18n("No (disable for restricted works)")
         }
     ]
     onSelectedIndexChanged: {

@@ -70,7 +70,7 @@ Kirigami.AbstractCard {
             source: "comment-symbolic"
         }
         Controls.Label {
-            text: "Comments"
+            text: i18n("Comments")
             font.bold: true
             font.pointSize: 16
             Layout.alignment: Qt.AlignVCenter
