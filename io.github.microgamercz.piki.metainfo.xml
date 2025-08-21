@@ -11,8 +11,8 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
      <name>Micro</name>
    </developer>
 
-   <summary>Unofficial Pixiv app</summary>
-   <summary xml:lang="cs">Neoficiální pixiv aplikace</summary>
+   <summary>Browse illustrations and manga</summary>
+   <summary xml:lang="cs">Prohlížej kresby a manga komiksy</summary>
 
    <metadata_license>FSFAP</metadata_license>
    <project_license>GPL-3.0-or-later</project_license>
@@ -45,10 +45,10 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
    <description>
      <p>
-        Browse illustrations and read mangas or novels by talented artists and writers from Pixiv.
+        Browse illustrations and read mangas or novels by talented artists and writers on Pixiv, with a few additional features
      </p>
      <p xml:lang="cs">
-        Prohlížejte ilustrace nebo čtěte manga komiksy či novely od talentovaných umělců a spisovatelů na Pixivu.
+        Prohlížejte ilustrace, manga komiksy či novely od talentovaných umělců a spisovatelů na Pixivu.
      </p>
    </description>
 
@@ -56,12 +56,6 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
         type="desktop-id"
     >io.github.microgamercz.piki.desktop</launchable>
    <screenshots>
-     <screenshot type="default">
-       <image
-            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/1_welcome_light.png</image>
-        <caption
-            >Screen showing a welcome card in the center with automatically scrolling presentation of curated illustration works shown</caption>
-     </screenshot>
      <screenshot>
        <image
             >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/2_home_light.png</image>
@@ -79,17 +73,11 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
         <caption
             >Page showing basic user info (username, profile picture, who the user follows, whether is followed by the app user, ...) and additional details (their bio, personal details, setup) with a banner behind. Below are feeds for the user's posted works and public bookmarked works</caption>
      </screenshot>
-     <screenshot>
-       <image
-            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/5_search_with_tag_suggestions_light.png</image>
-        <caption
-            >Page showing work, with the contents on the left side and work info, other works by the author, comments and related works on the right side</caption>
-     </screenshot>
    </screenshots>
 
    <branding>
-     <color type="primary" scheme_preference="light">#99c1f1</color>
-     <color type="primary" scheme_preference="dark">#241f31</color>
+     <color type="primary" scheme_preference="light">#82deff</color>
+     <color type="primary" scheme_preference="dark">#186f9c</color>
    </branding>
 
    <releases>
