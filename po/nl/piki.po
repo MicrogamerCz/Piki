@@ -1,0 +1,496 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
+
+#: src/contents/controls/Sidebar.qml:88 src/contents/ui/Settings.qml:111
+msgid "Home"
+msgstr "Startpagina"
+
+#: src/contents/controls/Sidebar.qml:108
+#: src/contents/controls/IllustViewProfileCard.qml:39
+#: src/contents/ui/ProfileView.qml:167 src/contents/ui/ProfileView.qml:199
+#: src/contents/ui/Settings.qml:115
+msgid "Following"
+msgstr "Volgend"
+
+#: src/contents/controls/Sidebar.qml:123 src/contents/ui/Settings.qml:119
+msgid "Watchlist"
+msgstr "Volglijst"
+
+#: src/contents/controls/Sidebar.qml:138 src/contents/ui/Settings.qml:123
+msgid "My pixiv"
+msgstr "Mijn Pixiv"
+
+#: src/contents/controls/Sidebar.qml:145 src/contents/ui/Settings.qml:129
+#: src/contents/ui/Search.qml:74
+msgid "Newest"
+msgstr "Nieuwste"
+
+#: src/contents/controls/Sidebar.qml:166 src/contents/ui/Settings.qml:133
+msgid "Bookmarks"
+msgstr "Bladwijzers"
+
+#: src/contents/controls/Sidebar.qml:182 src/contents/ui/History.qml:17
+#: src/contents/ui/Settings.qml:137
+msgid "History"
+msgstr "Geschiedenis"
+
+#: src/contents/controls/Sidebar.qml:226 src/contents/ui/Settings.qml:15
+msgid "Settings"
+msgstr "Instellingen"
+
+#: src/contents/controls/AccountsManager.qml:14
+msgid "Accounts"
+msgstr "Accounts"
+
+#: src/contents/controls/AccountsManager.qml:64
+msgid "Add account"
+msgstr "Account toevoegen"
+
+#: src/contents/controls/RequestsCard.qml:26
+msgid "Accepting requests"
+msgstr "Volgverzoeken"
+
+#: src/contents/controls/templates/FeedPage.qml:87
+msgid "Failed to load"
+msgstr "Het laden is mislukt"
+
+#: src/contents/controls/SeriesChapterCard.qml:28
+msgid "%1 page"
+msgid_plural "%1 pages"
+msgstr[0] "%1 pagina"
+msgstr[1] "%1 pagina's"
+
+#: src/contents/controls/WallpaperSelections.qml:25
+msgid "Proceed"
+msgstr "Doorgaan"
+
+#: src/contents/controls/WallpaperSelections.qml:60
+msgid "R-18 work!"
+msgstr "R-18-werk!"
+
+#: src/contents/controls/WallpaperSelections.qml:65
+msgid ""
+"Warning! This work is marked as %1! Do you want to set this image as your "
+"wallpaper?"
+msgstr ""
+"Waarschuwing: dit werk is aangemerkt als ‘%1’. Weet je zeker dat je deze "
+"afbeelding als achtergrond wilt gebruiken?"
+
+#: src/contents/controls/WallpaperSelections.qml:86
+msgid "Which image should be used for the wallpaper?"
+msgstr "Welke afbeelding wil je als achtergrond gebruiken?"
+
+#: src/contents/controls/WallpaperSelections.qml:115
+msgid "Which monitor should have the wallpaper?"
+msgstr "Op welk beeldscherm wil je de achtergrond instellen?"
+
+#: src/contents/controls/IllustViewProfileCard.qml:39
+#: src/contents/ui/ProfileView.qml:199
+msgid "Follow"
+msgstr "Volgen"
+
+#: src/contents/controls/XWorkAsWallpaperOptions.qml:18
+msgid "Yes"
+msgstr "Ja"
+
+#: src/contents/controls/XWorkAsWallpaperOptions.qml:18
+msgid "Always Ask"
+msgstr "Altijd vragen"
+
+#: src/contents/controls/XWorkAsWallpaperOptions.qml:21
+msgid "Yes (never show again)"
+msgstr "Ja (nooit meer tonen)"
+
+#: src/contents/controls/XWorkAsWallpaperOptions.qml:25
+msgid "No"
+msgstr "Nee"
+
+#: src/contents/controls/XWorkAsWallpaperOptions.qml:28
+msgid "No (disable for restricted works)"
+msgstr "Nee (uitschakelen voor leeftijdsbeperkingen)"
+
+#: src/contents/controls/SeriesButton.qml:43
+msgid "%1 work"
+msgid_plural "%1 works"
+msgstr[0] "%1 werk"
+msgstr[1] "%1 werken"
+
+# TODO: opravit chybu u množného tvaru pro 5 a více částÍ :)
+#: src/contents/controls/CommentCard.qml:61
+msgid "Author"
+msgstr "Maker"
+
+#: src/contents/controls/CommentCard.qml:91
+msgid "Reply"
+msgstr "Beantwoorden"
+
+#: src/contents/controls/Header.qml:322
+msgid "Search..."
+msgstr "Zoeken…"
+
+#: src/contents/controls/CommentSection.qml:73
+msgid "Comments"
+msgstr "Reacties"
+
+#: src/contents/ui/Home.qml:16
+msgid "Home  %1"
+msgstr "Startpagina  %1"
+
+#: src/contents/ui/Home.qml:46 src/contents/ui/ProfileView.qml:429
+#: src/contents/ui/Newest.qml:45
+msgid "Illustrations"
+msgstr "Illustraties"
+
+#: src/contents/ui/Home.qml:50 src/contents/ui/ProfileView.qml:433
+#: src/contents/ui/Newest.qml:49 src/contents/ui/Watchlist.qml:41
+msgid "Manga"
+msgstr "Manga"
+
+#: src/contents/ui/Home.qml:54 src/contents/ui/Newest.qml:53
+#: src/contents/ui/Watchlist.qml:41
+msgid "Novel"
+msgstr "Roman"
+
+#: src/contents/ui/Home.qml:80
+msgid "Rankings"
+msgstr "Klassementen"
+
+#: src/contents/ui/Loading.qml:110
+msgid "Missing keyring"
+msgstr "Ontbrekende sleutelbos"
+
+#: src/contents/ui/Loading.qml:111
+msgid ""
+"Failed to open keyring implementing 'org.freedesktop.secrets' api (eg. "
+"KWallet, Gnome Keyring)\n"
+"Piki will work with a single account logged in, without storing session "
+"after Piki is closed"
+msgstr ""
+"De sleutelbosimplementatie ‘org.freedesktop.secrets’ (bijv. KWallet of GNOME "
+"Sleutelbos) kan niet worden geopend\n"
+"Inloggen in Piki werkt, maar de sessie wordt niet opgeslagen"
+
+#: src/contents/ui/IllustView.qml:235
+msgid "Set as wallpaper"
+msgstr "Instellen als achtergrond"
+
+#: src/contents/ui/IllustView.qml:258
+msgid "Next Chapter:"
+msgstr "Volgend hoofdstuk:"
+
+#: src/contents/ui/IllustView.qml:273
+msgid "Previous Chapter:"
+msgstr "Vorig hoofdstuk:"
+
+#: src/contents/ui/IllustView.qml:288 src/contents/ui/Series.qml:71
+msgid "In your watchlist"
+msgstr "Op volglijst"
+
+#: src/contents/ui/IllustView.qml:288 src/contents/ui/Series.qml:71
+msgid "Add to watchlist"
+msgstr "Toevoegen aan volglijst"
+
+#: src/contents/ui/IllustView.qml:302
+msgid "Series"
+msgstr "Serie"
+
+#: src/contents/ui/ProfileView.qml:210
+msgid "My pixiv request"
+msgstr "Mijn Pixiv-verzoek"
+
+#: src/contents/ui/ProfileView.qml:214
+msgid "Recommended Users"
+msgstr "Aanbevolen gebruikers"
+
+#: src/contents/ui/ProfileView.qml:349
+msgid "Gender"
+msgstr "Geslacht"
+
+#: src/contents/ui/ProfileView.qml:360
+msgid "Male"
+msgstr "Man"
+
+#: src/contents/ui/ProfileView.qml:362
+msgid "Female"
+msgstr "Vrouw"
+
+#: src/contents/ui/ProfileView.qml:369
+msgid "Age"
+msgstr "Leeftijd"
+
+#: src/contents/ui/ProfileView.qml:375
+msgid "Birthday"
+msgstr "Verjaardag"
+
+#: src/contents/ui/ProfileView.qml:387
+msgid "Computer"
+msgstr "Computer"
+
+#: src/contents/ui/ProfileView.qml:393
+msgid "Software used"
+msgstr "Gebruikte software"
+
+#: src/contents/ui/ProfileView.qml:399
+msgid "Graphic tablet"
+msgstr "Tekentablet"
+
+#: src/contents/ui/ProfileView.qml:437
+msgid "Manga series"
+msgstr "Mangaserie"
+
+#: src/contents/ui/ProfileView.qml:441 src/contents/ui/Following.qml:44
+msgid "Novels"
+msgstr "Romans"
+
+#: src/contents/ui/ProfileView.qml:445
+msgid "Illustrations / Manga (Bookmarks)"
+msgstr "Illustraties/Manga (bladwijzers)"
+
+#: src/contents/ui/ProfileView.qml:449
+msgid "Novels (Bookmarks)"
+msgstr "Romans (bladwijzers)"
+
+#: src/contents/ui/Settings.qml:16
+msgid "Permanent cache is disabled"
+msgstr "Permanente cache is uitgeschakeld"
+
+#: src/contents/ui/Settings.qml:16
+msgid ""
+"Only the image variant with the highest definition is cached permanently"
+msgstr "Alleen de afbeelding met de hoogste resolutie wordt permanent bewaard"
+
+#: src/contents/ui/Settings.qml:16
+msgid "All images are cached"
+msgstr "Alle afbeeldingen zijn gecachet"
+
+#: src/contents/ui/Settings.qml:16
+msgid "All images, and illust/profile data is cached"
+msgstr "Alle afbeeldingen, illustraties en profielinformatie zijn gecachet"
+
+#: src/contents/ui/Settings.qml:20
+msgid "General"
+msgstr "Algemeen"
+
+#: src/contents/ui/Settings.qml:26
+msgid "Cache level"
+msgstr "Cacheniveau"
+
+#: src/contents/ui/Settings.qml:30
+msgid "None"
+msgstr "Uitschakelen"
+
+#: src/contents/ui/Settings.qml:38
+msgid "Optimised"
+msgstr "Optimaliseren"
+
+#: src/contents/ui/Settings.qml:46
+msgid "Images"
+msgstr "Afbeeldingen"
+
+#: src/contents/ui/Settings.qml:54
+msgid "Everything"
+msgstr "Alles"
+
+#: src/contents/ui/Settings.qml:73
+msgid "Maximum cache size"
+msgstr "Maximale cacheomvang"
+
+#: src/contents/ui/Settings.qml:94
+msgid "Unlimited"
+msgstr "Onbeperkt"
+
+#: src/contents/ui/Settings.qml:103
+msgid "Defaults"
+msgstr "Standaardwaarden"
+
+#: src/contents/ui/Settings.qml:108
+msgid "Startup page"
+msgstr "Openen na opstarten"
+
+#: src/contents/ui/Settings.qml:152
+msgid "R-18/R-18G wallpapers"
+msgstr "R-18-/R-18G-achtergronden"
+
+#: src/contents/ui/Settings.qml:153
+msgid "Default settings for 'Set wallpaper' behaviour for age restricted works"
+msgstr ""
+"De standaardinstellingen van de optie ‘Instellen als achtergrond’ bij werken "
+"met leeftijdsbeperkingen"
+
+#: src/contents/ui/Search.qml:78
+msgid "Popular"
+msgstr "Populair"
+
+#: src/contents/ui/Search.qml:82
+msgid "Oldest"
+msgstr "Oudste"
+
+#: src/contents/ui/Search.qml:98
+msgid "Partial tag match"
+msgstr "Deels overeenkomend label"
+
+#: src/contents/ui/Search.qml:102
+msgid "Perfect tag match"
+msgstr "Overeenkomend label"
+
+#: src/contents/ui/Search.qml:106
+msgid "Title, description"
+msgstr "Titel, beschrijving"
+
+#: src/contents/ui/Search.qml:120
+msgid "All periods"
+msgstr "Aller tijden"
+
+#: src/contents/ui/Search.qml:124
+msgid "24 hours"
+msgstr "24 uur"
+
+#: src/contents/ui/Search.qml:128
+msgid "One Week"
+msgstr "Eén week"
+
+#: src/contents/ui/Search.qml:132
+msgid "One Month"
+msgstr "Eén maand"
+
+#: src/contents/ui/Search.qml:136
+msgid "6 Months"
+msgstr "6 maanden"
+
+#: src/contents/ui/Search.qml:140
+msgid "One Year"
+msgstr "Eén jaar"
+
+#: src/contents/ui/Search.qml:144
+msgid "Indicate Date"
+msgstr "Datum aangeven"
+
+#: src/contents/ui/Search.qml:180
+msgid "Limited search by popularity"
+msgstr "Zoekopdracht beperkt op populariteit"
+
+#: src/contents/ui/Newest.qml:14
+msgid "Newest  %1"
+msgstr "Nieuwste  %1"
+
+#: src/contents/ui/Series.qml:16
+msgid "Series  %1"
+msgstr "Serie  %1"
+
+#: src/contents/ui/Welcome.qml:143
+msgid "Welcome to piki"
+msgstr "Welkom in Piki"
+
+#: src/contents/ui/Welcome.qml:160
+msgid ""
+"Illustrations, manga, and novels.\n"
+"You can find them all on pixiv."
+msgstr ""
+"Illustraties, manga en romans.\n"
+"Je vindt ze allemaal op Pixiv."
+
+#: src/contents/ui/Welcome.qml:177
+msgid ""
+"Here, you are bound to find\n"
+"something you like."
+msgstr ""
+"Hier vind je geheid iets dat je\n"
+"leuk vindt."
+
+#: src/contents/ui/Welcome.qml:187
+msgid "Find something you like"
+msgstr "Leuke dingen te over"
+
+#: src/contents/ui/Welcome.qml:190
+msgid "Login"
+msgstr "Inloggen"
+
+#: src/contents/ui/Welcome.qml:209
+msgid "Skip"
+msgstr "Overslaan"
+
+#: src/contents/ui/Welcome.qml:221
+msgid "Next"
+msgstr "Volgende"
+
+#: src/contents/ui/Collection.qml:15
+msgid "Bookmarks  %1"
+msgstr "Bladwijzers  %1"
+
+#: src/contents/ui/Collection.qml:73 src/contents/ui/Following.qml:58
+msgid "All"
+msgstr "Alle"
+
+#: src/contents/ui/Collection.qml:75
+msgid "Uncategorized"
+msgstr "Ongecategoriseerd"
+
+#: src/contents/ui/Collection.qml:90
+msgid "Public"
+msgstr "Openbaar"
+
+#: src/contents/ui/Main.qml:15
+msgid "Piki"
+msgstr "Piki"
+
+#: src/contents/ui/Main.qml:142
+msgid "Copied to clipoboard!"
+msgstr "Gekopieerd naar het klembord!"
+
+#: src/contents/ui/Following.qml:14
+msgid "Following  %1"
+msgstr "Je volgt  %1"
+
+#: src/contents/ui/Following.qml:44
+msgid "Illustrations / Manga"
+msgstr "Illustraties/Manga"
+
+#: src/contents/ui/Following.qml:62
+msgid "Public only"
+msgstr "Alleen openbare"
+
+#: src/contents/ui/Following.qml:66
+msgid "Private only"
+msgstr "Alleen privé"
+
+#: src/contents/ui/Watchlist.qml:16
+msgid "Watchlist  %1"
+msgstr "Volglijst  %1"
+
+#: src/main.cpp:64
+msgctxt "@title"
+msgid "Piki"
+msgstr "Piki"
+
+#: src/main.cpp:68
+msgid "Application Description"
+msgstr "Programmabeschrijving"
+
+#: src/main.cpp:72
+msgid "(c) 2025"
+msgstr "(c) 2025"
+
+#: src/main.cpp:73
+msgctxt "@info:credit"
+msgid "Micro"
+msgstr "Micro"
+
+#: src/main.cpp:74
+msgctxt "@info:credit"
+msgid "Maintainer"
+msgstr "Beheerder"
