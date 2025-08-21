@@ -21,30 +21,12 @@ Unofficial Kirigami client for Pixiv.
 
 ## Installation
 
-### Packages
-
-#### Flatpak
-
 ```sh
+# Flatpak
 flatpak install io.github.microgamercz.piki
-```
 
-#### AUR
-```sh
+# Arch (via AUR)
 yay -S piki-git
-```
-
-### Manual
-**Important!** You need to clone the entire repo. Piqi is shipped as a git submodule
-
-```sh
-# Arch deps
-yay -S piqi-git kirigami-addons qt6-webview qt6-keychain ki18n extra_cmake_modules kconfig futuresql qcoro
-
-mkdir build && cd build
-cmake ..
-make # use -j<threads> for faster compilation
-sudo make install
 ```
 
 ---
@@ -75,7 +57,6 @@ Code/translation contributions are welcome, as well as independent testing.
 
 # (A lot of) TODOs
 - General
-  - [ ] Localisation
   - [ ] Improve performance (especially after navigating a few feed pages)
   - [ ] Network error handling - either with passive notifications or dialogs
   - [ ] Splitting Header and Search field
