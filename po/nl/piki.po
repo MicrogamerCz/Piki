@@ -1,6 +1,6 @@
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2025
 # This file is distributed under the same license as the PACKAGE package.
-# SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
+# SPDX-FileCopyrightText: 2025 Heimen Stoffels <vistausss@fastmail.com>
 #
 msgid ""
 msgstr ""

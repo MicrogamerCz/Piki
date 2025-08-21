@@ -1,4 +1,4 @@
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2025
 # This file is distributed under the same license as the PACKAGE package.
 # SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 #
@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: piki\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-20 11:19+0200\n"
-"PO-Revision-Date: 2025-08-21 HO:MI+ZONE\n"
+"POT-Creation-Date: 2025-08-20\n"
+"PO-Revision-Date: 2025-08-21\n"
 "Last-Translator: Micro <microgamercz@proton.me>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"

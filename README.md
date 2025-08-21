@@ -54,7 +54,9 @@ sudo make install
 Code/translation contributions are welcome, as well as independent testing.
 
 ### Translations
-TBD
+
+- Czech
+- Dutch (by @Vistaus)
 
 ---
 
