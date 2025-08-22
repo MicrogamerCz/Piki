@@ -480,3 +480,13 @@ msgstr "Micro"
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "Správce"
+
+#: src/main.cpp:78
+msgctxt "@info:translator"
+msgid "Micro"
+msgstr "Micro"
+
+#: src/main.cpp:78
+msgctxt "@info:translator"
+msgid "microgamercz@proton.me"
+msgstr "microgamercz@proton.me"

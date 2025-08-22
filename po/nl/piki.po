@@ -494,3 +494,13 @@ msgstr "Micro"
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "Beheerder"
+
+#: src/main.cpp:78
+msgctxt "@info:translator"
+msgid "Micro"
+msgstr "Heimen Stoffels"
+
+#: src/main.cpp:78
+msgctxt "@info:translator"
+msgid "microgamercz@proton.me"
+msgstr "vistausss@fastmail.com"

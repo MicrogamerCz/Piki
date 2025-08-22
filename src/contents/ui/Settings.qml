@@ -8,6 +8,7 @@ import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 import org.kde.kirigamiaddons.formcard as FormCard
+import org.kde.coreaddons
 import io.github.micro.piki
 
 FormCard.FormCardPage {
@@ -156,5 +157,38 @@ FormCard.FormCardPage {
             isSettingsComponent: true
             selectedIndex: (Config.allowR18WorksAsWallpapers <= 1) ? Config.allowR18WorksAsWallpapers : (Config.allowR18WorksAsWallpapers + 1)
         }
+    }
+    FormCard.FormHeader {
+        maximumWidth: Kirigami.Units.gridUnit * 50
+        title: "About"
+    }
+    FormCard.FormCard {
+        maximumWidth: Kirigami.Units.gridUnit * 50
+
+        FormCard.FormButtonDelegate {
+            text: "About Piki"
+            icon.name: "io.github.microgamercz.piki"
+            onClicked: aboutPikiDialog.open()
+        }
+        FormCard.FormButtonDelegate {
+            text: "About KDE"
+            icon.name: "kde"
+            onClicked: aboutKDEDialog.open()
+        }
+    }
+
+    Kirigami.Dialog {
+        id: aboutPikiDialog
+        width: Kirigami.Units.gridUnit * 30
+
+        FormCard.AboutPage {
+            aboutData: AboutData
+        }
+    }
+    Kirigami.Dialog {
+        id: aboutKDEDialog
+        width: Kirigami.Units.gridUnit * 30
+
+        FormCard.AboutKDEPage {}
     }
 }

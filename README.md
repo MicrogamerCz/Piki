@@ -38,7 +38,7 @@ Code/translation contributions are welcome, as well as independent testing.
 ### Translations
 
 - Czech
-- Dutch (by @Vistaus)
+- Dutch (by [Vistaus](https://github.com/Vistaus))
 
 ---
 
@@ -91,5 +91,4 @@ Code/translation contributions are welcome, as well as independent testing.
   - [ ] Deleting Comments
   - [ ] Parsing pixiv emojies into Unicode or freedesktop icon emojis
 - Settings
-  - [ ] Add button for About Piki and About KDE pages
   - [ ] Add individual account settings

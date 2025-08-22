@@ -64,8 +64,6 @@ ecm_add_qml_module(piki_st
         contents/assets/pixivLogo2025.svg
         contents/assets/favorites-symbolic.svg
         contents/assets/folder-paint-symbolic.svg
-        contents/assets/premium_1.svg
-        contents/assets/premium_2.svg
     OUTPUT_DIRECTORY
         "${CMAKE_BINARY_DIR}/io/github/micro/piki"
 )

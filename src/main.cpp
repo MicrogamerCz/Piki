@@ -75,7 +75,8 @@ int main(int argc, char *argv[])
                         i18nc("@info:credit", "Maintainer"),
                         u"microgamercz@proton.me"_s);
                         // u"https://yourwebsite.com"_s);
-    // aboutData.setTranslator(i18nc("NAME OF TRANSLATORS", "Your names"), i18nc("EMAIL OF TRANSLATORS", "Your emails"));
+
+    aboutData.setTranslator(i18nc("@info:translator", "Micro"), i18nc("@info:translator", "microgamercz@proton.me"));
     KAboutData::setApplicationData(aboutData);
     QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.microgamercz.piki"_s));
     // QGuiApplication::setWindowIcon(QIcon("io/github/micro/piki/contents/assets/io.github.micro.piki.svg"));
@@ -85,7 +86,6 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     KLocalization::setupLocalizedContext(&engine);
-    // engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     PixivNAMFactory *nam = new PixivNAMFactory;
     nam->cfg = config;
     engine.setNetworkAccessManagerFactory(nam);
