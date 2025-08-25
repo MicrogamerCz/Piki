@@ -13,7 +13,7 @@ Kirigami.AbstractCard {
     property int commentCount: 0
     property bool collapsed: true
 
-    Component.onCompleted: piqi.IllustComments(illust).then(comments => processComments(comments, 0, null))
+    Component.onCompleted: illust.FetchComments().then(comments => processComments(comments, 0, null))
 
     function processComments(comments, level, previous) {
         for (let i = 0; i < comments.comments.length; i++) {

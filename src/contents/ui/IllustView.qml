@@ -201,15 +201,15 @@ Kirigami.Page {
 
                                     onTriggered: {
                                         if (page.illust.isBookmarked == 0)
-                                            piqi.AddBookmark(page.illust, false);
+                                            page.illust.AddBookmark(false);
                                         else
-                                            piqi.RemoveBookmark(page.illust);
+                                            page.illust.RemoveBookmark(page.illust);
                                     }
                                 },
                                 Kirigami.Action {
                                     icon.name: "view-private"
 
-                                    onTriggered: piqi.AddBookmark(page.illust, page.illust.isBookmarked < 2)
+                                    onTriggered: page.illust.AddBookmark(page.illust.isBookmarked < 2)
                                 },
                                 Kirigami.Action {
                                     separator: true
