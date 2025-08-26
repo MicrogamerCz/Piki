@@ -47,13 +47,13 @@ FeedPage {
         page.loading = true;
 
         if (sorting == "popular")
-            piqi.SearchPopularPreview(searchRequest).then(sr => {
+            searchRequest.SearchPopularPreview().then(sr => {
                 Cache.SynchroniseIllusts(sr.illusts);
                 loading = false;
                 feed = sr;
             });
         else
-            piqi.Search(searchRequest).then(sr => {
+            searchRequest.Search().then(sr => {
                 Cache.SynchroniseIllusts(sr.illusts);
                 loading = false;
                 feed = sr;

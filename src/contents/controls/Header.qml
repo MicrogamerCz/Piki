@@ -68,7 +68,7 @@ Item {
         let obj = comp.createObject();
         obj.SetTags(selectedTags);
         Cache.PushTagHistory(obj.tags);
-        piqi.Search(obj).then(sr => {
+        obj.Search().then(sr => {
             Cache.SynchroniseIllusts(sr.illusts);
             searchField.loading = false;
             navigateToPageParm("Search", {
