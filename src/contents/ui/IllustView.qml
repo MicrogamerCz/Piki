@@ -291,9 +291,9 @@ Kirigami.Page {
 
                                     onClicked: {
                                         if (checked)
-                                            piqi.WatchlistAdd(page.series.illustSeriesDetail, "manga");
+                                            page.series.illustSeriesDetail.WatchlistAdd();
                                         else
-                                            piqi.WatchlistAdd(page.series.illustSeriesDetail, "manga");
+                                            page.series.illustSeriesDetail.WatchlistDelete();
                                     }
                                 }
                                 Controls.Button {

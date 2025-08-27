@@ -74,9 +74,9 @@ FeedPage {
 
                         onClicked: {
                             if (checked)
-                                piqi.WatchlistAdd(page.feed.illustSeriesDetail, "manga");
+                                page.feed.illustSeriesDetail.WatchlistAdd();
                             else
-                                piqi.WatchlistAdd(page.feed.illustSeriesDetail, "manga");
+                                page.feed.illustSeriesDetail.WatchlistDelete();
                         }
                     }
                     Controls.Button {
