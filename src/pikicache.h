@@ -46,7 +46,7 @@ class Cache : public QObject
 
 public:
     Cache(QObject *parent = nullptr);
-    QCoro::Task<QList<User *>> ReadUserCache();
+    QCoro::Task<QList<User *>> ReadUserCache(QString excludedUser = "");
     QCoro::Task<> WriteUserToCache(User *user);
     QCoro::Task<> DeleteUserFromCache(User *user);
     Q_SLOT QCoro::QmlTask Setup();

@@ -48,7 +48,7 @@ QCoro::Task<> LoginHandler::WritePassword(QString key, QString password)
     writeJob.setTextData(password);
     writeJob.setAutoDelete(true);
     writeJob.start();
-    co_await qCoro(&writeJob, &QKeychain::ReadPasswordJob::finished);
+    co_await qCoro(&writeJob, &QKeychain::WritePasswordJob::finished);
 }
 
 QCoro::Task<QString> LoginHandler::GetUser()
@@ -62,9 +62,7 @@ QCoro::QmlTask LoginHandler::SetUser(QString username)
 QCoro::Task<> LoginHandler::SetUserTask(QString username)
 {
     co_await WritePassword("current_user", username);
-
-    if (m_keyringProviderInstalled)
-        co_await RefreshOtherUsersTask();
+    co_await RefreshOtherUsersTask();
 }
 
 QCoro::QmlTask LoginHandler::GetToken()
@@ -102,24 +100,15 @@ QCoro::Task<> LoginHandler::SetCacheIfNotExistsTask(Cache *cache)
     if (!pkc)
         pkc = cache;
 
-    if (m_keyringProviderInstalled)
-        co_await RefreshOtherUsersTask();
+    co_await RefreshOtherUsersTask();
 }
 
 QCoro::Task<void> LoginHandler::RefreshOtherUsersTask()
 {
     if (!m_keyringProviderInstalled)
         co_return;
-    m_otherUsers = co_await pkc->ReadUserCache();
-    QString currentAccount = co_await GetUser();
-    int i = 0;
-    for (i = 0; i < m_otherUsers.length(); i++) {
-        User *u = m_otherUsers[i];
-        if (u->m_account == currentAccount)
-            break;
-    }
-    if (i < m_otherUsers.length())
-        m_otherUsers.remove(i);
+    QString currentUser = co_await GetUser();
+    m_otherUsers = co_await pkc->ReadUserCache(currentUser);
     Q_EMIT otherUsersChanged();
 }
 

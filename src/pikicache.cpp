@@ -110,10 +110,11 @@ void Cache::SynchroniseIllusts(QList<Illustration *> illusts)
     }
 }
 
-QCoro::Task<QList<User *>> Cache::ReadUserCache()
+QCoro::Task<QList<User *>> Cache::ReadUserCache(QString excludedUser)
 {
+    qDebug() << "Excluded user:" << excludedUser;
     QList<User *> users;
-    std::vector<UserResult> results = co_await database->getResults<UserResult>("SELECT * FROM accounts");
+    std::vector<UserResult> results = co_await database->getResults<UserResult>("SELECT * FROM accounts WHERE (accounts.account != ?)", excludedUser);
     for (UserResult result : results) {
         User *u = new User;
         u->m_id = result.id;
