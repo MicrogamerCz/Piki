@@ -2,6 +2,8 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 import io.github.micro.piki
 
@@ -26,7 +28,14 @@ Kirigami.Page {
     }
 
     function diverge(result) {
-        if (!result) {
+        if (result.StatusCode == 0) {
+            reconnectionInterval.level = 5;
+            reconnectionInterval.start();
+            noConnectionDialog.open();
+        }
+        if (noConnectionDialog.opened)
+            noConnectionDialog.close();
+        if (!result.IsSuccessful) {
             pushWalkthough();
             return;
         }
@@ -107,6 +116,41 @@ Kirigami.Page {
         });
     }
 
+    Kirigami.Dialog {
+        id: noConnectionDialog
+        title: i18n("Failed to connect")
+        standardButtons: Kirigami.Dialog.Ok | Kirigami.Dialog.Cancel
+        showCloseButton: false
+        onRejected: root.close()
+        padding: Kirigami.Units.gridUnit
+
+        contentItem: ColumnLayout {
+            anchors.centerIn: parent
+
+            Controls.Label {
+                text: i18n("Failed to connect. Piki will try again in a few seconds")
+            }
+            Kirigami.Heading {
+                text: (reconnectionInterval.level > 0) ? reconnectionInterval.level : "Trying to connect..."
+
+                Timer {
+                    id: reconnectionInterval
+                    running: false
+                    interval: 1000
+                    onTriggered: level--
+                    repeat: true
+
+                    property int level: 5
+                    onLevelChanged: {
+                        if (level == 0) {
+                            page.beginLoginProcess();
+                            stop();
+                        }
+                    }
+                }
+            }
+        }
+    }
     Kirigami.PromptDialog {
         id: missingSecretsProviderDialog
         title: i18n("Missing keyring")
