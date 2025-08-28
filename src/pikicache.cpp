@@ -45,14 +45,7 @@ Cache::Cache(QObject *parent)
 
 QCoro::QmlTask Cache::Setup()
 {
-    return SetupTask();
-}
-QCoro::Task<void> Cache::SetupTask()
-{
-    co_await database->execute("CREATE TABLE IF NOT EXISTS tags (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE, translated TEXT)");
-    co_await database->execute(
-        "CREATE TABLE IF NOT EXISTS tags_history (tag_id INTEGER PRIMARY KEY, frequency INTEGER DEFAULT 1, FOREIGN KEY(tag_id) REFERENCES tags(id));");
-    co_await database->execute("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY, name TEXT, account TEXT, pfp TEXT);");
+    return database->runMigrations(":/qt/qml/io/github/micro/piki/contents/migrations/");
 }
 
 QCoro::QmlTask Cache::PushTagHistory(QList<Tag *> tags)

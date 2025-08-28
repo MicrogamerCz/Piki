@@ -42,7 +42,6 @@ class Cache : public QObject
     std::unique_ptr<ThreadedDatabase> database;
     QHash<int, Illustration *> illustCache;
     QCoro::Task<void> PushTagHistoryTask(QList<Tag *> tags);
-    QCoro::Task<void> SetupTask();
     QCoro::Task<QList<Tag *>> GetTagHistoryTask();
 
 public:
