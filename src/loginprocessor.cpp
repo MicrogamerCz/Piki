@@ -5,6 +5,7 @@
 #include <QNetworkReply>
 #include <QRandomGenerator>
 #include <QUrlQuery>
+#include <qurlquery.h>
 
 #ifndef Q_OS_ANDROID
 void LoginProcessor::AddInterceptor(QQuickWebEngineProfile* profile) {
@@ -42,8 +43,9 @@ QUrl LoginProcessor::Begin() {
     return url;
 }
 void LoginProcessor::Finish(QString code) {
-#ifdef Q_OS_ANDROID
-    // TODO: Take code from URL in this section or in code when Piki is activated from browser
+#ifndef Q_OS_ANDROID
+    QUrlQuery codeUrlQuery((QUrl(code)));
+    code = codeUrlQuery.queryItemValue("code");
 #endif
 
     QNetworkRequest request((QUrl("https://oauth.secure.pixiv.net/auth/token")));
