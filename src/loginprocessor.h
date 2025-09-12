@@ -3,9 +3,9 @@
 
 #pragma once
 #include <QNetworkAccessManager>
-#include <QQuickWebEngineProfile>
 
 #ifndef Q_OS_ANDROID
+#include <QQuickWebEngineProfile>
 #include <QWebEngineUrlRequestInterceptor>
 #endif
 

@@ -31,7 +31,7 @@ DoubleAbstractCard {
                 illust: card.illust
             });
         else
-            piqi.FetchNovel(illust).then(nv => navigateToPageParm("NovelView", {
+            piqi.FetchNovel(illust).then(nv => navigateToPageParm((Qt.platform.os == "android") ? "NovelView_Android" : "NovelView", {
                     novel: nv
                 }));
     }
