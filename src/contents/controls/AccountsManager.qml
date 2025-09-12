@@ -65,7 +65,10 @@ Kirigami.Dialog {
                 }
             }
             onClicked: {
-                navigateToPage("Login");
+                if (Qt.platform.os == "android")
+                    navigateToPage("Login_Android");
+                else
+                    navigateToPage("Login");
                 accountDialog.close();
             }
         }

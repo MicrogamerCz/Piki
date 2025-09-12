@@ -14,6 +14,7 @@
 #include <QQmlContext>
 #include <QQuickStyle>
 #include <QUrl>
+#include <QtWebView/QtWebView>
 
 #include "version-piki.h"
 #include <KAboutData>
@@ -32,6 +33,7 @@ Q_DECL_EXPORT
 int main(int argc, char *argv[])
 {
 #ifdef Q_OS_ANDROID
+    QtWebView::initialize();
     QGuiApplication app(argc, argv);
     QQuickStyle::setStyle(QStringLiteral("org.kde.breeze"));
 #else

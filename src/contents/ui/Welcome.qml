@@ -188,7 +188,12 @@ Kirigami.Page {
                     }
                     Controls.Button {
                         text: i18n("Login")
-                        onClicked: navigateToPage("Login")
+                        onClicked: {
+                            if (Qt.platform.os == "android")
+                                navigateToPage("Login_Android");
+                            else
+                                navigateToPage("Login");
+                        }
                     }
                 }
             }

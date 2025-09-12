@@ -12,6 +12,7 @@ ecm_add_qml_module(piki_st
         contents/ui/Main.qml
         contents/ui/Loading.qml
         contents/ui/Login.qml
+        contents/ui/Login_Android.qml
         contents/ui/Home.qml
         contents/ui/Settings.qml
         contents/ui/Following.qml
@@ -73,7 +74,7 @@ target_compile_options (piki_st PUBLIC -fexceptions)
 
 target_link_libraries(piki_st PUBLIC
     Qt6::QuickControls2
-    Qt6::WebEngineQuick
+    Qt6::${QT_WEBVIEW}
     ${QTKEYCHAIN_LIBRARIES}
     KF6::I18n
     KF6::I18nQml

@@ -41,11 +41,14 @@ ecm_setup_version(${PROJECT_VERSION}
 )
 
 set(QT_EXTRA_COMPONENTS)
-if (NOT ANDROID)
-    list(APPEND QT_EXTRA_COMPONENTS Widgets)
+if (ANDROID)
+    set(QT_WEBVIEW WebView)
+else()
+    set(QT_WEBVIEW WebEngineQuick)
+    list(APPEND QT_EXTRA_COMPONENTS Widgets WebEngineQuick)
 endif()
 
-find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS Gui QuickControls2 Svg WebEngineQuick ShaderTools ${QT_EXTRA_COMPONENTS})
+find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS Gui QuickControls2 Svg ShaderTools ${QT_EXTRA_COMPONENTS} ${QT_WEBVIEW})
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Kirigami KirigamiPlatform CoreAddons Config I18n Purpose)
 find_package(FutureSQL6)
 find_package(Qt6Keychain)

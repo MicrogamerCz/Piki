@@ -2,18 +2,14 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #pragma once
-#include <qcontainerfwd.h>
-#include <qnetworkaccessmanager.h>
-#include <qnetworkreply.h>
-#include <qobject.h>
-#include <qqmlintegration.h>
-#include <qquickwebengineprofile.h>
-#include <qtmetamacros.h>
-#include <qurl.h>
-#include <QWebEngineUrlRequestInterceptor>
+#include <QNetworkAccessManager>
 #include <QQuickWebEngineProfile>
-#include <qwebengineurlrequestinterceptor.h>
 
+#ifndef Q_OS_ANDROID
+#include <QWebEngineUrlRequestInterceptor>
+#endif
+
+#ifndef Q_OS_ANDROID
 class PixivInterceptor : public QWebEngineUrlRequestInterceptor
 {
     Q_OBJECT
@@ -22,20 +18,28 @@ class PixivInterceptor : public QWebEngineUrlRequestInterceptor
         void interceptRequest(QWebEngineUrlRequestInfo &info) override;
         Q_SIGNAL void callbackFound(QString code);
 };
+#endif
 class LoginProcessor : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
 
     QNetworkAccessManager manager;
-    PixivInterceptor interceptor;
     QString codeVerifier = "";
 
+#ifndef Q_OS_ANDROID
+    PixivInterceptor interceptor;
+#else
+public
+    Q_SLOT
+#endif
     void Finish(QString code);
 
     public:
         void CodeRecieved(QNetworkReply* reply);
+#ifndef Q_OS_ANDROID
         Q_SLOT void AddInterceptor(QQuickWebEngineProfile* profile);
+#endif
         Q_SLOT QUrl Begin();
         Q_SIGNAL void loggedIn(QString response);
 };

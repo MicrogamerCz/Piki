@@ -2,25 +2,25 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #include "loginprocessor.h"
-#include <qcborvalue.h>
+#include <QNetworkReply>
 #include <QRandomGenerator>
-#include <qcontainerfwd.h>
-#include <qcryptographichash.h>
-#include <qjsondocument.h>
-#include <qjsonobject.h>
-#include <qnetworkaccessmanager.h>
-#include <qnetworkreply.h>
-#include <qnetworkrequest.h>
-#include <qquickwebengineprofile.h>
-#include <qtmetamacros.h>
-#include <qurl.h>
-#include <qurlquery.h>
-#include <qwebengineurlrequestinfo.h>
+#include <QUrlQuery>
 
+#ifndef Q_OS_ANDROID
 void LoginProcessor::AddInterceptor(QQuickWebEngineProfile* profile) {
     connect(&interceptor, &PixivInterceptor::callbackFound, this, &LoginProcessor::Finish);
     profile->setUrlRequestInterceptor(&interceptor);
 }
+void PixivInterceptor::interceptRequest(QWebEngineUrlRequestInfo &info)
+{
+    QUrl url = info.requestUrl();
+    if (!url.toString().startsWith("https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback"))
+        return;
+
+    QUrlQuery query(url);
+    Q_EMIT callbackFound(query.queryItemValue("code"));
+}
+#endif
 QUrl LoginProcessor::Begin() {
     const QString chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
 
@@ -42,6 +42,10 @@ QUrl LoginProcessor::Begin() {
     return url;
 }
 void LoginProcessor::Finish(QString code) {
+#ifdef Q_OS_ANDROID
+    // TODO: Take code from URL in this section or in code when Piki is activated from browser
+#endif
+
     QNetworkRequest request((QUrl("https://oauth.secure.pixiv.net/auth/token")));
     request.setHeader(QNetworkRequest::UserAgentHeader, "PixivAndroidApp/5.0.234 (Android 11; Pixel 5)");
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -59,11 +63,4 @@ void LoginProcessor::Finish(QString code) {
 }
 void LoginProcessor::CodeRecieved(QNetworkReply* reply) {
     Q_EMIT loggedIn(reply->readAll());
-}
-void PixivInterceptor::interceptRequest(QWebEngineUrlRequestInfo &info) {
-    QUrl url = info.requestUrl();
-    if (!url.toString().startsWith("https://app-api.pixiv.net/web/v1/users/auth/pixiv/callback")) return;
-
-    QUrlQuery query(url);
-    Q_EMIT callbackFound(query.queryItemValue("code"));
 }
