@@ -25,12 +25,19 @@ Unofficial Kirigami client for Pixiv.
 # Flatpak
 flatpak install io.github.microgamercz.piki
 
+# ---------------
+
 # Arch (via AUR)
 yay -S piki-git
 
+# ---------------
+
 # OpenSUSE (unofficial via OBS)
-zypper addrepo https://download.opensuse.org/repositories/home:/Nara/openSUSE_Tumbleweed/home:Nara.repo  #Tumbleweed
-zypper addrepo https://download.opensuse.org/repositories/home:/Nara/openSUSE_Slowroll/home:Nara.repo  #Slowroll
+# Tumbleweed repo
+zypper addrepo https://download.opensuse.org/repositories/home:/Nara/openSUSE_Tumbleweed/home:Nara.repo
+# Slowroll repo
+zypper addrepo https://download.opensuse.org/repositories/home:/Nara/openSUSE_Slowroll/home:Nara.repo
+
 zypper refresh
 zypper install piki
 ```
