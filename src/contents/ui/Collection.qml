@@ -20,7 +20,6 @@ FeedPage {
     onIsNovelCategoryChanged: refresh()
     property bool restrict: false
     onRestrictChanged: refresh()
-    property var feed
 
     function refresh() {
         page.flickable.contentY = 0;
@@ -90,19 +89,4 @@ FeedPage {
             options: [i18n("Public"), ("i18n")]
         }
     ]
-    GridLayout {
-        rowSpacing: 15
-        columnSpacing: 15
-        columns: Math.floor((page.width - 25) / 190)
-
-        Repeater {
-            model: page.feed
-            IllustrationButton {
-                illust: modelData
-            }
-        }
-    }
-    Item {
-        Layout.fillHeight: true
-    }
 }

@@ -16,7 +16,6 @@ FeedPage {
     title: i18n("Home ・ %1", categories.label)
     property string category: "illust"
     onCategoryChanged: refresh()
-    property var feed
 
     function refresh() {
         page.flickable.contentY = 0;
@@ -64,59 +63,38 @@ FeedPage {
         }
     ]
 
-    ColumnLayout {
-        Layout.fillWidth: true
+    RowLayout {
         spacing: Kirigami.Units.largeSpacing
-
-        RowLayout {
-            spacing: Kirigami.Units.largeSpacing
-            Kirigami.Icon {
-                source: "qrc:/qt/qml/io/github/micro/piki/contents/assets/ranking.svg"
-                color: "gold"
-                isMask: true
-                Layout.preferredHeight: 24
-            }
-            Controls.Label {
-                text: i18n("Rankings")
-                font.bold: true
-                font.pointSize: 16
-            }
+        Kirigami.Icon {
+            source: "qrc:/qt/qml/io/github/micro/piki/contents/assets/ranking.svg"
+            color: "gold"
+            isMask: true
+            Layout.preferredHeight: 24
         }
-
-        Controls.ScrollView {
-            Layout.fillWidth: true
-            Layout.minimumHeight: row.height + 25
-
-            RowLayout {
-                id: row
-                spacing: 15
-
-                Repeater {
-                    model: page.feed.ranking
-
-                    IllustrationButton {
-                        illust: modelData
-                    }
-                }
-            }
-        }
-
-        Kirigami.Separator {
-            Layout.fillWidth: true
+        Controls.Label {
+            text: i18n("Rankings")
+            font.bold: true
+            font.pointSize: 16
         }
     }
 
-    GridLayout {
-        rowSpacing: 15
-        columnSpacing: 15
-        columns: Math.floor((page.width - 25) / 190)
+    Controls.ScrollView {
+        Layout.fillWidth: true
+        Layout.minimumHeight: 205 + 45 + Kirigami.Units.gridUnit + effectiveScrollBarHeight
 
-        Repeater {
-            model: page.feed
+        ListView {
+            id: row
+            clip: true
+            spacing: Kirigami.Units.gridUnit
+            flickableDirection: Flickable.AutoFlickDirection
 
-            IllustrationButton {
-                illust: modelData
-            }
+            orientation: ListView.Horizontal
+            model: page.feed.ranking
+            delegate: IllustrationButton {}
         }
+    }
+
+    Kirigami.Separator {
+        Layout.fillWidth: true
     }
 }

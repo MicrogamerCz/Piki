@@ -326,8 +326,8 @@ Kirigami.Page {
                         model: page.otherIllusts
 
                         delegate: IllustrationButton {
-                            required property var modelData
-                            illust: modelData
+                            // required property var modelData
+                            // illust: modelData
                             topEnabled: modelData.id != page.illust.id
                         }
 

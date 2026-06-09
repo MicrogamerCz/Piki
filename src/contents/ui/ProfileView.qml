@@ -37,7 +37,7 @@ FeedPage {
     property Workspace workspace: details.workspace
     property string category: "0"
     onCategoryChanged: refresh()
-    property var feed
+    // property var feed
 
     property WebAction fanboxAction: WebAction {
         url: ""
@@ -451,7 +451,7 @@ FeedPage {
             }
         ]
     }
-    GridLayout {
+    /*GridLayout {
         visible: page.category != "2"
         Layout.fillWidth: true
         Layout.fillHeight: true
@@ -487,7 +487,7 @@ FeedPage {
     }
     Item {
         Layout.fillHeight: true
-    }
+    }*/
     function calculateAge(date) {
         let age = new Date().getFullYear() - date.getFullYear();
 

@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 import io.github.micro.piqi
+import ".."
 
 /*
     Required implementations by derived pages:
@@ -14,15 +15,19 @@ import io.github.micro.piqi
 Kirigami.ScrollablePage {
     id: fp
 
-    default property alias contentItems: columnLayout.data
+    default property list<Item> contentItems
     property alias filterSelections: filterRow.children // TODO: Simplify, use KirigamiAddons.SegmentedButton
     property bool loading: false
+    property Illusts feed
+
+    supportsRefreshing: true
 
     function fetchNext() {
         if ((feed?.nextUrl ?? "") == "") {
             loading = false;
             return;
         }
+
         feed.NextFeed().then(() => {
             // Cache.SynchroniseIllusts(newFeed.illusts);
             // feed.Extend(newFeed);
@@ -63,14 +68,60 @@ Kirigami.ScrollablePage {
         }
     }
 
-    ColumnLayout {
-        id: columnLayout
-        anchors.fill: parent
-        spacing: Kirigami.Units.largeSpacing
+    GridView {
+        id: gv
+
+        leftMargin: Kirigami.Units.gridUnit
+        rightMargin: Kirigami.Units.gridUnit
+        topMargin: Kirigami.Units.gridUnit
+        bottomMargin: Kirigami.Units.gridUnit
+
+        cellWidth: 175 + Kirigami.Units.gridUnit // width
+        cellHeight: 205 + 45 + Kirigami.Units.gridUnit // top height + bottom height
+
+        model: fp.feed
+        delegate: IllustrationButton {}
+
+        header: Item {
+            width: gv.width - Kirigami.Units.gridUnit * 2
+            implicitHeight: prefeed.implicitHeight + Kirigami.Units.gridUnit
+
+            ColumnLayout {
+                id: prefeed
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                spacing: Kirigami.Units.largeSpacing
+
+                children: fp.contentItems
+            }
+        }
+    }
+
+    footer: RowLayout {
+        anchors {
+            // left: parent.left
+            // right: parent.right
+            // bottom: parent.bottom
+            margins: Kirigami.Units.gridUnit * 1.5
+        }
+
+        Kirigami.AbstractCard {
+            z: 5
+            visible: fp.loading
+
+            Layout.fillWidth: true
+
+            contentItem: Controls.ProgressBar {
+                indeterminate: true
+                anchors.fill: parent
+            }
+        }
     }
 
     ColumnLayout {
-        visible: (feed?.rowCount() ?? 0) == 0
+        visible: (fp.feed?.rowCount() ?? 0) == 0
         anchors.centerIn: parent
 
         Kirigami.Icon {
@@ -96,81 +147,32 @@ Kirigami.ScrollablePage {
         */
     }
 
-    Kirigami.AbstractCard {
+    Controls.Button {
+        parent: fp
         z: 5
-        visible: fp.loading
+        opacity: fp.flickable.contentY > fp.flickable.originY
+        visible: opacity > 0
+
         anchors {
-            left: parent.left
             right: parent.right
             bottom: parent.bottom
-            margins: Kirigami.Units.gridUnit * 1.5
-        }
-        contentItem: Controls.ProgressBar {
-            indeterminate: true
-            anchors.fill: parent
-        }
-    }
-    /*
-        This is a dirty hack of Kirigami.ScrollablePage to add
-        floating buttons and indicators, specifically returnToTop
-        button and progressBar indicating loading of next feed page.
-    */
-    Item {
-        y: fp.flickable.contentY
-        height: root.pageStack.height - 4.5 * fp.padding
-
-        anchors {
-            left: parent.left
-            right: parent.right
+            margins: Kirigami.Units.gridUnit
         }
 
-        Controls.Button {
-            opacity: fp.flickable.contentY > 0 ? 1 : 0
-            visible: opacity !== 0
-
-            Behavior on opacity {
-                NumberAnimation {}
-            }
-
-            anchors {
-                right: parent.right
-                bottom: parent.bottom
-            }
-
-            action: Kirigami.Action {
-                icon.name: "arrow-up"
-                icon.height: Kirigami.Units.iconSizes.medium
-                icon.width: Kirigami.Units.iconSizes.medium
-                onTriggered: fp.flickable.contentY = 0
-            }
-        }
-        Controls.ProgressBar {
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-            }
-            anchors.margins: Kirigami.Units.gridUnit
-            anchors.topMargin: (value < 0) ? (-value / 2) : 0
-            from: 0
-            to: -200
-            opacity: value * -0.01
-            value: fp.flickable.contentY
-            onValueChanged: {
-                if (!fp.flickable.interactive && value == 0)
-                    fp.flickable.interactive = true;
-                if (value != to)
-                    return;
-                fp.flickable.interactive = false;
-                fp.refresh();
-            }
+        action: Kirigami.Action {
+            id: returnAction
+            icon.name: "arrow-up"
+            icon.height: Kirigami.Units.iconSizes.medium
+            icon.width: Kirigami.Units.iconSizes.medium
+            onTriggered: fp.flickable.contentY = 0
         }
     }
 
     Shortcut {
         sequences: [StandardKey.Refresh]
         onActivated: {
-            fp.flickable.contentY = 0;
+            returnAction.trigger();
+            fp.flickable.contentY = fp.flickable.originY;
             fp.refresh();
         }
     }

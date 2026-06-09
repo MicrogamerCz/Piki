@@ -154,10 +154,6 @@ FeedPage {
         }
     ]
 
-    /*PremiumBanner {
-        closed: page.sorting != "popular"
-        }*/
-
     GridLayout {
         rowSpacing: 15
         columnSpacing: 15

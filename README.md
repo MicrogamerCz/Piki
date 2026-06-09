@@ -76,8 +76,7 @@ Code/translation contributions are welcome, as well as independent testing.
   - [ ] Convergent layout
   - [ ] pixiv Premium features
   - [ ] Fix object caching
-  - [ ] Cancel downloads after navigating to a different page
-  - [ ] Rewrite SelectionButtons to work based on index, without doing chess with the values
+  - [ ] Rewrite SelectionButtons to work based on index (or use different control)
   - [ ] Create templates for certain SelectionButtons implementations, they aren't much different from each other
   - [ ] Bind tags history to each account in local cache
   - [ ] Use more integrated controls (such as StatefulWindow instead of ApplicationWindow)

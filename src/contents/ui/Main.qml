@@ -4,6 +4,7 @@
 import QtQuick
 import org.kde.kirigami as Kirigami
 import org.kde.purpose as Purpose
+import org.kde.config as KConfig
 import io.github.micro.piki
 import io.github.micro.piqi
 import "../controls"
@@ -62,10 +63,18 @@ Kirigami.ApplicationWindow {
         shareTimer.start();
     }
 
+    pageStack.onPagePushed: function (page) {
+        print(page.title)
+    }
+
     Component.onCompleted: Cache.Setup().then(() => pageStack.currentItem.beginLoginProcess())
 
     Piqi {
         id: piqi
+    }
+
+    KConfig.WindowStateSaver {
+        configGroupName: "Window"
     }
 
     function pushTagAndSearch(tag) {
@@ -145,10 +154,10 @@ Kirigami.ApplicationWindow {
             let type = String(job);
             if (type.startsWith("ClipboardJob"))
                 root.showPassiveNotification(i18n("Copied to clipoboard!"));
-        // else {
-        //     print(JSON.stringify(job.data));
-        //     print(JSON.stringify(job.output));
-        // }
+            // else {
+            //     print(JSON.stringify(job.data));
+            //     print(JSON.stringify(job.output));
+            // }
         }
     }
 }

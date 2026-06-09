@@ -15,7 +15,6 @@ FeedPage {
 
     property string category: "illust"
     onCategoryChanged: refresh()
-    property var feed
 
     function refresh() {
         page.flickable.contentY = 0;
@@ -59,19 +58,4 @@ FeedPage {
             visible: page.loading
         }
     ]
-    GridLayout {
-        rowSpacing: 15
-        columnSpacing: 15
-        columns: Math.floor((page.width - 25) / 190)
-
-        Repeater {
-            model: page.feed
-            IllustrationButton {
-                illust: modelData
-            }
-        }
-    }
-    Item {
-        Layout.fillHeight: true
-    }
 }

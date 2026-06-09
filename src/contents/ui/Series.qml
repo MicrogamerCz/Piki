@@ -92,24 +92,4 @@ FeedPage {
             }
         }
     }
-
-    GridLayout {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        Layout.margins: Kirigami.Units.gridUnit
-        rowSpacing: 15
-        columnSpacing: 15
-        columns: Math.floor((page.width - 25) / 190)
-
-        Repeater {
-            model: page.feed
-
-            IllustrationButton {
-                illust: modelData
-            }
-        }
-    }
-    Item {
-        Layout.fillHeight: true
-    }
 }
