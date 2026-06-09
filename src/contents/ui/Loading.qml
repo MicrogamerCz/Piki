@@ -43,7 +43,7 @@ Kirigami.Page {
         case 0:
             {
                 piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                    Cache.SynchroniseIllusts(recommended.illusts);
+                    // Cache.SynchroniseIllusts(recommended.illusts);
                     loadingIndicator.opacity = 0;
                     navigateToPageParm("Home", {
                         feed: recommended

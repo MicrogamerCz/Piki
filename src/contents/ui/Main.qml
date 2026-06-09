@@ -63,10 +63,6 @@ Kirigami.ApplicationWindow {
         shareTimer.start();
     }
 
-    pageStack.onPagePushed: function (page) {
-        print(page.title)
-    }
-
     Component.onCompleted: Cache.Setup().then(() => pageStack.currentItem.beginLoginProcess())
 
     Piqi {

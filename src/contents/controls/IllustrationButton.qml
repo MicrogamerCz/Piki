@@ -14,7 +14,7 @@ DoubleAbstractCard {
     topHeight: 205
     bottomHeight: 45
     width: 175
-    property Work illust
+    required property Work illust
     property bool hidden: false
 
     Kirigami.Theme.inherit: true
