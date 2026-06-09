@@ -9,3 +9,4 @@ local/
 *.flatpak
 .gitl
 flatpak-build/
+.zed/
