@@ -21,7 +21,7 @@ FeedPage {
         loading = true;
         if (category !== "novel")
             piqi.LatestGlobal(category).then(rec => {
-                Cache.SynchroniseIllusts(rec.illusts);
+                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });

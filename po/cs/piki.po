@@ -145,7 +145,7 @@ msgstr "Komentáře"
 
 #: src/contents/ui/Home.qml:16
 msgid "Home ・ %1"
-msgstr "Domovská stránka ・ "
+msgstr "Domovská stránka ・ %1"
 
 #: src/contents/ui/Home.qml:46 src/contents/ui/ProfileView.qml:429
 #: src/contents/ui/Newest.qml:45

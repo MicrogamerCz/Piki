@@ -93,7 +93,7 @@ Rectangle {
                     onClicked: {
                         loading = true;
                         piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                            Cache.SynchroniseIllusts(recommended.illusts);
+                            // Cache.SynchroniseIllusts(recommended.illusts);
                             navigateToPageParm("Home", {
                                 feed: recommended
                             });
@@ -113,7 +113,7 @@ Rectangle {
                     onClicked: {
                         loading = true;
                         piqi.FollowingFeed("all").then(following => {
-                            Cache.SynchroniseIllusts(following.illusts);
+                            // Cache.SynchroniseIllusts(following.illusts);
                             navigateToPageParm("Following", {
                                 feed: following
                             });
@@ -151,7 +151,7 @@ Rectangle {
                     onClicked: {
                         loading = true;
                         piqi.LatestGlobal("illust").then(latest => {
-                            Cache.SynchroniseIllusts(latest.illusts);
+                            // Cache.SynchroniseIllusts(latest.illusts);
                             navigateToPageParm("Newest", {
                                 feed: latest
                             });
@@ -172,7 +172,7 @@ Rectangle {
                     onClicked: {
                         loading = true;
                         piqi.BookmarksFeed(null, false).then(bkmarks => {
-                            Cache.SynchroniseIllusts(bkmarks.illusts);
+                            // Cache.SynchroniseIllusts(bkmarks.illusts);
                             navigateToPageParm("Collection", {
                                 feed: bkmarks
                             });

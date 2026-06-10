@@ -47,14 +47,14 @@ Kirigami.Page {
 
     Component.onCompleted: {
         piqi.UserIllusts(illust.user, "illust").then(others => {
-            Cache.SynchroniseIllusts(others.illusts);
+            // Cache.SynchroniseIllusts(others.illusts);
             for (let i = 0; i < others.illusts.length; i++)
                 otherIllusts = others;
         });
         if (illust.user.isFollowed > 0)
             piqi.FollowDetail(illust.user).then(details => illust.user.isFollowed = (details.restriction == "private") ? 2 : 1);
         piqi.RelatedIllusts(illust).then(rels => {
-            Cache.SynchroniseIllusts(rels.illusts);
+            // Cache.SynchroniseIllusts(rels.illusts);
             related = rels;
         });
         if (illust.series != null)
@@ -154,7 +154,7 @@ Kirigami.Page {
 
                     parent.loading = true;
                     piqi.RelatedIllusts(page.illust).then(rels => {
-                        Cache.SynchroniseIllusts(rels.illusts);
+                        // Cache.SynchroniseIllusts(rels.illusts);
                         page.related.Extend(rels);
                         loading = false;
                     });

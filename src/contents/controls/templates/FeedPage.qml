@@ -99,19 +99,17 @@ Kirigami.ScrollablePage {
         }
     }
 
-    footer: RowLayout {
-        anchors {
-            // left: parent.left
-            // right: parent.right
-            // bottom: parent.bottom
-            margins: Kirigami.Units.gridUnit * 1.5
-        }
-
+    footer: Item {
         Kirigami.AbstractCard {
             z: 5
             visible: fp.loading
 
-            Layout.fillWidth: true
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+                margins: Kirigami.Units.gridUnit
+            }
 
             contentItem: Controls.ProgressBar {
                 indeterminate: true

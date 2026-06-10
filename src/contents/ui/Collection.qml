@@ -21,6 +21,8 @@ FeedPage {
     property bool restrict: false
     onRestrictChanged: refresh()
 
+    property PikiTags tags: PikiTags {}
+
     function refresh() {
         page.flickable.contentY = 0;
         loading = true;
@@ -31,13 +33,13 @@ FeedPage {
         else if (queryTag == "Uncategorized")
             queryTag = "未分類";
         if (!isNovelCategory)
-            piqi.BookmarksFeed(restrict, queryTag).then(rec => {
-                Cache.SynchroniseIllusts(rec.illusts);
+            piqi.BookmarksFeed(piqi.user, restrict, queryTag).then(rec => {
+                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });
         else
-            piqi.NovelsBookmarksFeed(restrict, queryTag).then(rec => {
+            piqi.NovelsBookmarksFeed(piqi.user, restrict, queryTag).then(rec => {
                 // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
@@ -48,9 +50,6 @@ FeedPage {
         piqi.BookmarkTags(isNovelCategory ? "novel" : "illust", restrict).then(tags_ => {
             tags.Extend(tags_);
         });
-    }
-    PikiTags {
-        id: tags
     }
 
     filterSelections: [
@@ -86,7 +85,7 @@ FeedPage {
             id: restrictions
             value: page.restrict
             onValueChanged: page.restrict = value
-            options: [i18n("Public"), ("i18n")]
+            options: [i18n("Public"), i18n("Private")]
         }
     ]
 }

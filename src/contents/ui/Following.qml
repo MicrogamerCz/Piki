@@ -23,7 +23,7 @@ FeedPage {
         loading = true;
         if (!isNovelCategory)
             piqi.FollowingFeed(restrict).then(rec => {
-                Cache.SynchroniseIllusts(rec.illusts);
+                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });
