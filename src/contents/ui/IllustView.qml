@@ -78,37 +78,46 @@ Kirigami.Page {
                 fillMode: Image.PreserveAspectFit
             }
 
-            ListView {
+            Controls.ScrollView {
                 anchors.fill: parent
-                model: images
-                clip: true
-                spacing: 15
-                cacheBuffer: 1000000
+                ListView {
+                    model: images
+                    clip: true
+                    spacing: 15
 
-                delegate: Image {
-                    required property string url
-                    source: url
-                    fillMode: Image.PreserveAspectFit
-                    width: ListView.view.width
-                    retainWhileLoading: true
-                    sourceSize.width: page.width * 0.6
-                    sourceSize.height: page.height
-                }
-            }
+                    delegate: Image {
+                        required property string url
+                        source: url
 
-            Kirigami.AbstractCard {
-                z: 5
-                visible: (page.illust.pageCount > 1) && (page.illust.pageCount > images.count)
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    bottom: parent.bottom
-                }
-                contentItem: Controls.ProgressBar {
-                    anchors.fill: parent
-                    from: 0
-                    to: downloader.total
-                    value: downloader.progress
+                        fillMode: Image.PreserveAspectFit
+                        width: ListView.view.width
+                        retainWhileLoading: true
+                        asynchronous: true
+
+                        sourceSize.width: page.width * 0.6
+                        sourceSize.height: page.height
+                    }
+
+                    footerPositioning: ListView.OverlayFooter
+                    footer: Kirigami.AbstractCard {
+                        z: 5
+                        visible: (page.illust.pageCount > 1) && (page.illust.pageCount > images.count)
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            bottom: parent.bottom
+                            leftMargin: Kirigami.Units.mediumSpacing
+                            rightMargin: Kirigami.Units.mediumSpacing
+                            bottomMargin: Kirigami.Units.largeSpacing
+                        }
+
+                        contentItem: Controls.ProgressBar {
+                            anchors.fill: parent
+                            from: 0
+                            to: downloader.total
+                            value: downloader.progress
+                        }
+                    }
                 }
             }
         }
