@@ -17,12 +17,14 @@
 struct UserResult {
     using ColumnTypes = std::tuple<int, QString, QString, QString>;
     static UserResult fromSql(ColumnTypes &&tuple);
+    User *toUser() const;
     int id;
     QString name, account, pfp;
 };
 struct TagResult {
     using ColumnTypes = std::tuple<int, QString, QString>;
     static TagResult fromSql(ColumnTypes &&tuple);
+    Tag *toTag() const;
     int id;
     QString name, translated;
 };
@@ -38,7 +40,7 @@ class Cache : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    PikiConfig *conf;
+    // ? PikiConfig *conf;
     std::unique_ptr<ThreadedDatabase> database;
     QHash<int, Illustration *> illustCache;
     QCoro::Task<void> PushTagHistoryTask(QList<Tag *> tags);
