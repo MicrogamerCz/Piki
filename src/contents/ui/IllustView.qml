@@ -4,10 +4,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
-import org.kde.purpose as Purpose
 import org.kde.kirigami as Kirigami
-import org.kde.kirigamiaddons.formcard as Form
-import org.kde.kirigamiaddons.components as KIA
 import io.github.micro.piki
 import io.github.micro.piqi
 import "../controls"
@@ -63,28 +60,6 @@ Kirigami.Page {
             });
         if (illust.pageCount > 1)
             download(0);
-    }
-
-    Instantiator {
-        model: Purpose.PurposeAlternativesModel {
-            id: alternativesModel
-            pluginType: "ShareUrl"
-            inputData: {
-                'title': page.illust.title,
-                'urls': ["https://pixiv.net/artworks/" + page.illust.id]
-            }
-        }
-        delegate: Kirigami.Action {
-            property int index
-            text: model.display ?? ""
-            icon.name: model.iconName
-
-            onTriggered: root.share(alternativesModel, index)
-        }
-        onObjectAdded: (index, object) => {
-            object.index = index;
-            contextMenu.contentData.push(object);
-        }
     }
 
     Controls.SplitView {
@@ -173,70 +148,8 @@ Kirigami.Page {
                     IllustViewProfileCard {
                         user: page.illust.user
                     }
-                    Kirigami.AbstractCard {
-                        contentItem: Kirigami.ActionToolBar {
-                            Layout.fillWidth: true
-                            actions: [
-                                FlatAction {
-                                    iconName: "view-visible"
-                                    text: page.illust.totalView
-                                },
-                                Kirigami.Action {
-                                    separator: true
-                                },
-                                Kirigami.Action {
-                                    checkable: true
-                                    checked: page.illust.isBookmarked
-                                    text: page.illust.totalBookmarks
-                                    icon.name: {
-                                        if (page.illust.isBookmarked === 2) {
-                                            return "view-private";
-                                        } else if (page.illust.isBookmarked === 1) {
-                                            return "favorite-favorited";
-                                        } else {
-                                            return "favorite";
-                                        }
-                                    }
-                                    icon.color: (page.illust.isBookmarked > 0) ? "gold" : Kirigami.Theme.textColor
-
-                                    onTriggered: {
-                                        if (page.illust.isBookmarked == 0)
-                                            page.illust.AddBookmark(false);
-                                        else
-                                            page.illust.RemoveBookmark(page.illust);
-                                    }
-                                },
-                                Kirigami.Action {
-                                    icon.name: "view-private"
-
-                                    onTriggered: page.illust.AddBookmark(page.illust.isBookmarked < 2)
-                                },
-                                Kirigami.Action {
-                                    separator: true
-                                },
-                                Kirigami.Action {
-                                    icon.name: "emblem-shared-symbolic"
-                                    onTriggered: contextMenu.popup()
-                                },
-                                // TODO: mute
-                                // TODO: report
-                                Kirigami.Action {
-                                    separator: true
-                                },
-                                FlatAction {
-                                    text: Qt.formatDateTime(page.illust.createDate, "yyyy-MM-dd hh:mm")
-                                }
-                            ]
-                        }
-                        Controls.Menu {
-                            id: contextMenu
-                            Kirigami.Action {
-                                enabled: !(Config.allowR18WorksAsWallpapers != 2 && page.illust.xRestrict > 0)
-                                text: i18n("Set as wallpaper")
-                                icon.name: "viewimage"
-                                onTriggered: wallpaperSelections.setup()
-                            }
-                        }
+                    IllustToolbar {
+                        illust: page.illust
                     }
                     IllustDetails {
                         illust: page.illust
@@ -378,8 +291,5 @@ Kirigami.Page {
                 }
             }
         }
-    }
-    WallpaperSelections {
-        id: wallpaperSelections
     }
 }

@@ -44,6 +44,7 @@ ecm_add_qml_module(piki_st
         contents/controls/WallpaperSelections.qml
         contents/controls/WebAction.qml
         contents/controls/IllustViewProfileCard.qml
+        contents/controls/IllustToolbar.qml
         contents/controls/SeriesChapterCard.qml
         contents/controls/SeriesButton.qml
 
