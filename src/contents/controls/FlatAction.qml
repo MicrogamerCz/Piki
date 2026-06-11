@@ -11,9 +11,11 @@ Kirigami.Action {
     property string iconName
 
     displayComponent: Row {
+        spacing: Kirigami.Units.mediumSpacing
+
         Kirigami.Icon {
-            width: (source == "") ? 0 : 20
-            height: (source == "") ? 0 : 20
+            width: (source == "") ? 1 : 20
+            height: (source == "") ? 1 : 20
             source: action.iconName
         }
         Controls.Label {
