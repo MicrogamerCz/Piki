@@ -238,24 +238,22 @@ Kirigami.Page {
                     // Later improve by using unintended behaviour of the endpoint,
                     // finding if any of the illusts is the opened one
                     // and then show the surrounding illusts
-                    ListView {
-                        id: flick
+                    Controls.ScrollView {
                         Layout.fillWidth: true
-                        orientation: ListView.Horizontal
-                        implicitHeight: contentItem.childrenRect.height + 25
-                        spacing: 15
-                        clip: true
-                        model: page.otherIllusts
+                        Layout.minimumHeight: otherIllustsView.height + effectiveScrollBarHeight
+                        implicitHeight: otherIllustsView.implicitHeight
 
-                        delegate: IllustrationButton {
-                            // required property var modelData
-                            // illust: modelData
-                            topEnabled: modelData.id != page.illust.id
-                        }
+                        contentItem: ListView {
+                            id: otherIllustsView
+                            orientation: ListView.Horizontal
+                            implicitHeight: contentItem.childrenRect.height + 25
+                            spacing: 15
+                            clip: true
+                            model: page.otherIllusts
 
-                        Controls.ScrollBar.horizontal: Controls.ScrollBar {
-                            policy: Controls.ScrollBar.AsNeeded
-                            anchors.bottom: parent.bottom
+                            delegate: IllustrationButton {
+                                topEnabled: illust.id != page.illust.id
+                            }
                         }
                     }
 
