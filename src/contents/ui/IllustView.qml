@@ -260,19 +260,14 @@ Kirigami.Page {
                     CommentSection {
                         illust: page.illust
                     }
-                    GridLayout {
-                        rowSpacing: 15
-                        columnSpacing: 15
-                        columns: Math.floor(parent.width / 180)
+                    GridView {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: contentHeight
+                        cellWidth: 175 + Kirigami.Units.gridUnit // width
+                        cellHeight: 205 + 45 + Kirigami.Units.gridUnit // top height + bottom height
 
-                        Repeater {
-                            model: page.related
-                            IllustrationButton {
-                                required property var modelData
-                                illust: modelData
-                                hidden: !page.isCurrentPage
-                            }
-                        }
+                        model: page.related
+                        delegate: IllustrationButton {}
                     }
                 }
 
