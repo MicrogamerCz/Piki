@@ -67,9 +67,9 @@ Kirigami.Page {
         anchors.fill: parent
 
         Item {
-            Controls.SplitView.minimumWidth: page.width * 0.3
-            Controls.SplitView.maximumWidth: page.width * 0.7
-            Controls.SplitView.preferredWidth: page.width * 0.7
+            Controls.SplitView.minimumWidth: page.width * 0.425
+            Controls.SplitView.maximumWidth: page.width * 0.575
+            Controls.SplitView.preferredWidth: page.width * 0.575
 
             PixivImage {
                 visible: page.illust.pageCount == 1
