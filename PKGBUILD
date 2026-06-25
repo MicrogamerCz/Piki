@@ -11,7 +11,7 @@ depends=(piqi kirigami kirigami-addons ki18n kconfig purpose futuresql kcoreaddo
 makedepends=(extra-cmake-modules git)
 conflicts=(piki)
 provides=(piki)
-source=("git+https://github.com/abdul-rafay-mirza/Piki.git#branch=feature/add-keywords")
+source=("git+https://github.com/MicrogamerCz/Piki")
 sha256sums=('SKIP')
 
 build() {

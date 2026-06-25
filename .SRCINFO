@@ -16,10 +16,10 @@ pkgbase = piki-git
 	depends = futuresql
 	depends = kcoreaddons
 	depends = qt6-webengine
-	depends = qt6-keychain
+	depends = qtkeychain-qt6
 	provides = piki
 	conflicts = piki
-	source = git+https://github.com/abdul-rafay-mirza/Piki.git#branch=feature/add-keywords
+	source = git+https://github.com/MicrogamerCz/Piki
 	sha256sums = SKIP
 
 pkgname = piki-git
