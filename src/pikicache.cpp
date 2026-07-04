@@ -14,7 +14,6 @@
 #include <qstandardpaths.h>
 #include <qtimer.h>
 #include <qtpreprocessorsupport.h>
-#include <sys/socket.h>
 
 UserResult UserResult::fromSql(ColumnTypes &&tuple)
 {

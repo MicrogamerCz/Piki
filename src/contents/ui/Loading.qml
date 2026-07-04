@@ -11,18 +11,18 @@ Kirigami.Page {
     id: page
 
     function beginLoginProcess() {
-        if (!LoginHandler.keyringProviderInstalled) {
-            missingSecretsProviderDialog.open();
-            return;
-        }
-
         loadingIndicator.opacity = 1;
         LoginHandler.SetCacheIfNotExists(Cache).then(() => {
             LoginHandler.GetToken().then(token => {
-                if (token == "")
+                if (token == "") {
+                    if (!LoginHandler.keyringProviderInstalled) {
+                        missingSecretsProviderDialog.open();
+                        return;
+                    }
                     pushWalkthough();
-                else
-                    piqi.Login(token).then(diverge);
+                    return;
+                }
+                piqi.Login(token).then(diverge);
             });
         });
     }
@@ -159,7 +159,6 @@ Kirigami.Page {
         showCloseButton: false
 
         onAccepted: {
-            loadingIndicator.opacity = 1;
             page.pushWalkthough();
         }
         onRejected: root.close()

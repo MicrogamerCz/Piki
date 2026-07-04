@@ -22,7 +22,7 @@ ecm_add_qml_module(piki_st
         # contents/ui/History.qml # TODO
         contents/ui/Welcome.qml
         contents/ui/ProfileView.qml
-        contents/ui/NovelView.qml
+        # contents/ui/NovelView.qml # Temporarily removed - requires QtWebEngine
         contents/ui/Watchlist.qml
         contents/ui/Series.qml
 
@@ -74,12 +74,12 @@ target_compile_options (piki_st PUBLIC -fexceptions)
 
 target_link_libraries(piki_st PUBLIC
     Qt6::QuickControls2
-    Qt6::WebEngineQuick
     ${QTKEYCHAIN_LIBRARIES}
     KF6::I18n
     KF6::I18nQml
     KF6::ConfigGui
     KF6::Purpose
+    KF6::BreezeIcons
     FutureSQL6::FutureSQL
     Piqi::piqi
     # The following dependencies might not be necessary:

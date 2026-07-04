@@ -2,6 +2,9 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #include <QtGlobal>
+#ifdef Q_OS_WINDOWS
+#include <windows.h>
+#endif
 #include <qqml.h>
 #ifdef Q_OS_ANDROID
 #include <QGuiApplication>
@@ -23,6 +26,7 @@
 
 #include "pikiconfig.h"
 #include "pixivnamfactory.h"
+#include <BreezeIcons/breezeicons.h>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -81,6 +85,9 @@ int main(int argc, char *argv[])
     QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.microgamercz.piki"_s));
     // QGuiApplication::setWindowIcon(QIcon("io/github/micro/piki/contents/assets/io.github.micro.piki.svg"));
 
+    BreezeIcons::initIcons();
+    QIcon::setThemeName("breeze");
+    QIcon::setFallbackThemeName("breeze");
     PikiConfig* config = PikiConfig::self();
     qmlRegisterSingletonInstance("io.github.micro.piki", 1, 0, "Config", config);
 

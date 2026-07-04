@@ -31,9 +31,7 @@ DoubleAbstractCard {
                 illust: card.illust
             });
         else
-            piqi.FetchNovel(illust).then(nv => navigateToPageParm("NovelView", {
-                    novel: nv
-                }));
+            root.showPassiveNotification(i18n("Novel viewing is not available in this build"));
     }
     onBottomItemClicked: piqi.Details(card.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
             details: dtls

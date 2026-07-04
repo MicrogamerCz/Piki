@@ -72,7 +72,7 @@ QCoro::QmlTask LoginHandler::GetToken()
 QCoro::Task<QString> LoginHandler::GetTokenTask()
 {
     if (!m_keyringProviderInstalled)
-        co_return accessToken;
+        co_return refreshToken;
     QString user = co_await GetUser();
     co_return (co_await GetPassword(user));
 }
