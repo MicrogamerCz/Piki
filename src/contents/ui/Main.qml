@@ -28,6 +28,10 @@ Kirigami.ApplicationWindow {
     function navigateToPageParm(name, data) {
         pageStack.push(buildObject(name, data, this));
     }
+    function navigateToFeed(name, data) {
+        pageStack.clear();
+        pageStack.push(buildObject(name, data, this));
+    }
     function navigateToPage(name) {
         navigateToPageParm(name, {});
     }
