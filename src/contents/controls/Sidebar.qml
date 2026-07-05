@@ -10,9 +10,9 @@ import io.github.micro.piqi
 
 Rectangle {
     id: sidebar
-    width: 250
+    width: collapsed ? 60 : 250
     clip: true
-    x: collapsed ? -250 : 0
+    x: 0
     color: "transparent"
 
     Kirigami.Theme.colorSet: Kirigami.Theme.Window
@@ -21,6 +21,10 @@ Rectangle {
     property bool reloadingAccount: false
     readonly property string currentPage: root.currentPage
     property bool collapsed: true
+
+    Behavior on width {
+        NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
+    }
 
     function switchAccount(data) {
         reloadingAccount = true;
@@ -69,6 +73,18 @@ Rectangle {
         anchors.fill: parent
         spacing: 0
 
+        Kirigami.Separator {
+            Layout.fillWidth: true
+        }
+
+        Controls.Button {
+            Layout.fillWidth: true
+            implicitHeight: 44
+            flat: true
+            display: Controls.AbstractButton.IconOnly
+            onClicked: sidebar.collapsed = !sidebar.collapsed
+            icon.name: sidebar.collapsed ? "go-next" : "go-previous"
+        }
         Kirigami.Separator {
             Layout.fillWidth: true
         }

@@ -16,7 +16,7 @@ Kirigami.ApplicationWindow {
     title: i18n("Piki")
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 20
-    pageStack.anchors.leftMargin: sidebar.x + 250
+    pageStack.anchors.leftMargin: sidebar.width
 
     property string currentPage: pageStack.currentItem?.title ?? ""
 
@@ -82,7 +82,7 @@ Kirigami.ApplicationWindow {
     }
     header: Header {
         id: hd
-        visible: !sidebar.collapsed
+        visible: true
     }
     function getHeaderQuery() {
         const tgs = hd.selectedTags;
@@ -94,7 +94,7 @@ Kirigami.ApplicationWindow {
     }
 
     Kirigami.Separator {
-        visible: !sidebar.collapsed
+        visible: true
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
