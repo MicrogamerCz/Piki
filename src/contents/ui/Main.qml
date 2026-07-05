@@ -16,28 +16,44 @@ Kirigami.ApplicationWindow {
     title: i18n("Piki")
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 20
-    pageStack.anchors.leftMargin: sidebar.x + 250
+    pageStack.anchors.leftMargin: sidebar.layoutWidth
 
     property string currentPage: pageStack.currentItem?.title ?? ""
+    property bool fullscreenActive: false
+
+    property var _compCache: ({})
 
     function buildObject(name, data, parent) {
-        let comp = Qt.createComponent(name + ".qml");
-        let obj = comp.createObject(parent, data);
-        return obj;
+        if (!_compCache[name]) {
+            _compCache[name] = Qt.createComponent(name + ".qml", Component.PreferSynchronous);
+        }
+        return _compCache[name].createObject(parent, data);
     }
     function navigateToPageParm(name, data) {
+        // Trim forward pages before pushing new one
+        while (pageStack.currentIndex < pageStack.depth - 1)
+            pageStack.pop();
+        pageStack.push(buildObject(name, data, this));
+    }
+    function navigateToFeed(name, data) {
+        pageStack.clear();
         pageStack.push(buildObject(name, data, this));
     }
     function navigateToPage(name) {
         navigateToPageParm(name, {});
     }
+    function goBack() {
+        if (pageStack.currentIndex > 0)
+            pageStack.currentIndex--;
+    }
+    function goForward() {
+        if (pageStack.currentIndex < pageStack.depth - 1)
+            pageStack.currentIndex++;
+    }
     function loggedIn(response) {
         let json = JSON.parse(response);
         piqi.SetLogin(json["access_token"], json["refresh_token"]);
         LoginHandler.SetUser(json["user"]["account"]).then(() => {
-            if (!LoginHandler.keyringProviderInstalled)
-                return;
-
             LoginHandler.WriteToken(json["refresh_token"]).then(() => {
                 LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
                     pageStack.pop();
@@ -81,7 +97,7 @@ Kirigami.ApplicationWindow {
     }
     header: Header {
         id: hd
-        visible: !sidebar.collapsed
+        visible: true
     }
     function getHeaderQuery() {
         const tgs = hd.selectedTags;
@@ -93,7 +109,7 @@ Kirigami.ApplicationWindow {
     }
 
     Kirigami.Separator {
-        visible: !sidebar.collapsed
+        visible: true
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
@@ -106,7 +122,44 @@ Kirigami.ApplicationWindow {
 
     pageStack.globalToolBar.style: Kirigami.ApplicationHeaderStyle.None
     pageStack.columnView.columnResizeMode: Kirigami.ColumnView.SingleColumn
+    pageStack.columnView.interactive: false
     pageStack.initialPage: Loading {}
+
+    function showFullscreen(metaPages, metaSinglePage, pageCount) {
+        if (root.fullscreenActive)
+            return;
+        root.fullscreenActive = true;
+
+        let comp = Qt.createComponent("FullscreenView.qml");
+        let create = function() {
+            let item = comp.createObject(root, {
+                z: 999,
+                metaPages: metaPages,
+                metaSinglePage: metaSinglePage,
+                pageCount: pageCount
+            });
+            if (!item) {
+                root.fullscreenActive = false;
+                return;
+            }
+            item.x = 0;
+            item.y = root.header.height;
+            item.width = Qt.binding(function() { return root.width; });
+            item.height = Qt.binding(function() { return root.height - root.header.height; });
+            item.onClose = function() { root.fullscreenActive = false; };
+        };
+        if (comp.status === Component.Ready)
+            create();
+        else if (comp.status === Component.Error)
+            root.fullscreenActive = false;
+        else
+            comp.statusChanged.connect(function() {
+                if (comp.status === Component.Ready)
+                    create();
+                else if (comp.status === Component.Error)
+                    root.fullscreenActive = false;
+            });
+    }
 
     Kirigami.Dialog {
         id: shareDialog
