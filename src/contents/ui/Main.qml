@@ -60,6 +60,9 @@ Kirigami.ApplicationWindow {
         let json = JSON.parse(response);
         piqi.SetLogin(json["access_token"], json["refresh_token"]);
         LoginHandler.SetUser(json["user"]["account"]).then(() => {
+            if (!LoginHandler.keyringProviderInstalled)
+                return;
+
             LoginHandler.WriteToken(json["refresh_token"]).then(() => {
                 LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
                     pageStack.pop();
@@ -105,7 +108,7 @@ Kirigami.ApplicationWindow {
     }
     header: Header {
         id: hd
-        visible: true
+        visible: !sidebar.collapsed
     }
     function getHeaderQuery() {
         const tgs = hd.selectedTags;
@@ -117,7 +120,7 @@ Kirigami.ApplicationWindow {
     }
 
     Kirigami.Separator {
-        visible: true
+        visible: !sidebar.collapsed
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
