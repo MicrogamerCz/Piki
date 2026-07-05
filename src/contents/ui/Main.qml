@@ -60,6 +60,9 @@ Kirigami.ApplicationWindow {
         let json = JSON.parse(response);
         piqi.SetLogin(json["access_token"], json["refresh_token"]);
         LoginHandler.SetUser(json["user"]["account"]).then(() => {
+            if (!LoginHandler.keyringProviderInstalled)
+                return;
+
             LoginHandler.WriteToken(json["refresh_token"]).then(() => {
                 LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
                     pageStack.pop();
