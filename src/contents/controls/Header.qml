@@ -94,15 +94,45 @@ Item {
         anchors.leftMargin: 15
         anchors.margins: 5
 
-        Controls.Label {
-            id: headerLabel
+        RowLayout {
             anchors {
                 left: parent.left
                 verticalCenter: parent.verticalCenter
             }
-            text: root.currentPage
-            font.bold: true
-            font.pointSize: 14
+            spacing: 2
+
+            Controls.Button {
+                icon.name: "go-previous"
+                icon.width: 24
+                icon.height: 24
+                flat: true
+                implicitWidth: 40
+                implicitHeight: 40
+                enabled: root._navIndex > 0
+                onClicked: root.goBack()
+            }
+            Controls.Label {
+                id: headerLabel
+                text: root.currentPage
+                font.bold: true
+                font.pointSize: 14
+            }
+        }
+
+        Controls.Button {
+            icon.name: "go-next"
+            icon.width: 24
+            icon.height: 24
+            flat: true
+            implicitWidth: 40
+            implicitHeight: 40
+            anchors {
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+                rightMargin: 15
+            }
+            enabled: root._navIndex < root._navHistory.length - 1
+            onClicked: root.goForward()
         }
 
         Kirigami.AbstractCard {
