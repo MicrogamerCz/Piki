@@ -82,8 +82,7 @@ int main(int argc, char *argv[])
 
     aboutData.setTranslator(i18nc("@info:translator", "Micro"), i18nc("@info:translator", "microgamercz@proton.me"));
     KAboutData::setApplicationData(aboutData);
-    QGuiApplication::setWindowIcon(QIcon::fromTheme(u"io.github.microgamercz.piki"_s));
-    // QGuiApplication::setWindowIcon(QIcon("io/github/micro/piki/contents/assets/io.github.micro.piki.svg"));
+    QGuiApplication::setWindowIcon(QIcon(":/qt/qml/io/github/micro/piki/contents/assets/io.github.microgamercz.piki.svg"));
 
     BreezeIcons::initIcons();
     QIcon::setThemeName("breeze");
