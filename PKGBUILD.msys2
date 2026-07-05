@@ -1,0 +1,138 @@
+# Maintainer: Micro <microgamercz@proton.me>
+# MSYS2 package for Piki (clangarm64 / mingw-w64)
+
+_realname=piki
+pkgbase="mingw-w64-${_realname}"
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Unofficial Kirigami client for Pixiv"
+arch=('any')
+url="https://github.com/MicrogamerCz/Piki"
+license=('spdx:GPL-3.0-or-later')
+
+depends=(
+    "${MINGW_PACKAGE_PREFIX}-breeze-icons"
+    "${MINGW_PACKAGE_PREFIX}-dbus"
+    "${MINGW_PACKAGE_PREFIX}-kconfig"
+    "${MINGW_PACKAGE_PREFIX}-kcoreaddons"
+    "${MINGW_PACKAGE_PREFIX}-ki18n"
+    "${MINGW_PACKAGE_PREFIX}-kirigami"
+    "${MINGW_PACKAGE_PREFIX}-kirigami-addons"
+    "${MINGW_PACKAGE_PREFIX}-purpose"
+    "${MINGW_PACKAGE_PREFIX}-qt6-base"
+    "${MINGW_PACKAGE_PREFIX}-qt6-declarative"
+    "${MINGW_PACKAGE_PREFIX}-qt6-shadertools"
+    "${MINGW_PACKAGE_PREFIX}-qt6-svg"
+    "${MINGW_PACKAGE_PREFIX}-sqlite3"
+)
+
+makedepends=(
+    "${MINGW_PACKAGE_PREFIX}-cc"
+    "${MINGW_PACKAGE_PREFIX}-cmake"
+    "${MINGW_PACKAGE_PREFIX}-extra-cmake-modules"
+    "${MINGW_PACKAGE_PREFIX}-ninja"
+    "git"
+)
+
+# qcoro
+_qcoro_ver=0.12.0
+_qcoro_url="https://github.com/danvratil/qcoro/archive/refs/tags/v${_qcoro_ver}.tar.gz"
+
+# futuresql
+_futuresql_ver=0.1.1
+_futuresql_url="https://invent.kde.org/libraries/futuresql/-/archive/v${_futuresql_ver}/futuresql-v${_futuresql_ver}.tar.gz"
+
+# qtkeychain
+_qtkeychain_ver=0.15.0
+_qtkeychain_url="https://github.com/frankosterfeld/qtkeychain/archive/refs/tags/${_qtkeychain_ver}.tar.gz"
+
+# piqi
+_piqi_commit="c8e00686caba838f550a986aafc4141e77c4d8b8"
+_piqi_url="git+https://github.com/MicrogamerCz/Piqi.git"
+
+source=(
+    "git+https://github.com/MicrogamerCz/Piki.git"
+    "v${_qcoro_ver}.tar.gz::${_qcoro_url}"
+    "futuresql-v${_futuresql_ver}.tar.gz::${_futuresql_url}"
+    "qtkeychain-${_qtkeychain_ver}.tar.gz::${_qtkeychain_url}"
+    "${_piqi_url}#commit=${_piqi_commit}"
+)
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
+
+prepare() {
+    cd "${srcdir}"
+
+    # Extract qcoro
+    bsdtar -xf "v${_qcoro_ver}.tar.gz"
+    ln -sf "qcoro-${_qcoro_ver}" qcoro
+
+    # Extract futuresql
+    bsdtar -xf "futuresql-v${_futuresql_ver}.tar.gz"
+    ln -sf "futuresql-v${_futuresql_ver}" futuresql
+
+    # Extract qtkeychain
+    bsdtar -xf "qtkeychain-${_qtkeychain_ver}.tar.gz"
+    ln -sf "qtkeychain-${_qtkeychain_ver}" qtkeychain
+}
+
+build() {
+    local PREFIX="${MINGW_PREFIX}"
+
+    # Build QCoro
+    msg "Building QCoro..."
+    cd "${srcdir}/qcoro"
+    cmake -B build -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DQCORO_WITH_QTDBUS=ON \
+        -DCMAKE_INSTALL_PREFIX="${PREFIX}"
+    cmake --build build
+    cmake --install build
+    # Patch: QCoro6Qml needs find_dependency(Qt6QmlPrivate)
+    sed -i 's/find_dependency(Qt6Qml)/find_dependency(Qt6Qml)\nfind_dependency(Qt6QmlPrivate)/' \
+        "${PREFIX}/lib/cmake/QCoro6Qml/QCoro6QmlConfig.cmake"
+
+    # Build FutureSQL
+    msg "Building FutureSQL..."
+    cd "${srcdir}/futuresql"
+    cmake -B build -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DQT_MAJOR_VERSION=6 \
+        -DBUILD_TESTING=OFF \
+        -DCMAKE_INSTALL_PREFIX="${PREFIX}"
+    cmake --build build
+    cmake --install build
+
+    # Build Qt6Keychain
+    msg "Building Qt6Keychain..."
+    cd "${srcdir}/qtkeychain"
+    cmake -B build -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_WITH_QT6=ON \
+        -DCMAKE_INSTALL_PREFIX="${PREFIX}"
+    sed -i 's| /utf-8||g' build/build.ninja
+    cmake --build build
+    cmake --install build
+
+    # Build Piqi
+    msg "Building Piqi..."
+    cd "${srcdir}/Piqi"
+    cmake -B build -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX="${PREFIX}"
+    cmake --build build
+    cmake --install build
+
+    # Build Piki
+    msg "Building Piki..."
+    cd "${srcdir}/Piki"
+    cmake -B build -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX="${PREFIX}"
+    cmake --build build
+}
+
+package() {
+    cd "${srcdir}/Piki"
+    DESTDIR="${pkgdir}" cmake --install build
+}
