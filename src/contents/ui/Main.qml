@@ -19,6 +19,8 @@ Kirigami.ApplicationWindow {
     pageStack.anchors.leftMargin: sidebar.width
 
     property string currentPage: pageStack.currentItem?.title ?? ""
+    property var _navHistory: []
+    property int _navIndex: -1
 
     function buildObject(name, data, parent) {
         let comp = Qt.createComponent(name + ".qml");
@@ -26,14 +28,33 @@ Kirigami.ApplicationWindow {
         return obj;
     }
     function navigateToPageParm(name, data) {
+        if (_navIndex < _navHistory.length - 1)
+            _navHistory = _navHistory.slice(0, _navIndex + 1);
+        _navHistory.push({name: name, data: data});
+        _navIndex = _navHistory.length - 1;
         pageStack.push(buildObject(name, data, this));
     }
     function navigateToFeed(name, data) {
+        _navHistory = [{name: name, data: data}];
+        _navIndex = 0;
         pageStack.clear();
         pageStack.push(buildObject(name, data, this));
     }
     function navigateToPage(name) {
         navigateToPageParm(name, {});
+    }
+    function goBack() {
+        if (_navIndex > 0) {
+            _navIndex--;
+            pageStack.pop();
+        }
+    }
+    function goForward() {
+        if (_navIndex < _navHistory.length - 1) {
+            _navIndex++;
+            let entry = _navHistory[_navIndex];
+            pageStack.push(buildObject(entry.name, entry.data, this));
+        }
     }
     function loggedIn(response) {
         let json = JSON.parse(response);
@@ -43,6 +64,8 @@ Kirigami.ApplicationWindow {
                 LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
                     pageStack.pop();
                     pageStack.pop();
+                    _navHistory = [];
+                    _navIndex = -1;
 
                     piqi.RecommendedFeed("illust", true, true).then(recommended => {
                         // Cache.SynchroniseIllusts(recommended.illusts);
@@ -107,6 +130,7 @@ Kirigami.ApplicationWindow {
 
     pageStack.globalToolBar.style: Kirigami.ApplicationHeaderStyle.None
     pageStack.columnView.columnResizeMode: Kirigami.ColumnView.SingleColumn
+    pageStack.columnView.interactive: false
     pageStack.initialPage: Loading {}
 
     Kirigami.Dialog {

@@ -97,6 +97,8 @@ Rectangle {
             Controls.ScrollBar.vertical.policy: Controls.ScrollBar.AlwaysOff
             Controls.ScrollBar.horizontal.policy: Controls.ScrollBar.AlwaysOff
 
+            Component.onCompleted: contentItem.interactive = false
+
             ColumnLayout {
                 id: column
                 width: scrollView.width
