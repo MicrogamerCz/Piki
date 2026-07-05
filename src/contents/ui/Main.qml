@@ -20,6 +20,9 @@ Kirigami.ApplicationWindow {
 
     property string currentPage: pageStack.currentItem?.title ?? ""
     property bool fullscreenActive: false
+    property int _pagesCreated: 0
+    property int _pagesDestroyed: 0
+    property int _pagesAlive: 0
 
     property var _compCache: ({})
 
@@ -27,15 +30,37 @@ Kirigami.ApplicationWindow {
         if (!_compCache[name]) {
             _compCache[name] = Qt.createComponent(name + ".qml", Component.PreferSynchronous);
         }
-        return _compCache[name].createObject(parent, data);
+        let obj = _compCache[name].createObject(parent, data);
+        _pagesCreated++;
+        _pagesAlive++;
+        console.log("[MEM] create", name, "| total created:", _pagesCreated, "| alive:", _pagesAlive, "| depth:", pageStack.depth);
+        return obj;
+    }
+    function _logDestroy(name) {
+        _pagesDestroyed++;
+        _pagesAlive--;
+        console.log("[MEM] destroy", name, "| total destroyed:", _pagesDestroyed, "| alive:", _pagesAlive, "| depth:", pageStack.depth);
     }
     function navigateToPageParm(name, data) {
-        // Trim forward pages before pushing new one
-        while (pageStack.currentIndex < pageStack.depth - 1)
-            pageStack.pop();
+        let oldIdx = pageStack.currentIndex;
+        let doomed = [];
+        for (let i = pageStack.depth - 1; i > oldIdx; i--) {
+            doomed.push(pageStack.get(i));
+        }
         pageStack.push(buildObject(name, data, this));
+        for (let i = 0; i < doomed.length; i++) {
+            _logDestroy(doomed[i].title || "?");
+            doomed[i].destroy();
+        }
     }
     function navigateToFeed(name, data) {
+        for (let i = pageStack.depth - 1; i >= 0; i--) {
+            let page = pageStack.get(i);
+            if (page) {
+                _logDestroy(page.title || "?");
+                page.destroy();
+            }
+        }
         pageStack.clear();
         pageStack.push(buildObject(name, data, this));
     }
@@ -43,12 +68,16 @@ Kirigami.ApplicationWindow {
         navigateToPageParm(name, {});
     }
     function goBack() {
-        if (pageStack.currentIndex > 0)
+        if (pageStack.currentIndex > 0) {
             pageStack.currentIndex--;
+            console.log("[MEM] goBack → idx:", pageStack.currentIndex, "/ depth:", pageStack.depth, "| alive:", _pagesAlive);
+        }
     }
     function goForward() {
-        if (pageStack.currentIndex < pageStack.depth - 1)
+        if (pageStack.currentIndex < pageStack.depth - 1) {
             pageStack.currentIndex++;
+            console.log("[MEM] goForward → idx:", pageStack.currentIndex, "/ depth:", pageStack.depth, "| alive:", _pagesAlive);
+        }
     }
     function loggedIn(response) {
         let json = JSON.parse(response);
@@ -56,8 +85,10 @@ Kirigami.ApplicationWindow {
         LoginHandler.SetUser(json["user"]["account"]).then(() => {
             LoginHandler.WriteToken(json["refresh_token"]).then(() => {
                 LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
-                    pageStack.pop();
-                    pageStack.pop();
+                    let p1 = pageStack.currentItem; pageStack.pop();
+                    if (p1) { _logDestroy(p1.title || "login"); p1.destroy(); }
+                    let p2 = pageStack.currentItem; pageStack.pop();
+                    if (p2) { _logDestroy(p2.title || "welcome"); p2.destroy(); }
 
                     piqi.RecommendedFeed("illust", true, true).then(recommended => {
                         // Cache.SynchroniseIllusts(recommended.illusts);
@@ -124,6 +155,33 @@ Kirigami.ApplicationWindow {
     pageStack.columnView.columnResizeMode: Kirigami.ColumnView.SingleColumn
     pageStack.columnView.interactive: false
     pageStack.initialPage: Loading {}
+
+    Rectangle {
+        z: 1000
+        anchors { right: parent.right; bottom: parent.bottom; margins: 10 }
+        width: 260; height: 160
+        color: "#CC000000"
+        radius: 6
+
+        Column {
+            anchors { fill: parent; margins: 8 }
+            spacing: 4
+
+            Text { text: "[MEM DEBUG]"; color: "#FF0"; font.bold: true; font.pointSize: 10 }
+            Text { color: "white"; font.pointSize: 9
+                text: "created: " + _pagesCreated + "  destroyed: " + _pagesDestroyed + "  alive: " + _pagesAlive
+            }
+            Text { color: "white"; font.pointSize: 9
+                text: "stack depth: " + pageStack.depth + "  current idx: " + pageStack.currentIndex
+            }
+            Text { color: "white"; font.pointSize: 9
+                text: "current page: " + (pageStack.currentItem?.title ?? "none")
+            }
+            Text { color: "#AAA"; font.pointSize: 8
+                text: "component cache: " + Object.keys(_compCache).length
+            }
+        }
+    }
 
     function showFullscreen(metaPages, metaSinglePage, pageCount) {
         if (root.fullscreenActive)
