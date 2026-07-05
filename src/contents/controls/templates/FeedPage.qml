@@ -148,6 +148,28 @@ Kirigami.ScrollablePage {
     Controls.Button {
         parent: fp
         z: 5
+        visible: true
+
+        anchors {
+            right: parent.right
+            bottom: returnButton.top
+            bottomMargin: Kirigami.Units.smallSpacing
+            margins: Kirigami.Units.gridUnit
+        }
+
+        action: Kirigami.Action {
+            icon.name: fp.loading ? "view-refresh" : "view-refresh"
+            icon.height: Kirigami.Units.iconSizes.medium
+            icon.width: Kirigami.Units.iconSizes.medium
+            enabled: !fp.loading
+            onTriggered: fp.refresh()
+        }
+    }
+
+    Controls.Button {
+        id: returnButton
+        parent: fp
+        z: 5
         opacity: fp.flickable.contentY > fp.flickable.originY
         visible: opacity > 0
 

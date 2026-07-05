@@ -11,7 +11,7 @@ Kirigami.NavigationTabButton {
 
     Layout.fillWidth: true
     implicitHeight: 50
-    display: sidebar.collapsed ? Controls.AbstractButton.IconOnly : Controls.AbstractButton.TextBesideIcon
+    display: Controls.AbstractButton.TextBesideIcon
     checked: matchPart ? root.currentPage.startsWith(text) : (root.currentPage == text)
     checkable: false
 
