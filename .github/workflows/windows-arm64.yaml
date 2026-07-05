@@ -1,0 +1,155 @@
+name: Build Windows ARM64
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Piki
+        uses: actions/checkout@v4
+        with:
+          path: piki
+
+      - name: Checkout Piqi
+        uses: actions/checkout@v4
+        with:
+          repository: MicrogamerCz/Piqi
+          path: piqi
+
+      - name: Setup MSYS2 (clangarm64)
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: clangarm64
+          install: >-
+            mingw-w64-clang-aarch64-cmake
+            mingw-w64-clang-aarch64-ninja
+            mingw-w64-clang-aarch64-qt6-base
+            mingw-w64-clang-aarch64-qt6-declarative
+            mingw-w64-clang-aarch64-qt6-svg
+            mingw-w64-clang-aarch64-qt6-shadertools
+            mingw-w64-clang-aarch64-qt6-tools
+            mingw-w64-clang-aarch64-qt6-websockets
+            mingw-w64-clang-aarch64-kirigami
+            mingw-w64-clang-aarch64-kirigami-addons
+            mingw-w64-clang-aarch64-kcoreaddons
+            mingw-w64-clang-aarch64-kconfig
+            mingw-w64-clang-aarch64-ki18n
+            mingw-w64-clang-aarch64-purpose
+            mingw-w64-clang-aarch64-extra-cmake-modules
+            mingw-w64-clang-aarch64-breeze-icons
+            mingw-w64-clang-aarch64-dbus
+            mingw-w64-clang-aarch64-sqlite3
+            mingw-w64-clang-aarch64-git
+            mingw-w64-clang-aarch64-curl
+            git
+
+      - name: Build QCoro
+        shell: msys2 {0}
+        run: |
+          cd /tmp
+          git clone --depth 1 --branch v0.12.0 https://github.com/danvratil/qcoro.git
+          cd qcoro
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DQCORO_WITH_QTDBUS=ON \
+            -DCMAKE_INSTALL_PREFIX=/clangarm64
+          cmake --build build
+          cmake --install build
+          # Patch: QCoro6Qml doesn't find_dependency Qt6QmlPrivate
+          sed -i 's/find_dependency(Qt6Qml)/find_dependency(Qt6Qml)\nfind_dependency(Qt6QmlPrivate)/' \
+            /clangarm64/lib/cmake/QCoro6Qml/QCoro6QmlConfig.cmake
+
+      - name: Build FutureSQL
+        shell: msys2 {0}
+        run: |
+          cd /tmp
+          git clone --depth 1 --branch v0.1.1 https://invent.kde.org/libraries/futuresql.git
+          cd futuresql
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DQT_MAJOR_VERSION=6 \
+            -DBUILD_TESTING=OFF \
+            -DCMAKE_INSTALL_PREFIX=/clangarm64
+          cmake --build build
+          cmake --install build
+
+      - name: Build Qt6Keychain
+        shell: msys2 {0}
+        run: |
+          cd /tmp
+          git clone --depth 1 --branch 0.15.0 https://github.com/frankosterfeld/qtkeychain.git
+          cd qtkeychain
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_WITH_QT6=ON \
+            -DCMAKE_INSTALL_PREFIX=/clangarm64
+          # Fix: clang treats /utf-8 as a file path
+          sed -i 's| /utf-8||g' build/build.ninja
+          cmake --build build
+          cmake --install build
+
+      - name: Build Piqi
+        shell: msys2 {0}
+        run: |
+          cd "$GITHUB_WORKSPACE/piqi"
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/clangarm64
+          cmake --build build
+          cmake --install build
+
+      - name: Build Piki
+        shell: msys2 {0}
+        run: |
+          cd "$GITHUB_WORKSPACE/piki"
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/clangarm64
+          cmake --build build
+
+      - name: Package
+        shell: msys2 {0}
+        run: |
+          cd "$GITHUB_WORKSPACE/piki"
+          mkdir -p dist
+          cp build/bin/piki.exe dist/
+          cd dist
+          # Collect all non-system DLLs
+          for dll in $(llvm-objdump -p piki.exe 2>/dev/null | grep 'DLL Name' | awk '{print $3}' | grep -vE 'KERNEL32|api-ms-win|SHELL32'); do
+            if [ -f "/clangarm64/bin/$dll" ]; then
+              cp "/clangarm64/bin/$dll" .
+            fi
+          done
+          # Runtime dependencies
+          cp /clangarm64/bin/libc++.dll . 2>/dev/null || true
+          cp /clangarm64/bin/libunwind.dll . 2>/dev/null || true
+          # Qt platform and icon engine plugins
+          mkdir -p platforms
+          cp /clangarm64/share/qt6/plugins/platforms/qwindows.dll platforms/ 2>/dev/null || true
+          mkdir -p iconengines
+          cp /clangarm64/share/qt6/plugins/iconengines/qsvgicon.dll iconengines/ 2>/dev/null || true
+          mkdir -p imageformats
+          cp /clangarm64/share/qt6/plugins/imageformats/*.dll imageformats/ 2>/dev/null || true
+          # qt.conf
+          cat > qt.conf << 'CONFEOF'
+          [Paths]
+          Prefix = .
+          Plugins = .
+          Qml2Imports = .
+          CONFEOF
+          # Result
+          echo "=== Packaged files ==="
+          find . -type f | sort
+          echo "=== Dependency list ==="
+          llvm-objdump -p piki.exe 2>/dev/null | grep 'DLL Name'
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: piki-windows-arm64
+          path: piki/dist/
