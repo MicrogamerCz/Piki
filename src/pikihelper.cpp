@@ -3,8 +3,13 @@
 
 #include "pikihelper.h"
 #include <QCoro>
+#include <QDir>
+#include <QFile>
+#include <QFileDialog>
 #include <QLocalSocket>
 #include <QNetworkReply>
+#include <QStandardPaths>
+#include <QUrl>
 #include <QtDBus>
 
 PikiHelper::PikiHelper(QObject *parent)
@@ -135,4 +140,49 @@ QJsonArray PikiHelper::GetScreensHyprland()
     QJsonArray arr = QJsonDocument::fromJson(sock.readAll()).array();
     sock.disconnectFromServer();
     return arr;
+}
+
+QString PikiHelper::pickDirectory()
+{
+    QString path = QFileDialog::getExistingDirectory(nullptr, "Select Download Directory", QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));
+    return path;
+}
+
+bool PikiHelper::saveToDir(QString sourcePath, QString targetDir, QString filename)
+{
+    QDir dir(targetDir);
+    if (!dir.exists()) {
+        if (!dir.mkpath("."))
+            return false;
+    }
+    QString source = sourcePath;
+    if (source.startsWith("file://"))
+        source = QUrl(source).toLocalFile();
+    return QFile::copy(source, targetDir + "/" + filename);
+}
+
+QCoro::QmlTask PikiHelper::downloadToDir(QString url, QString targetDir, QString filename)
+{
+    return downloadToDirTask(url, targetDir, filename);
+}
+QCoro::Task<bool> PikiHelper::downloadToDirTask(QString url, QString targetDir, QString filename)
+{
+    QDir dir(targetDir);
+    if (!dir.exists())
+        dir.mkpath(".");
+
+    QUrl qurl(url);
+    QNetworkRequest request(qurl);
+    request.setRawHeader("Referer", "https://app-api.pixiv.net/");
+    QNetworkReply *reply = co_await manager.get(request);
+
+    if (reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200) {
+        QFile file(targetDir + "/" + filename);
+        if (file.open(QIODevice::WriteOnly)) {
+            file.write(reply->readAll());
+            file.close();
+            co_return true;
+        }
+    }
+    co_return false;
 }

@@ -18,19 +18,35 @@ Kirigami.Page {
     property var otherIllusts: null
     property var series: null
 
-    ListModel {
-        id: images
-    }
-
     ImageDownloader {
         id: downloader
     }
-    function download(index) {
-        downloader.Download(illust.metaPages[index].original).then(img => {
-            images.append({
-                url: img
+
+    function downloadCurrent() {
+        var targetDir = Config.downloadPath || "";
+        if (targetDir === "") {
+            root.showPassiveNotification(i18n("Download path not set. Set it in Settings."));
+            return;
+        }
+        if (page.illust.pageCount > 1) {
+            downloadPage(0, targetDir);
+        } else {
+            var url = page.illust.metaSinglePage;
+            var name = url.substring(url.lastIndexOf("/") + 1);
+            PikiHelper.downloadToDir(url, targetDir, name).then(function(ok) {
+                root.showPassiveNotification(i18n("Image saved"));
             });
-            download(index + 1);
+        }
+    }
+    function downloadPage(index, targetDir) {
+        if (index >= page.illust.pageCount) {
+            root.showPassiveNotification(i18np("1 page saved", "%1 pages saved", page.illust.pageCount));
+            return;
+        }
+        var url = page.illust.metaPages[index].original;
+        var name = url.substring(url.lastIndexOf("/") + 1);
+        PikiHelper.downloadToDir(url, targetDir, name).then(function(ok) {
+            downloadPage(index + 1, targetDir);
         });
     }
 
@@ -47,8 +63,6 @@ Kirigami.Page {
             piqi.IllustSeriesDetails(illust).then(series => {
                 page.series = series;
             });
-        if (illust.pageCount > 1)
-            download(0);
     }
 
     Controls.SplitView {
@@ -61,48 +75,84 @@ Kirigami.Page {
             Controls.SplitView.preferredWidth: page.width * 0.575
 
             PixivImage {
+                id: mainImage
                 visible: page.illust.pageCount == 1
                 source: illust.metaSinglePage
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
             }
 
-            Controls.ScrollView {
+            ListView {
+                id: pagesView
+                visible: page.illust.pageCount > 1
                 anchors.fill: parent
-                ListView {
-                    model: images
-                    clip: true
-                    spacing: 15
+                model: page.illust.metaPages
+                orientation: ListView.Horizontal
+                snapMode: ListView.SnapOneItem
+                clip: true
 
-                    delegate: Image {
-                        required property string url
-                        source: url
-                        fillMode: Image.PreserveAspectFit
-                        width: ListView.view.width
-                        retainWhileLoading: true
-                        asynchronous: true
-                        sourceSize.width: page.width * 0.6
-                        sourceSize.height: page.height
+                delegate: PixivImage {
+                    required property var modelData
+                    source: modelData.original
+                    fillMode: Image.PreserveAspectFit
+                    width: ListView.view.width
+                    height: ListView.view.height
+                }
+            }
+
+            Row {
+                id: pageDots
+                visible: page.illust.pageCount > 1
+                anchors {
+                    bottom: parent.bottom
+                    horizontalCenter: parent.horizontalCenter
+                    margins: Kirigami.Units.gridUnit
+                }
+                spacing: Kirigami.Units.smallSpacing
+
+                property int currentIndex: pagesView.width > 0 ?
+                    Math.round(pagesView.contentX / pagesView.width) : 0
+
+                Repeater {
+                    model: page.illust.pageCount
+
+                    delegate: Rectangle {
+                        width: 8
+                        height: 8
+                        radius: 4
+                        color: (index === pageDots.currentIndex) ?
+                            Kirigami.Theme.highlightColor :
+                            Kirigami.Theme.textColor
+                        opacity: (index === pageDots.currentIndex) ? 1.0 : 0.4
                     }
+                }
+            }
 
-                    footerPositioning: ListView.OverlayFooter
-                    footer: Kirigami.AbstractCard {
-                        z: 5
-                        visible: (page.illust.pageCount > 1) && (page.illust.pageCount > images.count)
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            bottom: parent.bottom
-                            leftMargin: Kirigami.Units.mediumSpacing
-                            rightMargin: Kirigami.Units.mediumSpacing
-                            bottomMargin: Kirigami.Units.largeSpacing
-                        }
-                        contentItem: Controls.ProgressBar {
-                            anchors.fill: parent
-                            from: 0
-                            to: downloader.total
-                            value: downloader.progress
-                        }
+            Controls.RoundButton {
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    margins: Kirigami.Units.mediumSpacing
+                }
+                width: Kirigami.Units.gridUnit * 2
+                height: Kirigami.Units.gridUnit * 2
+                flat: true
+                onClicked: root.showFullscreen(
+                    page.illust.metaPages,
+                    page.illust.metaSinglePage,
+                    page.illust.pageCount
+                )
+                background: Rectangle {
+                    color: Kirigami.Theme.backgroundColor
+                    opacity: 0.7
+                    radius: width / 2
+                }
+                contentItem: Item {
+                    Controls.Label {
+                        anchors.centerIn: parent
+                        text: "\u26F6"
+                        color: Kirigami.Theme.textColor
+                        font.pixelSize: 14
                     }
                 }
             }

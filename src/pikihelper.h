@@ -32,5 +32,9 @@ public:
 public Q_SLOTS:
     QCoro::QmlTask CheckFanbox(User *user);
     QCoro::QmlTask SetWallpaper(Illustration *illust, uint screen = 0, int index = 0);
-    uint GetScreenCount(); // -1 is default for unknown number of screens
+    uint GetScreenCount();
+    Q_INVOKABLE QString pickDirectory();
+    Q_INVOKABLE bool saveToDir(QString sourcePath, QString targetDir, QString filename);
+    QCoro::Task<bool> downloadToDirTask(QString url, QString targetDir, QString filename);
+    Q_INVOKABLE QCoro::QmlTask downloadToDir(QString url, QString targetDir, QString filename);
 };

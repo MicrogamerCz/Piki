@@ -68,6 +68,17 @@ Kirigami.AbstractCard {
             },
             FlatAction {
                 text: Qt.formatDateTime(toolbar.illust.createDate, "yyyy-MM-dd hh:mm")
+            },
+            Kirigami.Action {
+                separator: true
+            },
+            Kirigami.Action {
+                icon.name: "download"
+                text: i18n("Download")
+                onTriggered: {
+                    if (typeof page !== 'undefined' && page.downloadCurrent)
+                        page.downloadCurrent();
+                }
             }
         ]
     }

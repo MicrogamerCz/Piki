@@ -158,6 +158,30 @@ FormCard.FormCardPage {
             selectedIndex: (Config.allowR18WorksAsWallpapers <= 1) ? Config.allowR18WorksAsWallpapers : (Config.allowR18WorksAsWallpapers + 1)
         }
     }
+    FormCard.FormDelegateSeparator {}
+    FormCard.FormHeader {
+        maximumWidth: Kirigami.Units.gridUnit * 50
+        title: i18n("Download")
+    }
+    FormCard.FormCard {
+        maximumWidth: Kirigami.Units.gridUnit * 50
+
+        FormCard.FormTextDelegate {
+            text: i18n("Save images to")
+            description: Config.downloadPath || i18n("Not set - set a folder to enable download")
+        }
+        FormCard.FormButtonDelegate {
+            text: i18n("Choose folder")
+            icon.name: "folder-open"
+            onClicked: {
+                var path = PikiHelper.pickDirectory();
+                if (path) {
+                    Config.downloadPath = path;
+                    Config.save();
+                }
+            }
+        }
+    }
     FormCard.FormHeader {
         maximumWidth: Kirigami.Units.gridUnit * 50
         title: "About"
