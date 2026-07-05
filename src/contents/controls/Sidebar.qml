@@ -22,10 +22,6 @@ Rectangle {
     readonly property string currentPage: root.currentPage
     property bool collapsed: true
 
-    Behavior on width {
-        NumberAnimation { easing.type: Easing.OutCubic; duration: 200 }
-    }
-
     function switchAccount(data) {
         reloadingAccount = true;
         LoginHandler.SetUser(data.account).then(() => {
