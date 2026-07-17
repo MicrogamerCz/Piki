@@ -69,8 +69,11 @@ Code/translation contributions are welcome, as well as independent testing.
 ---
 
 # (A lot of) TODOs
+- Fixes
+  - Typos in original strings or Czech translations
+  - Novels feeds not loading
 - General
-  - [ ] Improve performance (especially after navigating a few feed pages)
+  - [x] Improve performance (especially after navigating a few feed pages)
   - [ ] Network error handling - either with passive notifications or dialogs
   - [ ] Splitting Header and Search field
   - [ ] Convergent layout
