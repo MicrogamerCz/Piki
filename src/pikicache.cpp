@@ -6,7 +6,6 @@
 #include "piqi/imageurls.h"
 #include <algorithm>
 #include <qcoroqmltask.h>
-#include <qcorotask.h>
 #include <qdebug.h>
 #include <qdir.h>
 #include <qiodevicebase.h>
@@ -78,15 +77,15 @@ QCoro::Task<void> Cache::PushTagHistoryTask(QList<Tag *> tags)
 
         co_await database->execute("BEGIN TRANSACTION");
         co_await database->execute(
-            "INSERT INTO tags (name, translated) VALUES (?, ?) ON CONFLICT(name)"
+            "INSERT INTO tags (name, translated) VALUES (?, ?) ON CONFLICT(name) "
             "DO UPDATE SET name = excluded.name, translated = COALESCE(translated, excluded.translated)",
             tag->m_name,
             tag->m_translatedName);
         co_await database->execute(
-            "INSERT INTO tags_history (tag_id) VALUES (?) ON CONFLICT(tag_id)"
+            "INSERT INTO tags_history (tag_id, user_id) VALUES (SELECT id FROM tags WHERE name = ?, "
+            "SELECT id FROM accounts WHERE is_primary = 1) ON CONFLICT(tag_id) "
             "DO UPDATE SET frequency = frequency + 1",
-            tag->m_name,
-            tag->m_translatedName);
+            tag->m_name);
         co_await database->execute("COMMIT");
     }
 
@@ -101,8 +100,8 @@ QCoro::Task<QList<Tag *>> Cache::GetTagHistoryTask()
 {
     QList<Tag *> tags;
     std::vector<TagResult> tagsResult = co_await database->getResults<TagResult>(
-        "SELECT tags.* FROM tags"
-        "JOIN tags_history ON tags.id = tags_history.tag_id"
+        "SELECT tags.* FROM tags "
+        "JOIN tags_history ON tags.id = tags_history.tag_id "
         "ORDER BY tags_history.frequency DESC LIMIT 20");
     std::for_each(tagsResult.begin(), tagsResult.end(), [&tags](const TagResult &res) {
         tags.append(res.toTag());
