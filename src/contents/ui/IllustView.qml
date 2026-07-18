@@ -163,9 +163,10 @@ Kirigami.Page {
                         illust: page.illust
                     }
 
-                    // SeriesDetails {
-                        // visible: page.illust.series.id != 0
-                    // }
+                    SeriesDetailsCard {
+                        illust: page.illust
+                        series: page.series
+                    }
 
                     // Later improve by using unintended behaviour of the endpoint,
                     // finding if any of the illusts is the opened one

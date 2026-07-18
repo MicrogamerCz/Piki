@@ -47,6 +47,7 @@ ecm_add_qml_module(piki_st
         contents/controls/IllustToolbar.qml
         contents/controls/SeriesChapterCard.qml
         contents/controls/SeriesButton.qml
+        contents/controls/SeriesDetailsCard.qml
 
         contents/controls/templates/DoubleAbstractCard.qml
         contents/controls/templates/FeedPage.qml
