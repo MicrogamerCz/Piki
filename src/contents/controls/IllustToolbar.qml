@@ -6,8 +6,6 @@ import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.purpose as Purpose
 import org.kde.kirigami as Kirigami
-import org.kde.kirigamiaddons.formcard as Form
-import org.kde.kirigamiaddons.components as KIA
 import io.github.micro.piki
 import io.github.micro.piqi
 import "."
@@ -15,6 +13,7 @@ import "../controls"
 
 Kirigami.AbstractCard {
     id: toolbar
+
     property Illustration illust
 
     contentItem: Kirigami.ActionToolBar {

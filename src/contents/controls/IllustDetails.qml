@@ -9,10 +9,12 @@ import io.github.micro.piqi
 
 Kirigami.AbstractCard {
     id: card
+
     property Illustration illust
 
     clip: true
     padding: Kirigami.Units.largeSpacing * 2
+
     contentItem: ColumnLayout {
         anchors.fill: parent
         spacing: Kirigami.Units.mediumSpacing * 2

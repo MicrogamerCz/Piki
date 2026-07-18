@@ -67,8 +67,8 @@ Kirigami.Page {
         anchors.fill: parent
 
         Item {
-            Controls.SplitView.minimumWidth: page.width * 0.425
-            Controls.SplitView.maximumWidth: page.width * 0.575
+            Controls.SplitView.minimumWidth: page.width * 0.35
+            // Controls.SplitView.maximumWidth: page.width * 0.575
             Controls.SplitView.preferredWidth: page.width * 0.575
 
             PixivImage {
@@ -84,6 +84,8 @@ Kirigami.Page {
                     model: images
                     clip: true
                     spacing: 15
+
+                    boundsBehavior: ListView.StopAtBounds
 
                     delegate: Image {
                         required property string url
@@ -102,14 +104,6 @@ Kirigami.Page {
                     footer: Kirigami.AbstractCard {
                         z: 5
                         visible: (page.illust.pageCount > 1) && (page.illust.pageCount > images.count)
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            bottom: parent.bottom
-                            leftMargin: Kirigami.Units.mediumSpacing
-                            rightMargin: Kirigami.Units.mediumSpacing
-                            bottomMargin: Kirigami.Units.largeSpacing
-                        }
 
                         contentItem: Controls.ProgressBar {
                             anchors.fill: parent
@@ -122,21 +116,33 @@ Kirigami.Page {
             }
         }
 
-        Item {
+        Controls.ScrollView {
             Controls.SplitView.fillHeight: true
-            Controls.SplitView.minimumWidth: 600
-            property bool loading: false
-            Flickable {
-                anchors.fill: parent
-                contentHeight: columnLayout.height
-                boundsBehavior: Flickable.StopAtBounds
+            Controls.SplitView.minimumWidth: 500
+            Controls.ScrollBar.horizontal.policy: Controls.ScrollBar.AlwaysOff
+
+            GridView {
+                id: relatedIllusts
+
+                property bool loading: false
+
+                boundsBehavior: GridView.StopAtBounds
                 clip: true
+                cellWidth: 175 + Kirigami.Units.gridUnit // width
+                cellHeight: 205 + 45 + Kirigami.Units.gridUnit // top height + bottom height
+                delegate: IllustrationButton {}
+                model: page.related
+
+                leftMargin: Kirigami.Units.gridUnit
+                topMargin: Kirigami.Units.gridUnit
+                bottomMargin: Kirigami.Units.gridUnit
+                width: parent.availableWidth - leftMargin
 
                 onAtYEndChanged: {
                     if (page.related == null || !atYEnd)
                         return;
 
-                    parent.loading = true;
+                    loading = true;
                     piqi.RelatedIllusts(page.illust).then(rels => {
                         // Cache.SynchroniseIllusts(rels.illusts);
                         page.related.Extend(rels);
@@ -144,16 +150,9 @@ Kirigami.Page {
                     });
                 }
 
-                ColumnLayout {
-                    id: columnLayout
-                    width: parent.width - page.padding
-                    anchors.leftMargin: page.padding
-                    anchors.rightMargin: (height > page.height) ? (sc.width + page.padding) : 0
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                        right: parent.right
-                    }
+                header: ColumnLayout {
+                    width: relatedIllusts.width - Kirigami.Units.gridUnit * 2
+
                     IllustViewProfileCard {
                         user: page.illust.user
                     }
@@ -164,76 +163,9 @@ Kirigami.Page {
                         illust: page.illust
                     }
 
-                    // Series details
-                    Kirigami.AbstractCard {
-                        visible: page.illust.series.id != 0
-                        padding: Kirigami.Units.largeSpacing * 2
-                        contentItem: ColumnLayout {
-                            Kirigami.Heading {
-                                text: page.illust.series.title
-                            }
-
-                            ColumnLayout {
-                                visible: page.series.illustSeriesContext.next != null
-                                Kirigami.Heading {
-                                    level: 2
-                                    text: i18n("Next Chapter:")
-                                    color: Kirigami.Theme.disabledTextColor
-                                }
-                                SeriesChapterCard {
-                                    chapter: page.series.illustSeriesContext.next
-                                }
-                            }
-                            Kirigami.Separator {
-                                visible: (page.series.illustSeriesContext.prev != null) && (page.series.illustSeriesContext.next != null)
-                                Layout.fillWidth: true
-                            }
-                            ColumnLayout {
-                                visible: page.series.illustSeriesContext.prev != null
-                                Kirigami.Heading {
-                                    level: 2
-                                    text: i18n("Previous Chapter:")
-                                    color: Kirigami.Theme.disabledTextColor
-                                }
-                                SeriesChapterCard {
-                                    chapter: page.series.illustSeriesContext.prev
-                                }
-                            }
-
-                            RowLayout {
-                                Layout.fillWidth: true
-                                uniformCellSizes: true
-
-                                Controls.Button {
-                                    Layout.fillWidth: true
-                                    flat: true
-                                    text: checked ? i18n("In your watchlist") : i18n("Add to watchlist")
-                                    checkable: true
-                                    checked: page.series.illustSeriesDetail.watchlistAdded
-
-                                    onClicked: {
-                                        if (checked)
-                                            page.series.illustSeriesDetail.WatchlistAdd();
-                                        else
-                                            page.series.illustSeriesDetail.WatchlistDelete();
-                                    }
-                                }
-                                Controls.Button {
-                                    Layout.fillWidth: true
-                                    flat: true
-                                    text: i18n("Series")
-
-                                    onClicked: {
-                                        piqi.SeriesFeed(page.series.illustSeriesDetail.id).then(series => {
-                                            navigateToPageParm("Series", {
-                                                feed: series
-                                            });
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    // SeriesDetails {
+                        // visible: page.illust.series.id != 0
+                    // }
 
                     // Later improve by using unintended behaviour of the endpoint,
                     // finding if any of the illusts is the opened one
@@ -260,36 +192,23 @@ Kirigami.Page {
                     CommentSection {
                         illust: page.illust
                     }
-                    GridView {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: contentHeight
-                        cellWidth: 175 + Kirigami.Units.gridUnit // width
-                        cellHeight: 205 + 45 + Kirigami.Units.gridUnit // top height + bottom height
+                }
 
-                        model: page.related
-                        delegate: IllustrationButton {}
+                footer: Kirigami.AbstractCard {
+                    z: 5
+                    visible: relatedIllusts.loading
+
+                    // anchors {
+                    // left: parent.left
+                    // right: parent.right
+                    // bottom: parent.bottom
+                    // margins: Kirigami.Units.gridUnit
+                    // }
+
+                    contentItem: Controls.ProgressBar {
+                        indeterminate: true
+                        anchors.fill: parent
                     }
-                }
-
-                Controls.ScrollBar.vertical: Controls.ScrollBar {
-                    id: sc
-                    policy: Controls.ScrollBar.AsNeeded
-                    anchors.right: parent.right
-                }
-            }
-            Kirigami.AbstractCard {
-                z: 5
-                visible: parent.loading
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    bottom: parent.bottom
-                    leftMargin: page.padding
-                    rightMargin: (columnLayout.height > page.height) ? sc.width : 0
-                }
-                contentItem: Controls.ProgressBar {
-                    indeterminate: true
-                    anchors.fill: parent
                 }
             }
         }
