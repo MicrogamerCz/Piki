@@ -13,7 +13,8 @@ Kirigami.AbstractCard {
     property int commentCount: 0
     property bool collapsed: true
 
-    Component.onCompleted: illust.FetchComments().then(comments => processComments(comments, 0, null))
+    // ? Check why missing
+    // Component.onCompleted: illust.FetchComments().then(comments => processComments(comments, 0, null))
 
     function processComments(comments, level, previous) {
         for (let i = 0; i < comments.comments.length; i++) {

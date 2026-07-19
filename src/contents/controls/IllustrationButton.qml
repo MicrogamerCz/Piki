@@ -94,7 +94,7 @@ DoubleAbstractCard {
                     Controls.Label {
                         id: pageCountLabel
                         anchors.centerIn: parent
-                        text: "  " + card.illust.pageCount
+                        text: "🗍  " + card.illust.pageCount // TODO: use actual icon, not fonticon for the pages
                         font.pointSize: 10
                         font.bold: true
                     }

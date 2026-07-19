@@ -93,6 +93,7 @@ Code/translation contributions are welcome, as well as independent testing.
   - [ ] Local browsing history (+ online for premium users)
   - [ ] Rewrite login process to remove dependency on QtWebEngine
   - [ ] Cropping for "Set as wallpaper" share option when there's a mismatch between the aspect ratio of the image and the monitor
+- [ ] In-app notification when API returns error after multiple API calls in a short while (or added delays? could be due to the minimal parameters compared to the app)
 - Profile page
   - [ ] More appropriate icon for fanbox link
 - Novel page
