@@ -12,6 +12,10 @@ Kirigami.Page {
     title: ""
 
     Component.onCompleted: {
+        let profile = profilePrototype.instance();
+        profile.httpAcceptLanguage = Qt.uiLanguage
+        web.profile = profile;
+
         processor.AddInterceptor(profile);
         web.url = processor.Begin();
     }
@@ -24,13 +28,12 @@ Kirigami.Page {
         }
     }
 
+    WebEngineProfilePrototype {
+        id: profilePrototype
+    }
+
     WebEngineView {
         id: web
         anchors.fill: parent
-
-        profile: WebEngineProfile {
-            id: profile
-            httpAcceptLanguage: Qt.uiLanguage
-        }
     }
 }
