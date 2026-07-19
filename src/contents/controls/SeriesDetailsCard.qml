@@ -7,6 +7,7 @@ import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 import io.github.micro.piki
 import io.github.micro.piqi
+
 // import "../controls"
 
 Kirigami.AbstractCard {
@@ -24,29 +25,53 @@ Kirigami.AbstractCard {
         }
 
         ColumnLayout {
-            visible: sd.series.illustSeriesContext.next != null
+            visible: sd.series?.illustSeriesContext?.next != null
             Kirigami.Heading {
                 level: 2
                 text: i18n("Next Chapter:")
                 color: Kirigami.Theme.disabledTextColor
             }
-            SeriesChapterCard {
-                chapter: sd.series.illustSeriesContext.next
+
+            Component {
+                id: nextSeriesCardComp
+                SeriesChapterCard {
+                    chapter: sd.series?.illustSeriesContext?.next
+                }
+            }
+            Loader {
+                active: sd.series != null
+                asynchronous: true
+                sourceComponent: nextSeriesCardComp
+
+                Layout.fillWidth: true
             }
         }
+
         Kirigami.Separator {
-            visible: (sd.series.illustSeriesContext.prev != null) && (sd.series.illustSeriesContext.next != null)
+            visible: (sd.series?.illustSeriesContext?.prev != null) && (sd.series?.illustSeriesContext?.next != null)
             Layout.fillWidth: true
         }
+
         ColumnLayout {
-            visible: sd.series.illustSeriesContext.prev != null
+            visible: sd.series?.illustSeriesContext?.prev != null
             Kirigami.Heading {
                 level: 2
                 text: i18n("Previous Chapter:")
                 color: Kirigami.Theme.disabledTextColor
             }
-            SeriesChapterCard {
-                chapter: sd.series.illustSeriesContext.prev
+
+            Component {
+                id: prevSeriesCardComp
+                SeriesChapterCard {
+                    chapter: sd.series?.illustSeriesContext?.prev
+                }
+            }
+            Loader {
+                active: sd.series != null
+                asynchronous: true
+                sourceComponent: prevSeriesCardComp
+
+                Layout.fillWidth: true
             }
         }
 
@@ -59,7 +84,7 @@ Kirigami.AbstractCard {
                 flat: true
                 text: checked ? i18n("In your watchlist") : i18n("Add to watchlist")
                 checkable: true
-                checked: sd.series.illustSeriesDetail.watchlistAdded
+                checked: sd.series?.illustSeriesDetail?.watchlistAdded ?? false
 
                 onClicked: {
                     if (checked)

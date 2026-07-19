@@ -8,6 +8,7 @@ import org.kde.kirigami as Kirigami
 Image {
     asynchronous: true
     retainWhileLoading: true
+
     Controls.ProgressBar {
         z: -1
         anchors {
