@@ -30,17 +30,18 @@ Controls.ItemDelegate {
         radius: Kirigami.Units.cornerRadius
         border.color: Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, Kirigami.Theme.frameContrast)
 
-        ColumnLayout {
+        Kirigami.AbstractCard {
             anchors.centerIn: parent
-
-            Kirigami.Heading {
-                Layout.alignment: Qt.AlignHCenter
-                text: card.detail.title
-            }
-            Controls.Label {
-                Layout.alignment: Qt.AlignHCenter
-                color: Kirigami.Theme.disabledTextColor
-                text: i18np("%1 work", "%1 works", card.detail.seriesWorkCount)
+            contentItem: ColumnLayout {
+                Kirigami.Heading {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: card.detail.title
+                }
+                Controls.Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    color: Kirigami.Theme.disabledTextColor
+                    text: i18np("%1 work", "%1 works", card.detail.seriesWorkCount)
+                }
             }
         }
 
