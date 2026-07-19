@@ -50,6 +50,7 @@ Controls.ItemDelegate {
             sourceSize.height: 298
             cache: true
             source: card.detail.coverImageUrls.medium
+            fillMode: Image.PreserveAspectCrop
             anchors.fill: parent
             anchors.margins: 1
             layer {

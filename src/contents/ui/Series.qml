@@ -17,8 +17,6 @@ FeedPage {
     padding: 0
     header: null
 
-    property Series feed
-
     Rectangle {
         id: headerLayout
         Layout.preferredHeight: 350
