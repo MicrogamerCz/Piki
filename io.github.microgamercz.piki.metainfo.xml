@@ -56,7 +56,7 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
         type="desktop-id"
     >io.github.microgamercz.piki.desktop</launchable>
    <screenshots>
-     <screenshot>
+     <screenshot type="default">
        <image
             >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/2_home_light.png</image>
         <caption>Home page with feed in adaptive grid layout</caption>
@@ -65,13 +65,13 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
        <image
             >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/3_illust_view_light.png</image>
         <caption
-            >Page showing work, with the contents on the left side and work info, other works by the author, comments and related works on the right side</caption>
+            >Illustration page, with pages on the left side and work info, related works, etc. on the right side</caption>
      </screenshot>
      <screenshot>
        <image
             >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/4_profile_view_light.png</image>
         <caption
-            >Page showing basic user info (username, profile picture, who the user follows, whether is followed by the app user, ...) and additional details (their bio, personal details, setup) with a banner behind. Below are feeds for the user's posted works and public bookmarked works</caption>
+            >Page showing user info and illustration, manga or novel feeds</caption>
      </screenshot>
    </screenshots>
 
@@ -86,51 +86,15 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
                 type="details"
             >https://github.com/MicrogamerCz/Piki/releases/tag/0.4.0</url>
         <description>
-        <h2>What's Changed</h2>
         <ul>
-          <li>Added Dutch translation by <a
-                            href="https://github.com/Vistaus"
-                        >@Vistaus</a> in <a
-                            href="https://github.com/MicrogamerCz/Piki/pull/19"
-                        >#19</a></li>
-          <li>Add OpenSUSE installation instructions to README by <a
-                            href="https://github.com/Daskashk"
-                        >@Daskashk</a> in <a
-                            href="https://github.com/MicrogamerCz/Piki/pull/24"
-                        >#24</a></li>
+          <li>Added Dutch translation by Vistaus</li>
           <li
-                    >feat: add discovery keywords to desktop entry &amp; fix Arch packaging dependency by <a
-                            href="https://github.com/abdul-rafay-mirza"
-                        >@abdul-rafay-mirza</a> in <a
-                            href="https://github.com/MicrogamerCz/Piki/pull/25"
-                        >#25</a></li>
+                    >Added OpenSUSE installation instructions to README by Daskashk</li>
+          <li
+                    >Added discovery keywords to desktop entry, Arch packaging dependency fix by abdul-rafay-mirza</li>
           <li>Improved UI performance for feeds</li>
-          <li>App &amp; code maintanence</li>
+          <li>App and code maintanence</li>
         </ul>
-
-        <h2>New Contributors</h2>
-        <ul>
-          <li><a
-                            href="https://github.com/Vistaus"
-                        >@Vistaus</a> made their first contribution in <a
-                            href="https://github.com/MicrogamerCz/Piki/pull/19"
-                        >#19</a></li>
-          <li><a
-                            href="https://github.com/Daskashk"
-                        >@Daskashk</a> made their first contribution in <a
-                            href="https://github.com/MicrogamerCz/Piki/pull/24"
-                        >#24</a></li>
-          <li><a
-                            href="https://github.com/abdul-rafay-mirza"
-                        >@abdul-rafay-mirza</a> made their first contribution in <a
-                            href="https://github.com/MicrogamerCz/Piki/pull/25"
-                        >#25</a></li>
-        </ul>
-
-        <p>Full Changelog: <a
-                        href="https://github.com/MicrogamerCz/Piki/compare/0.3.2...0.4.0"
-                    >https://github.com/MicrogamerCz/Piki/compare/0.3.2...0.4.0</a></p>
-
         </description>
     </release>
     <release version="0.3.2" date="2025-08-09">
