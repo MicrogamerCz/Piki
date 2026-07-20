@@ -81,6 +81,58 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
    </branding>
 
    <releases>
+    <release version="0.4.0" date="2026-07-20">
+        <url
+                type="details"
+            >https://github.com/MicrogamerCz/Piki/releases/tag/0.4.0</url>
+        <description>
+        <h2>What's Changed</h2>
+        <ul>
+          <li>Added Dutch translation by <a
+                            href="https://github.com/Vistaus"
+                        >@Vistaus</a> in <a
+                            href="https://github.com/MicrogamerCz/Piki/pull/19"
+                        >#19</a></li>
+          <li>Add OpenSUSE installation instructions to README by <a
+                            href="https://github.com/Daskashk"
+                        >@Daskashk</a> in <a
+                            href="https://github.com/MicrogamerCz/Piki/pull/24"
+                        >#24</a></li>
+          <li
+                    >feat: add discovery keywords to desktop entry &amp; fix Arch packaging dependency by <a
+                            href="https://github.com/abdul-rafay-mirza"
+                        >@abdul-rafay-mirza</a> in <a
+                            href="https://github.com/MicrogamerCz/Piki/pull/25"
+                        >#25</a></li>
+          <li>Improved UI performance for feeds</li>
+          <li>App &amp; code maintanence</li>
+        </ul>
+
+        <h2>New Contributors</h2>
+        <ul>
+          <li><a
+                            href="https://github.com/Vistaus"
+                        >@Vistaus</a> made their first contribution in <a
+                            href="https://github.com/MicrogamerCz/Piki/pull/19"
+                        >#19</a></li>
+          <li><a
+                            href="https://github.com/Daskashk"
+                        >@Daskashk</a> made their first contribution in <a
+                            href="https://github.com/MicrogamerCz/Piki/pull/24"
+                        >#24</a></li>
+          <li><a
+                            href="https://github.com/abdul-rafay-mirza"
+                        >@abdul-rafay-mirza</a> made their first contribution in <a
+                            href="https://github.com/MicrogamerCz/Piki/pull/25"
+                        >#25</a></li>
+        </ul>
+
+        <p>Full Changelog: <a
+                        href="https://github.com/MicrogamerCz/Piki/compare/0.3.2...0.4.0"
+                    >https://github.com/MicrogamerCz/Piki/compare/0.3.2...0.4.0</a></p>
+
+        </description>
+    </release>
     <release version="0.3.2" date="2025-08-09">
         <url
                 type="details"
