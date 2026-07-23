@@ -5,6 +5,15 @@
 
 Unofficial Kirigami client for Pixiv.
 
+## Features
+
+- Multi-account support (tags for search queries are cached per-account)
+- Setting works as wallpapers (works on KDE and Hyprland only)
+- Opening illustration/manga directly by submitting URL in search bar
+- Configuration of startup page
+
+(+ basic browsing, follows, bookmarks)
+
 ## Screenshots
 
 ![](screenshots/1_welcome.png)
