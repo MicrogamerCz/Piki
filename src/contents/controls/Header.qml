@@ -94,15 +94,62 @@ Item {
         anchors.leftMargin: 15
         anchors.margins: 5
 
-        Controls.Label {
-            id: headerLabel
+        RowLayout {
             anchors {
                 left: parent.left
                 verticalCenter: parent.verticalCenter
             }
-            text: root.currentPage
-            font.bold: true
-            font.pointSize: 14
+            spacing: 2
+
+            Controls.ToolButton {
+                icon.name: "go-previous"
+                icon.width: 24
+                icon.height: 24
+                flat: true
+                display: Controls.AbstractButton.IconOnly
+                implicitWidth: 40
+                implicitHeight: 40
+                enabled: root.pageStack.currentIndex > 0 && !root.fullscreenActive
+                onClicked: root.goBack()
+            }
+            Controls.Label {
+                id: headerLabel
+                text: root.currentPage
+                font.bold: true
+                font.pointSize: 14
+            }
+        }
+
+        Controls.Label {
+            id: resLabel
+            anchors {
+                right: forwardBtn.left
+                verticalCenter: parent.verticalCenter
+                rightMargin: 10
+            }
+            visible: root.pageStack.currentItem?.illust?.width !== undefined
+            text: (root.pageStack.currentItem?.illust?.width ?? "") + " × " + (root.pageStack.currentItem?.illust?.height ?? "")
+            font.pointSize: 10
+            opacity: 0.7
+            color: Kirigami.Theme.textColor
+        }
+
+        Controls.ToolButton {
+            id: forwardBtn
+            icon.name: "go-next"
+            icon.width: 24
+            icon.height: 24
+            flat: true
+            display: Controls.AbstractButton.IconOnly
+            implicitWidth: 40
+            implicitHeight: 40
+            anchors {
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+                rightMargin: 15
+            }
+            enabled: root.pageStack.currentIndex < root.pageStack.depth - 1 && !root.fullscreenActive
+            onClicked: root.goForward()
         }
 
         Kirigami.AbstractCard {
