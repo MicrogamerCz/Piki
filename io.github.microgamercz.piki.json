@@ -86,9 +86,9 @@
             "builddir": true,
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/MicrogamerCz/Piki/archive/0.4.0.tar.gz",
-                    "sha256": "3800f3a104a95977ad8c649e18cd37d805d92514df2a7a95d5472b4dfd8dc811"
+                    "type": "git",
+                    "url": "https://github.com/MicrogamerCz/Piki",
+                    "commit": "23888349ff2acef4eaa6a84145694f437d5df52f"
                 }
             ]
         }
