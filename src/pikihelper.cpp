@@ -6,10 +6,23 @@
 #include <QLocalSocket>
 #include <QNetworkReply>
 #include <QtDBus>
+#include <libportal/wallpaper.h>
+
+XdpPortal *PikiHelper::portal = nullptr;
 
 PikiHelper::PikiHelper(QObject *parent)
     : QObject(parent)
 {
+    if (portal)
+        return;
+
+    GError *error = nullptr;
+    portal = xdp_portal_initable_new(&error);
+    portalPresent = portal;
+    Q_EMIT supportedWallpaperSessionChanged();
+
+    if (error)
+        qDebug() << "Error when initializing portal: " << error->message;
 }
 QCoro::QmlTask PikiHelper::CheckFanbox(User *user)
 {
@@ -43,50 +56,47 @@ QCoro::Task<> PikiHelper::SetWallpaperTask(Illustration *illust, uint screen, in
         url = illust->m_metaSinglePage;
 
     QString cachePath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    QString path = cachePath + "/wallpapers/" + url.mid(url.lastIndexOf("/") + 1);
+    QString wallpapersPath = cachePath + "/wallpapers/";
+    QString path = wallpapersPath + url.mid(url.lastIndexOf("/") + 1);
     QFile file(path);
+
+    QDir wallpapersDir(wallpapersPath);
+    if (!wallpapersDir.exists())
+        wallpapersDir.mkpath(wallpapersPath);
 
     if (!file.exists()) {
         QNetworkRequest request((QUrl(url)));
         request.setRawHeader("Referer", "https://app-api.pixiv.net/");
         QNetworkReply *reply = co_await manager.get(request);
         QByteArray data = reply->readAll();
-        file.open(QIODevice::WriteOnly);
+
+        if (!file.open(QIODevice::WriteOnly)) {
+            qDebug() << "Failed to open file (" << path << ") for write: " << file.errorString();
+            co_return;
+        }
+
         file.write(data);
         file.close();
     }
 
-    // Options for other DEs/compositors
-    // First attempt is checking for official wallpaper backend (eg. Plasma for KDE,
-    // Hyprpaper for Hyprland, etc.) then there could be a check against other common
-    // (or contributed) backends
-    // For adding backends, the intergration should be prefferably by DBus or a
-    // Unix socket, as long as the wallpaper is passed as a path to a file and not
-    // the data
+    // Custom backends should be added only for DEs without Wallpaper portal
     QString sessionDesktop = qEnvironmentVariable("XDG_CURRENT_DESKTOP");
-    switch (supportedSessions.indexOf(sessionDesktop)) {
-    case 0: {
-        SetWallpaperKDE(path, screen);
+    switch (explicitlySupportedSessions.indexOf(sessionDesktop)) {
+    case -1: {
+        if (!portal)
+            break; // TODO: notify that portal is not installed and custom backend is not implemented
+        xdp_portal_set_wallpaper(portal, nullptr, path.toStdString().c_str(), XDP_WALLPAPER_FLAG_BACKGROUND, nullptr, &PikiHelper::setWallpaperPortal, nullptr);
         break;
     }
-    case 1: {
+    case 0: {
         SetWallpaperHyprpaper(path, screen);
         break;
     }
     }
 }
-void PikiHelper::SetWallpaperKDE(QString path, uint screen)
+void PikiHelper::setWallpaperPortal(GObject *source_object, GAsyncResult *res, gpointer data)
 {
-    // Using: https://invent.kde.org/plasma/plasma-workspace/-/blob/master/shell/tests/setwallpapertest.cpp
-    // SPDX-FileCopyrightText: 2022 Méven Car <meven@kde.org>
-    // SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
-
-    QDBusInterface *interface = new QDBusInterface("org.kde.plasmashell", "/PlasmaShell", "org.kde.PlasmaShell", QDBusConnection::sessionBus(), this);
-    if (!interface->isValid())
-        return;
-
-    QVariantMap params{{"Image", path}};
-    interface->call("setWallpaper", "org.kde.image", params, screen);
+    xdp_portal_set_wallpaper_finish(portal, res, nullptr);
 }
 void PikiHelper::SetWallpaperHyprpaper(QString path, uint screen)
 {
@@ -109,7 +119,7 @@ void PikiHelper::SetWallpaperHyprpaper(QString path, uint screen)
 uint PikiHelper::GetScreenCount()
 {
     QString sessionDesktop = qEnvironmentVariable("XDG_CURRENT_DESKTOP");
-    switch (supportedSessions.indexOf(sessionDesktop)) {
+    switch (explicitlySupportedSessions.indexOf(sessionDesktop)) {
     case 1:
         return GetScreenCountHyprland();
     default:
@@ -135,4 +145,9 @@ QJsonArray PikiHelper::GetScreensHyprland()
     QJsonArray arr = QJsonDocument::fromJson(sock.readAll()).array();
     sock.disconnectFromServer();
     return arr;
+}
+
+bool PikiHelper::getIsPortalSupported() const
+{
+    return explicitlySupportedSessions.contains(qEnvironmentVariable("XDG_CURRENT_DESKTOP")) || portalPresent;
 }

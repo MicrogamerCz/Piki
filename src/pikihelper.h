@@ -7,6 +7,7 @@
 #include "pixivnamfactory.h"
 #include <QCoroQml>
 #include <QtQmlIntegration>
+#include <libportal/portal-helpers.h>
 #include <qtmetamacros.h>
 
 class PikiHelper : public QObject
@@ -15,20 +16,28 @@ class PikiHelper : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    const QStringList supportedSessions{"KDE", "Hyprland"};
+    Q_PROPERTY(bool isPortalSupported READ getIsPortalSupported NOTIFY supportedWallpaperSessionChanged)
+
+    const QStringList explicitlySupportedSessions{"Hyprland"};
+    bool portalPresent;
     PixivNAM manager;
+
+    bool getIsPortalSupported() const;
+
+    static g_autoptr(XdpPortal) portal;
+    static void setWallpaperPortal(GObject *source_object, GAsyncResult *res, gpointer data);
 
 public:
     PikiHelper(QObject *parent = nullptr);
     QCoro::Task<QString> CheckFanboxTask(int id);
     QCoro::Task<> SetWallpaperTask(Illustration *illust, uint screen = 0, int index = 0);
 
-    // Wallpaper backends (TODO: Plugins for setting wallpaper, not hosting ALL backends in the main Piki code (only KDE by def?))
-    void SetWallpaperKDE(QString path, uint screen = 0);
-    // uint GetScreenCountKDE(); // TODO
+    // Wallpaper backends (Wallpaper portal + implementations without portal)
     void SetWallpaperHyprpaper(QString path, uint screen = 0);
     uint GetScreenCountHyprland();
     QJsonArray GetScreensHyprland();
+
+    Q_SIGNAL void supportedWallpaperSessionChanged();
 public Q_SLOTS:
     QCoro::QmlTask CheckFanbox(User *user);
     QCoro::QmlTask SetWallpaper(Illustration *illust, uint screen = 0, int index = 0);

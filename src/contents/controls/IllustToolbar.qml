@@ -73,7 +73,7 @@ Kirigami.AbstractCard {
     Controls.Menu {
         id: contextMenu
         Kirigami.Action {
-            enabled: !(Config.allowR18WorksAsWallpapers != 2 && toolbar.illust.xRestrict > 0)
+            enabled: !(Config.allowR18WorksAsWallpapers != 2 && toolbar.illust.xRestrict > 0) && PikiHelper.isPortalSupported
             text: i18n("Set as wallpaper")
             icon.name: "viewimage"
             onTriggered: wallpaperSelections.setup()

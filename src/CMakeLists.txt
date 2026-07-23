@@ -92,6 +92,7 @@ target_link_libraries(piki_st PUBLIC
     KF6::KirigamiPlatform
     KF6::CoreAddons
     KF6::ConfigCore
+    PkgConfig::libportal
 )
 target_include_directories(piki_st PUBLIC ${CMAKE_BINARY_DIR})
 

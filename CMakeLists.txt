@@ -51,6 +51,10 @@ find_package(FutureSQL6)
 find_package(Qt6Keychain)
 find_package(Piqi REQUIRED COMPONENTS piqi)
 
+# libportal for wallpaper portal
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(libportal REQUIRED IMPORTED_TARGET libportal)
+
 qt_policy(SET QTP0001 NEW)
 
 ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard 1.0)
