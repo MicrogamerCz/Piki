@@ -12,7 +12,7 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
    </developer>
 
    <summary>Browse illustrations and manga</summary>
-   <summary xml:lang="cs">Prohlížej kresby a manga komiksy</summary>
+   <summary xml:lang="cs">Prohlížej ilustrace a mangy</summary>
 
    <metadata_license>FSFAP</metadata_license>
    <project_license>GPL-3.0-or-later</project_license>
@@ -45,10 +45,10 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
    <description>
      <p>
-        Browse illustrations and read mangas or novels by talented artists and writers on Pixiv, with a few additional features
+        Pixiv desktop client with multi-account support and desktop integration. Browse illustrations and manga, search works, set any illustration as wallpaper, bookmark works and follow your favourite creators.
      </p>
      <p xml:lang="cs">
-        Prohlížejte ilustrace, manga komiksy či novely od talentovaných umělců a spisovatelů na Pixivu.
+        Nativní Pixiv aplikace s podporou více účtů a s integrací prostředí. Prohlížej a vyhledávej ilustrace a mangy, nastav si libovolnou jako tapetu, ukládej do záložek a sleduj své oblíbené tvůrce.
      </p>
    </description>
 
