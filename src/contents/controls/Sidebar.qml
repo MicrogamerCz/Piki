@@ -24,34 +24,32 @@ Rectangle {
 
     function switchAccount(data) {
         reloadingAccount = true;
-        LoginHandler.SetUser(data.account).then(() => {
+        Cache.setCurrentUser(data).then(() => {
             if (LoginHandler.keyringProviderInstalled)
-                piqi.Login(LoginHandler.GetToken()).then(() => {
-                    pageStack.currentItem.refresh();
-                    reloadingAccount = false;
+                LoginHandler.GetToken().then(token => {
+                    piqi.Login(token).then(() => {
+                        pageStack.currentItem.refresh();
+                        reloadingAccount = false;
+                    });
                 });
         });
     }
     function removeAccount(data) {
         reloadingAccount = true;
-        if (data == null) {
-            LoginHandler.RemoveUser(piqi.user).then(() => {
-                if (LoginHandler.otherUsers.length > 0)
-                    switchAccount(LoginHandler.otherUsers[0]);
-                else {
-                    piqi.Walkthrough().then(walkthrough => {
-                        reloadingAccount = false;
-                        accountDialog.close();
-                        sidebar.collapsed = true;
-                        navigateToPageParm("Welcome", {
-                            wkt: walkthrough
-                        });
+        LoginHandler.removeUser(data ?? piqi.user).then(() => {
+            if (Cache.otherUsers.length > 0)
+                switchAccount(LoginHandler.otherUsers[0]);
+            else {
+                piqi.Walkthrough().then(walkthrough => {
+                    reloadingAccount = false;
+                    accountDialog.close();
+                    sidebar.collapsed = true;
+                    navigateToPageParm("Welcome", {
+                        wkt: walkthrough
                     });
-                }
-            });
-        } else
-            // Removes user > refreshes the cache > removes the lock
-            LoginHandler.RemoveUser(data).then(() => reloadingAccount = false);
+                });
+            }
+        });
     }
 
     Behavior on x {
@@ -191,9 +189,8 @@ Rectangle {
             Layout.leftMargin: Kirigami.Units.smallSpacing
         }
         SidebarButton {
-            id: accountButton
             text: piqi.user?.name ?? ""
-            icon.source: (piqi.user == null) ? "../assets/pixiv_no_profile.png" : piqi.user?.profileImageUrls?.px50 ?? ""
+            icon.source: (piqi.user == null) ? accountDialog.defaultPfp : piqi.user?.profileImageUrls?.px50 ?? ""
             onPressAndHold: {
                 if (LoginHandler.keyringProviderInstalled)
                     accountDialog.open();

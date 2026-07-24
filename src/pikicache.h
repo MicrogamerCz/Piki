@@ -2,25 +2,10 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #pragma once
-#include "pikiconfig.h"
-#include "piqi/illustration.h"
-#include "piqi/tag.h"
-#include <QCoro>
-#include <QObject>
-#include <QtQmlIntegration>
-#include <ThreadedDatabase>
-#include <coroutine.h>
-#include <qcoroqmltask.h>
-#include <qcorotask.h>
-#include <qhash.h>
+#include "pikiuser.h"
+#include <QCoro/QCoroQmlTask>
+#include <threadeddatabase.h>
 
-struct UserResult {
-    using ColumnTypes = std::tuple<int, QString, QString, QString>;
-    static UserResult fromSql(ColumnTypes &&tuple);
-    User *toUser() const;
-    int id;
-    QString name, account, pfp;
-};
 struct TagResult {
     using ColumnTypes = std::tuple<int, QString, QString>;
     static TagResult fromSql(ColumnTypes &&tuple);
@@ -45,13 +30,14 @@ class Cache : public QObject
 
     std::unique_ptr<ThreadedDatabase> database;
     QCoro::Task<void> PushTagHistoryTask(QList<Tag *> tags);
+    QCoro::Task<> refreshUsersTask();
     QCoro::Task<QList<Tag *>> GetTagHistoryTask();
+    Q_SLOT QCoro::Task<> setCurrentUserTask(PikiUser *user);
 
 public:
     Cache(QObject *parent = nullptr);
-    QCoro::Task<QList<User *>> ReadUserCache(QString excludedUser = "");
-    QCoro::Task<> WriteUserToCache(User *user);
-    QCoro::Task<> DeleteUserFromCache(User *user);
+    Q_SLOT QCoro::QmlTask setCurrentUser(PikiUser *user);
+    Q_SLOT QCoro::QmlTask removeUser(User *user);
     Q_SLOT QCoro::QmlTask Setup();
     Q_SLOT QCoro::QmlTask PushTagHistory(QList<Tag *> tags);
     Q_SLOT QCoro::QmlTask GetTagHistory();

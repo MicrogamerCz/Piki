@@ -17,13 +17,13 @@ Kirigami.Page {
         }
 
         loadingIndicator.opacity = 1;
-        LoginHandler.SetCacheIfNotExists(Cache).then(() => {
-            LoginHandler.GetToken().then(token => {
-                if (token == "")
-                    pushWalkthough();
-                else
-                    piqi.Login(token).then(diverge);
-            });
+        LoginHandler.cache = Cache;
+
+        LoginHandler.GetToken().then(token => {
+            if (token == "")
+                pushWalkthough();
+            else
+                piqi.Login(token).then(diverge);
         });
     }
 

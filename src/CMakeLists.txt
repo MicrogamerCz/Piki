@@ -58,6 +58,7 @@ ecm_add_qml_module(piki_st
         pikicache.cpp
         pikihelper.cpp
         pikitags.h
+        pikiuser.h
     # RESOURCE_PREFIX /
     RESOURCES
         contents/assets/io.github.microgamercz.piki.svg

@@ -2,34 +2,9 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #include "pikicache.h"
-#include "piqi/illustration.h"
-#include "piqi/imageurls.h"
+#include <QCoro/QCoroCore>
+#include <QCoro/QCoroFuture>
 #include <algorithm>
-#include <qcoroqmltask.h>
-#include <qdebug.h>
-#include <qdir.h>
-#include <qiodevicebase.h>
-#include <qlogging.h>
-#include <qstandardpaths.h>
-#include <qtimer.h>
-#include <qtpreprocessorsupport.h>
-#include <sys/socket.h>
-
-UserResult UserResult::fromSql(ColumnTypes &&tuple)
-{
-    auto [id, name, account, pfp] = tuple;
-    return UserResult{id, name, account, pfp};
-}
-User *UserResult::toUser() const
-{
-    User *u = new User;
-    u->m_id = id;
-    u->m_name = name;
-    u->m_account = account;
-    u->m_profileImageUrls = new ImageUrls;
-    u->m_profileImageUrls->m_px50 = pfp;
-    return u;
-}
 
 TagResult TagResult::fromSql(ColumnTypes &&tuple)
 {
@@ -62,7 +37,22 @@ Cache::Cache(QObject *parent)
 
 QCoro::QmlTask Cache::Setup()
 {
-    return database->runMigrations(":/qt/qml/io/github/micro/piki/contents/migrations/");
+    return refreshUsersTask();
+}
+QCoro::Task<> Cache::refreshUsersTask()
+{
+    co_await database->runMigrations(":/qt/qml/io/github/micro/piki/contents/migrations/");
+    std::vector<PikiUser *> users = co_await database->getObjects<PikiUser>("SELECT * FROM accounts WHERE is_primary = 0;");
+
+    m_otherUsers.clear();
+    for (PikiUser *user : users)
+        m_otherUsers.append(user);
+
+    std::optional<PikiUser *> optUser = co_await database->getObject<PikiUser>("SELECT * FROM accounts WHERE is_primary = 1;");
+    m_currentUser = optUser ? optUser.value() : nullptr;
+
+    Q_EMIT currentUserChanged();
+    Q_EMIT otherUsersChanged();
 }
 
 QCoro::QmlTask Cache::PushTagHistory(QList<Tag *> tags)
@@ -109,7 +99,24 @@ QCoro::Task<QList<Tag *>> Cache::GetTagHistoryTask()
     co_return tags;
 }
 
-QCoro::Task<> Cache::DeleteUserFromCache(User *user) // * use in accountmanager
+QCoro::QmlTask Cache::removeUser(User *user)
 {
-    co_await database->execute("DELETE FROM accounts WHERE id = ?", user->m_id);
+    return database->execute("DELETE FROM accounts WHERE id = ?", user->m_id);
+}
+
+QCoro::QmlTask Cache::setCurrentUser(PikiUser *user)
+{
+    m_currentUser = user;
+    Q_EMIT currentUserChanged();
+    return setCurrentUserTask(user);
+}
+QCoro::Task<> Cache::setCurrentUserTask(PikiUser *user)
+{
+    co_await database->execute("INSERT INTO accounts (id, name, account, pfp) VALUES (?, ?, ?, ?);",
+                               user->m_id,
+                               user->m_name,
+                               user->m_account,
+                               user->m_profileImageUrls->m_px50);
+    co_await database->execute("UPDATE accounts SET is_primary = (account = ?);", user->m_account);
+    co_await refreshUsersTask();
 }
