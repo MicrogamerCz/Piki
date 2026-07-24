@@ -34,13 +34,11 @@ FeedPage {
             queryTag = "未分類";
         if (!isNovelCategory)
             piqi.BookmarksFeed(piqi.user, restrict, queryTag).then(rec => {
-                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });
         else
             piqi.NovelsBookmarksFeed(piqi.user, restrict, queryTag).then(rec => {
-                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });

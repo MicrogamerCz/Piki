@@ -109,40 +109,7 @@ QCoro::Task<QList<Tag *>> Cache::GetTagHistoryTask()
     co_return tags;
 }
 
-void Cache::SynchroniseIllusts(QList<Illustration *> illusts)
-{
-    return; // Unstable
-    for (int i = 0; i < illusts.count(); i++) {
-        Illustration *illust = illusts[i];
-
-        int id = illust->m_id;
-        if (illustCache.contains(id)) {
-            illusts[i] = illustCache[id];
-            illust->deleteLater();
-        } else
-            illustCache.insert(id, illust);
-    }
-}
-
-QCoro::Task<QList<User *>> Cache::ReadUserCache(QString excludedUser)
-{
-    QList<User *> users;
-    std::vector<UserResult> results = co_await database->getResults<UserResult>("SELECT * FROM accounts WHERE accounts.account != ?", excludedUser);
-    std::for_each(results.begin(), results.end(), [&users](const UserResult &res) {
-        users.append(res.toUser());
-    });
-    co_return users;
-}
-QCoro::Task<> Cache::WriteUserToCache(User *user)
-{
-    co_await database->execute("INSERT INTO accounts (id, name, account, pfp) VALUES (?, ?, ?, ?)",
-                               user->m_id,
-                               user->m_name,
-                               user->m_account,
-                               user->m_profileImageUrls->m_px50);
-}
-
-QCoro::Task<> Cache::DeleteUserFromCache(User *user)
+QCoro::Task<> Cache::DeleteUserFromCache(User *user) // * use in accountmanager
 {
     co_await database->execute("DELETE FROM accounts WHERE id = ?", user->m_id);
 }

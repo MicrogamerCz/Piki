@@ -23,13 +23,11 @@ FeedPage {
         loading = true;
         if (!isNovelCategory)
             piqi.FollowingFeed(restrict).then(rec => {
-                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });
         else
             piqi.FollowingNovelsFeed(restrict).then(rec => {
-                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });

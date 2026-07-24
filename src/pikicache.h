@@ -40,9 +40,10 @@ class Cache : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    // ? PikiConfig *conf;
+    QM_PROPERTY(PikiUser *, currentUser)
+    QM_PROPERTY(QList<PikiUser *>, otherUsers)
+
     std::unique_ptr<ThreadedDatabase> database;
-    QHash<int, Illustration *> illustCache;
     QCoro::Task<void> PushTagHistoryTask(QList<Tag *> tags);
     QCoro::Task<QList<Tag *>> GetTagHistoryTask();
 
@@ -54,5 +55,4 @@ public:
     Q_SLOT QCoro::QmlTask Setup();
     Q_SLOT QCoro::QmlTask PushTagHistory(QList<Tag *> tags);
     Q_SLOT QCoro::QmlTask GetTagHistory();
-    Q_SLOT void SynchroniseIllusts(QList<Illustration *> illusts);
 };

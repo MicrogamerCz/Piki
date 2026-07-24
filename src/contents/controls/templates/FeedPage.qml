@@ -30,7 +30,6 @@ Kirigami.ScrollablePage {
         }
 
         feed.NextFeed().then(() => {
-            // Cache.SynchroniseIllusts(newFeed.illusts);
             // feed.Extend(newFeed);
             loading = false;
         });

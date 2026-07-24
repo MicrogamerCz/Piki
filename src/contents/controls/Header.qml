@@ -69,7 +69,6 @@ Item {
         obj.SetTags(selectedTags);
         Cache.PushTagHistory(obj.tags);
         obj.Search().then(sr => {
-            Cache.SynchroniseIllusts(sr.illusts);
             searchField.loading = false;
             navigateToPageParm("Search", {
                 searchRequest: obj,

@@ -22,13 +22,11 @@ FeedPage {
         loading = true;
         if (category == "novel")
             piqi.RecommendedNovelsFeed(true, false).then(rec => {
-                // Cache.SynchroniseIllusts(rec.novels);
                 feed = rec;
                 loading = false;
             });
         else
             piqi.RecommendedFeed(category, true, false).then(rec => {
-                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });

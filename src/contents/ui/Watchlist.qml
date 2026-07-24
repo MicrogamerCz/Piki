@@ -26,7 +26,6 @@ FeedPage {
             return;
         } else
             piqi.WatchlistFeed().then(wtl => {
-                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = wtl;
                 loading = false;
             });

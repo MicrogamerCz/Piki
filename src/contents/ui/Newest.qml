@@ -21,13 +21,11 @@ FeedPage {
         loading = true;
         if (category !== "novel")
             piqi.LatestGlobal(category).then(rec => {
-                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });
         else
             piqi.LatestNovelsGlobal(rec => {
-                // Cache.SynchroniseIllusts(rec.illusts);
                 feed = rec;
                 loading = false;
             });

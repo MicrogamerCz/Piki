@@ -48,13 +48,11 @@ FeedPage {
 
         if (sorting == "popular")
             searchRequest.SearchPopularPreview().then(sr => {
-                // Cache.SynchroniseIllusts(sr.illusts);
                 loading = false;
                 feed = sr;
             });
         else
             searchRequest.Search().then(sr => {
-                // Cache.SynchroniseIllusts(sr.illusts);
                 loading = false;
                 feed = sr;
             });

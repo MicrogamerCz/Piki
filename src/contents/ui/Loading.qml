@@ -33,17 +33,19 @@ Kirigami.Page {
             reconnectionInterval.start();
             noConnectionDialog.open();
         }
+
         if (noConnectionDialog.opened)
             noConnectionDialog.close();
+
         if (!result.IsSuccessful) {
             pushWalkthough();
             return;
         }
+
         switch (Config.startupPage) {
         case 0:
             {
                 piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                    // Cache.SynchroniseIllusts(recommended.illusts);
                     loadingIndicator.opacity = 0;
                     navigateToPageParm("Home", {
                         feed: recommended
@@ -55,7 +57,6 @@ Kirigami.Page {
         case 1:
             {
                 piqi.FollowingFeed("all").then(following => {
-                    // Cache.SynchroniseIllusts(following.illusts);
                     navigateToPageParm("Following", {
                         feed: following
                     });
@@ -80,7 +81,6 @@ Kirigami.Page {
         case 4:
             {
                 piqi.LatestGlobal("illust").then(latest => {
-                    // Cache.SynchroniseIllusts(latest.illusts);
                     navigateToPageParm("Newest", {
                         feed: latest
                     });
@@ -91,7 +91,6 @@ Kirigami.Page {
         case 5:
             {
                 piqi.BookmarksFeed(null, false).then(bkmarks => {
-                    // Cache.SynchroniseIllusts(bkmarks.illusts);
                     loadingIndicator.opacity = 0;
                     navigateToPageParm("Collection", {
                         feed: bkmarks
