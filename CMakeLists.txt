@@ -47,7 +47,7 @@ endif()
 
 find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS Gui QuickControls2 Svg WebEngineQuick ShaderTools ${QT_EXTRA_COMPONENTS})
 find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Kirigami KirigamiPlatform CoreAddons Config I18n Purpose)
-find_package(FutureSQL6 REQUIRED)
+# find_package(FutureSQL6 REQUIRED)
 find_package(Qt6Keychain REQUIRED)
 find_package(Piqi REQUIRED COMPONENTS piqi)
 
@@ -64,6 +64,8 @@ if (ANDROID)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/android/version.gradle.in ${CMAKE_BINARY_DIR}/version.gradle)
 endif()
 
+set(BUILD_TESTING OFF)
+add_subdirectory(modules/futuresql)
 add_subdirectory(src)
 
 install(FILES io.github.microgamercz.piki.desktop DESTINATION ${KDE_INSTALL_APPDIR})
