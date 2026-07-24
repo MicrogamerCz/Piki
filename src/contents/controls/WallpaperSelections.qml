@@ -85,8 +85,11 @@ Kirigami.Dialog {
                 to: page.illust.pageCount
                 label: i18n("Which image should be used for the wallpaper?")
                 onValueChanged: refreshPreview()
+
                 function refreshPreview() {
-                    preview.source = images.get(value - 1).url;
+                    let image = images.get(value - 1);
+                    if (image != null)
+                        preview.source = image.url;
                 }
             }
             Form.FormDelegateSeparator {

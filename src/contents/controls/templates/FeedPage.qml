@@ -5,6 +5,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
+import org.kde.kirigamiaddons.components as KAC
 import io.github.micro.piqi
 import ".."
 
@@ -97,6 +98,43 @@ Kirigami.ScrollablePage {
                 children: fp.contentItems
             }
         }
+
+        KAC.FloatingButton {
+            opacity: fp.flickable.contentY > fp.flickable.originY
+            visible: opacity > 0
+
+            anchors {
+                right: parent.right
+                bottom: parent.bottom
+                margins: Kirigami.Units.gridUnit
+            }
+
+            action: Kirigami.Action {
+                id: returnAction
+                icon.name: "arrow-up"
+                icon.height: Kirigami.Units.iconSizes.medium
+                icon.width: Kirigami.Units.iconSizes.medium
+                onTriggered: {
+                    autoscrollbeh.enabled = true
+                    gv.contentY = -30
+                    autoscrollbeh.enabled = false
+                }
+            }
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 150
+                }
+            }
+        }
+        Behavior on contentY {
+            id: autoscrollbeh
+            enabled: false
+
+            SmoothedAnimation {
+                duration: 225
+            }
+        }
     }
 
     footer: Item {
@@ -143,27 +181,6 @@ Kirigami.ScrollablePage {
             text: "Reload"
         }
         */
-    }
-
-    Controls.Button {
-        parent: fp
-        z: 5
-        opacity: fp.flickable.contentY > fp.flickable.originY
-        visible: opacity > 0
-
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-            margins: Kirigami.Units.gridUnit
-        }
-
-        action: Kirigami.Action {
-            id: returnAction
-            icon.name: "arrow-up"
-            icon.height: Kirigami.Units.iconSizes.medium
-            icon.width: Kirigami.Units.iconSizes.medium
-            onTriggered: fp.flickable.contentY = 0
-        }
     }
 
     Shortcut {

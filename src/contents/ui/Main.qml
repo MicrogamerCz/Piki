@@ -140,7 +140,6 @@ Kirigami.ApplicationWindow {
             repeat: false
 
             onTriggered: {
-                print(jobView.state);
                 if (jobView.state === Purpose.PurposeJobController.Configuring)
                     shareDialog.open();
             }

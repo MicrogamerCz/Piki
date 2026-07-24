@@ -10,16 +10,22 @@ Kirigami.Action {
     id: action
     property string iconName
 
-    displayComponent: Row {
-        spacing: Kirigami.Units.mediumSpacing
+    displayComponent: Controls.Control {
+        implicitWidth: flatLayout.implicitWidth + Kirigami.Units.mediumSpacing * 2
 
-        Kirigami.Icon {
-            width: (source == "") ? 1 : 20
-            height: (source == "") ? 1 : 20
-            source: action.iconName
-        }
-        Controls.Label {
-            text: action.text
+        contentItem: Row {
+            id: flatLayout
+            spacing: Kirigami.Units.mediumSpacing
+
+            Kirigami.Icon {
+                visible: source != ""
+                width: 20
+                height: 20
+                source: action.iconName
+            }
+            Controls.Label {
+                text: action.text
+            }
         }
     }
 }
