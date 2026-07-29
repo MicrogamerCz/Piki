@@ -1,0 +1,4 @@
+[submodule "modules/futuresql"]
+	path = modules/futuresql
+	url = git@invent.kde.org:micro/futuresql.git
+	branch = qobjects-queries
