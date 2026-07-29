@@ -16,6 +16,7 @@ Item {
     height: 60
 
     property alias selectedTags: _selectedTags
+    property alias queryBox: flick.footerItem
 
     ListModel {
         id: tags
@@ -200,48 +201,41 @@ Item {
             anchors.centerIn: parent
             clip: true
 
-            Kirigami.Icon {
-                id: searchIcon
-                anchors {
-                    left: parent.left
-                    verticalCenter: parent.verticalCenter
+            RowLayout {
+                anchors.fill: parent
+
+                Kirigami.Icon {
+                    id: searchIcon
+                    source: "search-symbolic"
+
+                    Layout.preferredHeight: 30
                 }
-                height: 30
-                source: "search-symbolic"
-            }
-            Flickable {
-                id: flick
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                    left: searchIcon.right
-                    right: loadingIndicator.left
-                }
-                contentWidth: row.width
-                clip: true
-                interactive: true
+                ListView {
+                    id: flick
 
-                RowLayout {
-                    id: row
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
+                    clip: true
+                    interactive: true
+                    spacing: 5
+                    model: selectedTags
+                    orientation: ListView.Horizontal
+                    delegate: TagChip {
+                        required property int index
+                        anchors.verticalCenter: parent.verticalCenter
 
-                    Repeater {
-                        model: selectedTags
-
-                        TagChip {
-                            required property int index
-
-                            closable: true
-                            onRemoved: {
-                                selectedTags.remove(index, 1);
-                            }
+                        closable: true
+                        onRemoved: {
+                            selectedTags.remove(index, 1);
                         }
                     }
 
-                    TextEdit {
-                        id: queryBox
-                        Layout.minimumWidth: flick.width * (selectedTags.count > 0 ? 0.5 : 1)
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    footer: TextEdit {
+                        // id: queryBox
+                        leftPadding: 5
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: flick.width * (selectedTags.count > 0 ? 0.5 : 1)
                         color: Kirigami.Theme.textColor
                         property bool searching: false
                         property string lastQuery: ""
@@ -323,20 +317,20 @@ Item {
                         }
 
                         Controls.Label {
+                            leftPadding: 5
                             visible: (queryBox.text == 0) && (head.selectedTags.count == 0)
                             text: i18n("Search...")
                             color: Kirigami.Theme.disabledTextColor
                         }
                     }
                 }
-            }
-            Controls.BusyIndicator {
-                id: loadingIndicator
-                visible: parent.loading
-                anchors {
-                    margins: 5
-                    right: parent.right
-                    verticalCenter: parent.verticalCenter
+                Controls.BusyIndicator {
+                    id: loadingIndicator
+                    visible: searchField.loading
+
+                    Layout.margins: 5
+                    Layout.preferredHeight: 30
+                    Layout.alignment: Qt.AlignVCenter
                 }
             }
 
