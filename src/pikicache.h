@@ -6,19 +6,6 @@
 #include <QCoro/QCoroQmlTask>
 #include <threadeddatabase.h>
 
-struct TagResult {
-    using ColumnTypes = std::tuple<int, QString, QString>;
-    static TagResult fromSql(ColumnTypes &&tuple);
-    Tag *toTag() const;
-    int id;
-    QString name, translated;
-};
-struct TagHistoryResult {
-    using ColumnTypes = std::tuple<int, int>;
-    static TagHistoryResult fromSql(ColumnTypes &&tuple);
-    int id, frequency;
-};
-
 class Cache : public QObject
 {
     Q_OBJECT
@@ -29,16 +16,16 @@ class Cache : public QObject
     QM_PROPERTY(QList<PikiUser *>, otherUsers)
 
     std::unique_ptr<ThreadedDatabase> database;
-    QCoro::Task<void> PushTagHistoryTask(QList<Tag *> tags);
+    QCoro::Task<> pushTagHistoryTask(QList<Tag *> tags);
     QCoro::Task<> refreshUsersTask();
-    QCoro::Task<QList<Tag *>> GetTagHistoryTask();
+    QCoro::Task<QList<Tag *>> getTagHistoryTask();
     Q_SLOT QCoro::Task<> setCurrentUserTask(PikiUser *user);
 
 public:
     Cache(QObject *parent = nullptr);
     Q_SLOT QCoro::QmlTask setCurrentUser(PikiUser *user);
     Q_SLOT QCoro::QmlTask removeUser(User *user);
-    Q_SLOT QCoro::QmlTask Setup();
-    Q_SLOT QCoro::QmlTask PushTagHistory(QList<Tag *> tags);
-    Q_SLOT QCoro::QmlTask GetTagHistory();
+    Q_SLOT QCoro::QmlTask setup();
+    Q_SLOT QCoro::QmlTask pushTagHistory(QList<Tag *> tags);
+    Q_SLOT QCoro::QmlTask getTagHistory();
 };

@@ -61,7 +61,7 @@ Kirigami.ApplicationWindow {
         shareTimer.start();
     }
 
-    Component.onCompleted: Cache.Setup().then(pageStack.currentItem.beginLoginProcess)
+    Component.onCompleted: Cache.setup().then(pageStack.currentItem.beginLoginProcess)
 
     Piqi {
         id: piqi

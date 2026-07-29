@@ -24,10 +24,12 @@ Item {
         id: tagsHistory
 
         function refresh() {
-            Cache.GetTagHistory().then(hist => {
+            Cache.getTagHistory().then(hist => {
                 clear();
+
                 for (let i = 0; i < hist.length; i++) {
                     let tag = hist[i];
+
                     if (!selectedTags.tagInSelected(tag))
                         append({
                             tagData: tag
@@ -64,10 +66,13 @@ Item {
 
     function pushSearchPage() {
         searchField.loading = true;
+        // TODO: add Q_INVOKABLE to constructors of Piqi objects
         let comp = Qt.createComponent("io.github.micro.piqi", "SearchRequest", Component.PreferSynchronous, null);
         let obj = comp.createObject();
         obj.SetTags(selectedTags);
-        Cache.PushTagHistory(obj.tags);
+
+        Cache.pushTagHistory(obj.tags);
+
         obj.Search().then(sr => {
             searchField.loading = false;
             navigateToPageParm("Search", {
@@ -241,7 +246,7 @@ Item {
                         property bool searching: false
                         property string lastQuery: ""
 
-                        readonly property Kirigami.Action quitAction: Kirigami.Action {
+                        readonly property Kirigami.Action findAction: Kirigami.Action {
                             shortcut: StandardKey.Find
                             onTriggered: queryBox.forceActiveFocus()
                         }
@@ -273,6 +278,7 @@ Item {
                                 return;
                             }
 
+                            // TODO: add Q_INVOKABLE to constructors of Piqi objects
                             let comp = Qt.createComponent("io.github.micro.piqi", "Tag", Component.PreferSynchronous, null);
                             let obj = comp.createObject();
                             obj.name = text;
