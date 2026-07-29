@@ -43,12 +43,15 @@ QCoro::Task<> Cache::refreshUsersTask()
 {
     co_await database->runMigrations(":/qt/qml/io/github/micro/piki/contents/migrations/");
     std::vector<PikiUser *> users = co_await database->getObjects<PikiUser>("SELECT * FROM accounts WHERE is_primary = 0;");
-
-    m_otherUsers.clear();
-    for (PikiUser *user : users)
-        m_otherUsers.append(user);
+    std::move(users.begin(), users.end(), m_otherUsers.begin());
 
     std::optional<PikiUser *> optUser = co_await database->getObject<PikiUser>("SELECT * FROM accounts WHERE is_primary = 1;");
+    if (!optUser.has_value() && !m_otherUsers.empty()) {
+        co_await database->execute("UPDATE accounts SET is_primary = 1 WHERE id = (SELECT id FROM accounts ORDER BY id LIMIT 1);");
+        co_await refreshUsersTask();
+        co_return;
+    }
+    qDebug() << "Is there primary user? " << optUser.has_value();
     m_currentUser = optUser ? optUser.value() : nullptr;
 
     Q_EMIT currentUserChanged();

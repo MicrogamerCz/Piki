@@ -19,6 +19,11 @@ Kirigami.Page {
         loadingIndicator.opacity = 1;
         LoginHandler.cache = Cache;
 
+        if (Cache.currentUser == null) {
+            pushWalkthough()
+            return;
+        }
+
         LoginHandler.GetToken().then(token => {
             if (token == "")
                 pushWalkthough();
