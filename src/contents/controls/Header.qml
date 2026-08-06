@@ -67,17 +67,15 @@ Item {
 
     function pushSearchPage() {
         searchField.loading = true;
-        // TODO: add Q_INVOKABLE to constructors of Piqi objects
-        let comp = Qt.createComponent("io.github.micro.piqi", "SearchRequest", Component.PreferSynchronous, null);
-        let obj = comp.createObject();
-        obj.SetTags(selectedTags);
+        let searchRequest = new SearchRequest();
+        searchRequest.SetTags(selectedTags);
 
-        Cache.pushTagHistory(obj.tags);
+        Cache.pushTagHistory(searchRequest.tags);
 
-        obj.Search().then(sr => {
+        searchRequest.Search().then(sr => {
             searchField.loading = false;
             navigateToPageParm("Search", {
-                searchRequest: obj,
+                searchRequest: searchRequest,
                 feed: sr
             });
         });
@@ -272,13 +270,11 @@ Item {
                                 return;
                             }
 
-                            // TODO: add Q_INVOKABLE to constructors of Piqi objects
-                            let comp = Qt.createComponent("io.github.micro.piqi", "Tag", Component.PreferSynchronous, null);
-                            let obj = comp.createObject();
-                            obj.name = text;
+                            let tag = new Tag();
+                            tag.name = text;
 
                             selectedTags.append({
-                                tagData: obj
+                                tagData: tag
                             });
 
                             text = "";
