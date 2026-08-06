@@ -19,9 +19,6 @@ Item {
     property alias queryBox: flick.footerItem
 
     ListModel {
-        id: tags
-    }
-    ListModel {
         id: tagsHistory
 
         function refresh() {
@@ -154,9 +151,12 @@ Item {
                             model: tagsHistory
 
                             TagChip {
+                                required property Tag modelData
+                                tag: modelData
+
                                 onClicked: {
                                     selectedTags.append({
-                                        tagData: modelData
+                                        tagData: tag
                                     });
                                     tagsHistory.remove(index, 1);
                                 }
@@ -171,12 +171,12 @@ Item {
                         spacing: Kirigami.Units.largeSpacing
 
                         Repeater {
-                            model: tags
+                            model: Cache.suggestedTags
 
                             TagChip {
                                 onClicked: {
                                     selectedTags.append({
-                                        tagData: modelData
+                                        tagData: tag
                                     });
                                     Cache.suggestedTags.remove(index);
                                 }
@@ -297,17 +297,9 @@ Item {
                             searching = true;
                             lastQuery = queryBox.text;
                             piqi.SearchAutocomplete(queryBox.text).then(tgs => {
-                                Cache.suggestedTags.clear();
-                                // move code to pikicache, add global qhash func for tags, check existence in qset
-                                for (let i = 0; i < tgs.length; i++) {
-                                    let tag = tgs[i];
-                                    if (!selectedTags.tagInSelected(tag))
-                                        Cache.tags.append({
-                                            tagData: tag
-                                        });
-                                }
-
+                                Cache.setSuggestedTags(tgs);
                                 searching = false;
+
                                 if (queryBox.text != lastQuery)
                                     autocomplete();
                             });

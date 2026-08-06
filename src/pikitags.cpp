@@ -14,7 +14,7 @@ void PikiTags::append(Tag *tag)
     tag->setParent(this);
 
     int count = m_tags.size();
-    beginInsertRows({}, count, count + 1);
+    beginInsertRows({}, count, count);
     m_tags.append(tag);
     endInsertRows();
 

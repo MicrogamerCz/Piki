@@ -12,7 +12,7 @@ Kirigami.Chip {
     checked: false
     checkable: false
 
-    required property Tag modelData
+    required property Tag tag
 
     implicitWidth: layout.implicitWidth + Kirigami.Units.mediumSpacing * 2
     implicitHeight: layout.implicitHeight + Kirigami.Units.largeSpacing * 2
@@ -21,12 +21,12 @@ Kirigami.Chip {
     contentItem: RowLayout {
         id: layout
         Controls.Label {
-            text: chip.modelData.name
+            text: chip.tag.name
         }
         Controls.Label {
             color: Kirigami.Theme.disabledTextColor
-            visible: chip.modelData.translatedName != ""
-            text: `(${chip.modelData.translatedName})`
+            visible: (chip.tag.translatedName) != ""
+            text: `(${chip.tag.translatedName})`
             font.pointSize: 8
         }
         Item {

@@ -30,7 +30,7 @@ public Q_SLOTS:
     QCoro::QmlTask removeUser(User *user);
     QCoro::QmlTask getTagHistory();
     QCoro::QmlTask pushTagHistory(QList<Tag *> tags);
-    void setSuggestedTags(Tags *tags);
+    void setSuggestedTags(QList<Tag *> tags);
 
 private:
     std::unique_ptr<ThreadedDatabase> database;

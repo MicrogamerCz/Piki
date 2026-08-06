@@ -3,7 +3,14 @@
 
 #include "pikicache.h"
 #include "pikitags.h"
+#include <QHashFunctions>
+#include <QSet>
 #include <algorithm>
+
+size_t qHash(const Tag &tag, size_t seed = 0)
+{
+    return qHashMulti(seed, tag.m_name, tag.m_translatedName);
+}
 
 Cache::Cache(QObject *parent)
     : QObject(parent)
@@ -40,9 +47,22 @@ QCoro::QmlTask Cache::pushTagHistory(QList<Tag *> tags)
 {
     return pushTagHistoryTask(tags);
 }
-void Cache::setSuggestedTags(Tags *tags)
+void Cache::setSuggestedTags(QList<Tag *> tags)
 {
     m_suggestedTags->clear();
+
+    QList<Tag *> &tagRef = m_suggestedTags->m_tags;
+    QSet<Tag *> tagSet(tagRef.begin(), tagRef.end());
+
+    for (Tag *tag : tags) {
+        if (tagSet.contains(tag))
+            continue;
+
+        tagSet.insert(tag);
+        m_suggestedTags->append(tag);
+    }
+
+    Q_EMIT suggestedTagsChanged();
 }
 
 QCoro::Task<> Cache::refreshUsersTask()
