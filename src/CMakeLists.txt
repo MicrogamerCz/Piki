@@ -57,7 +57,7 @@ ecm_add_qml_module(piki_st
         loginhandler.cpp
         pikicache.cpp
         pikihelper.cpp
-        pikitags.h
+        pikitags.cpp
         pikiuser.h
     # RESOURCE_PREFIX /
     RESOURCES

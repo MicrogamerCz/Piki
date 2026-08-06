@@ -2,8 +2,11 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #pragma once
+#include "pikitags.h"
 #include "pikiuser.h"
-#include <QCoro/QCoroQmlTask>
+#include <QCoro>
+#include <QCoroQml>
+#include <piqi/Piqi>
 #include <threadeddatabase.h>
 
 class Cache : public QObject
@@ -14,18 +17,27 @@ class Cache : public QObject
 
     QM_PROPERTY(PikiUser *, currentUser)
     QM_PROPERTY(QList<PikiUser *>, otherUsers)
-
-    std::unique_ptr<ThreadedDatabase> database;
-    QCoro::Task<> pushTagHistoryTask(QList<Tag *> tags);
-    QCoro::Task<> refreshUsersTask();
-    QCoro::Task<QList<Tag *>> getTagHistoryTask();
-    Q_SLOT QCoro::Task<> setCurrentUserTask(PikiUser *user);
+    QM_PROPERTY(PikiTags *, suggestedTags)
+    QM_PROPERTY(PikiTags *, historyTags)
+    QM_PROPERTY(PikiTags *, selectedTags)
 
 public:
     Cache(QObject *parent = nullptr);
-    Q_SLOT QCoro::QmlTask setCurrentUser(PikiUser *user);
-    Q_SLOT QCoro::QmlTask removeUser(User *user);
-    Q_SLOT QCoro::QmlTask setup();
-    Q_SLOT QCoro::QmlTask pushTagHistory(QList<Tag *> tags);
-    Q_SLOT QCoro::QmlTask getTagHistory();
+
+public Q_SLOTS:
+    QCoro::QmlTask setup();
+    QCoro::QmlTask setCurrentUser(PikiUser *user);
+    QCoro::QmlTask removeUser(User *user);
+    QCoro::QmlTask getTagHistory();
+    QCoro::QmlTask pushTagHistory(QList<Tag *> tags);
+    void setSuggestedTags(Tags *tags);
+
+private:
+    std::unique_ptr<ThreadedDatabase> database;
+    Piqi *client = nullptr; // * use later
+
+    QCoro::Task<> refreshUsersTask();
+    QCoro::Task<> setCurrentUserTask(PikiUser *user);
+    QCoro::Task<QList<Tag *>> getTagHistoryTask();
+    QCoro::Task<> pushTagHistoryTask(QList<Tag *> tags);
 };

@@ -180,7 +180,7 @@ Item {
                                     selectedTags.append({
                                         tagData: modelData
                                     });
-                                    tags.remove(index, 1);
+                                    Cache.suggestedTags.remove(index);
                                 }
                             }
                         }
@@ -301,11 +301,12 @@ Item {
                             searching = true;
                             lastQuery = queryBox.text;
                             piqi.SearchAutocomplete(queryBox.text).then(tgs => {
-                                tags.clear();
+                                Cache.suggestedTags.clear();
+                                // move code to pikicache, add global qhash func for tags, check existence in qset
                                 for (let i = 0; i < tgs.length; i++) {
                                     let tag = tgs[i];
                                     if (!selectedTags.tagInSelected(tag))
-                                        tags.append({
+                                        Cache.tags.append({
                                             tagData: tag
                                         });
                                 }

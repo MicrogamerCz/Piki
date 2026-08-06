@@ -21,7 +21,7 @@ FeedPage {
     property bool restrict: false
     onRestrictChanged: refresh()
 
-    property PikiTags tags: PikiTags {}
+    property PikiBookmarkTags tags: PikiBookmarkTags {}
 
     function refresh() {
         page.flickable.contentY = 0;

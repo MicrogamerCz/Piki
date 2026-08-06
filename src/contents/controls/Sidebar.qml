@@ -12,7 +12,7 @@ Rectangle {
     id: sidebar
     width: 250
     clip: true
-    x: collapsed ? -250 : 0
+    x: collapsed ? -width : 0
     color: "transparent"
 
     Kirigami.Theme.colorSet: Kirigami.Theme.Window

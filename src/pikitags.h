@@ -1,8 +1,5 @@
 #pragma once
 #include "piqi/tags.h"
-#include <piqi/tag.h>
-#include <qobject.h>
-#include <qqmlintegration.h>
 #include <qtmetamacros.h>
 
 class PikiTags : public Tags
@@ -11,16 +8,23 @@ class PikiTags : public Tags
     QML_ELEMENT
 
 public:
-    PikiTags(QObject *parent = nullptr)
-        : Tags(parent)
-    {
-        beginResetModel();
-        BookmarkTag *allTag = new BookmarkTag;
-        allTag->m_name = "All";
-        m_tags.append(allTag);
-        BookmarkTag *uncategorizedTag = new BookmarkTag;
-        uncategorizedTag->m_name = "Uncategorized";
-        m_tags.append(uncategorizedTag);
-        endResetModel();
-    }
+    PikiTags(QObject *parent = nullptr);
+
+public Q_SLOTS:
+    void append(Tag *tag);
+    void remove(int index);
+    void clear();
+
+Q_SIGNALS:
+    void added();
+    void removed();
+};
+
+class PikiBookmarkTags : public Tags
+{
+    Q_OBJECT
+    QML_ELEMENT
+
+public:
+    PikiBookmarkTags(QObject *parent = nullptr);
 };
