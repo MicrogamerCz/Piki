@@ -16,7 +16,7 @@ Item {
     height: 60
 
     property alias selectedTags: _selectedTags
-    property alias queryBox: flick.footerItem
+    property alias queryBox: searchField.queryBox
 
     ListModel {
         id: tagsHistory
@@ -105,14 +105,13 @@ Item {
             font.pointSize: 14
         }
 
-        Kirigami.AbstractCard {
-            id: tagCard
-            property bool enable: queryBox.text != ""// && queryBox.focus // necessary as there's a bug with the tags
-            property int animD: 150
-            property variant animE: Easing.OutQuad
+        TagCard {
+            enable: queryBox.text != ""
             onEnableChanged: tagsHistory.refresh()
-            opacity: enable ? 1 : 0
-            visible: opacity != 0
+
+            history: tagsHistory
+            selection: selectedTags
+
             anchors {
                 top: searchField.verticalCenter
                 left: searchField.left
@@ -120,214 +119,12 @@ Item {
                 margins: 5
                 topMargin: enable ? 30 : 0
             }
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: tagCard.animD
-                    easing: tagCard.animE
-                }
-            }
-            Behavior on anchors.topMargin {
-                NumberAnimation {
-                    duration: tagCard.animD
-                    easing: tagCard.animE
-                }
-            }
-
-            contentItem: Item {
-                implicitWidth: querySuggestions.implicitWidth
-                implicitHeight: querySuggestions.implicitHeight
-                ColumnLayout {
-                    id: querySuggestions
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                    }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: Kirigami.Units.largeSpacing
-
-                        Repeater {
-                            model: tagsHistory
-
-                            TagChip {
-                                required property Tag modelData
-                                tag: modelData
-
-                                onClicked: {
-                                    selectedTags.append({
-                                        tagData: tag
-                                    });
-                                    tagsHistory.remove(index, 1);
-                                }
-                            }
-                        }
-                    }
-                    Kirigami.Separator {
-                        Layout.fillWidth: true
-                    }
-                    Flow {
-                        Layout.fillWidth: true
-                        spacing: Kirigami.Units.largeSpacing
-
-                        Repeater {
-                            model: Cache.suggestedTags
-
-                            TagChip {
-                                onClicked: {
-                                    selectedTags.append({
-                                        tagData: tag
-                                    });
-                                    Cache.suggestedTags.remove(index);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
-        Rectangle {
+
+        SearchField {
             id: searchField
-            property bool loading: false
-            property color borderColor: Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, Kirigami.Theme.frameContrast)
-            Kirigami.Theme.colorSet: Kirigami.Theme.View
-            color: Kirigami.Theme.backgroundColor
-            border.color: queryBox.activeFocus ? Kirigami.Theme.highlightColor : borderColor
-            radius: Kirigami.Units.cornerRadius
-            width: 400
-            height: 40
-            anchors.centerIn: parent
-            clip: true
 
-            RowLayout {
-                anchors.fill: parent
-
-                Kirigami.Icon {
-                    id: searchIcon
-                    source: "search-symbolic"
-
-                    Layout.preferredHeight: 30
-                }
-                ListView {
-                    id: flick
-
-                    clip: true
-                    interactive: true
-                    spacing: 5
-                    model: selectedTags
-                    orientation: ListView.Horizontal
-                    delegate: TagChip {
-                        required property int index
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        closable: true
-                        onRemoved: {
-                            selectedTags.remove(index, 1);
-                        }
-                    }
-
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-
-                    footer: TextEdit {
-                        // id: queryBox
-                        leftPadding: 5
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: flick.width * (selectedTags.count > 0 ? 0.5 : 1)
-                        color: Kirigami.Theme.textColor
-                        property bool searching: false
-                        property string lastQuery: ""
-
-                        readonly property Kirigami.Action findAction: Kirigami.Action {
-                            shortcut: StandardKey.Find
-                            onTriggered: queryBox.forceActiveFocus()
-                        }
-
-                        KeyNavigation.priority: KeyNavigation.BeforeItem
-                        Keys.onTabPressed: function (event) {
-                            event.accepted = true;
-
-                            selectedTags.append(tags.get(0));
-                        }
-                        Keys.onReturnPressed: function (event) {
-                            event.accepted = true;
-
-                            if (text == "") {
-                                if (selectedTags.count > 0) {
-                                    pushSearchPage();
-                                    return;
-                                }
-                                return;
-                            }
-                            let id = checkIfStringIsUrlAndProcess(text);
-                            if (id != "") {
-                                piqi.IllustDetail(Number(id)).then(il => {
-                                    navigateToPageParm("IllustView", {
-                                        illust: il
-                                    });
-                                });
-                                text = "";
-                                return;
-                            }
-
-                            let tag = new Tag();
-                            tag.name = text;
-
-                            selectedTags.append({
-                                tagData: tag
-                            });
-
-                            text = "";
-                        }
-                        Keys.onPressed: function (event) {
-                            if (event.key === Qt.Key_Backspace && text === "") {
-                                event.accepted = true;
-                                if (selectedTags.count > 0)
-                                    selectedTags.remove(selectedTags.count - 1, 1);
-                            }
-                        }
-                        Keys.onEscapePressed: function (event) {
-                            event.accepted = true;
-                            focus = false;
-                        }
-                        onTextEdited: autocomplete()
-                        function autocomplete() {
-                            if (searching || queryBox.text == "")
-                                return;
-                            searching = true;
-                            lastQuery = queryBox.text;
-                            piqi.SearchAutocomplete(queryBox.text).then(tgs => {
-                                Cache.setSuggestedTags(tgs);
-                                searching = false;
-
-                                if (queryBox.text != lastQuery)
-                                    autocomplete();
-                            });
-                        }
-
-                        Controls.Label {
-                            leftPadding: 5
-                            visible: (queryBox.text == 0) && (head.selectedTags.count == 0)
-                            text: i18n("Search...")
-                            color: Kirigami.Theme.disabledTextColor
-                        }
-                    }
-                }
-                Controls.BusyIndicator {
-                    id: loadingIndicator
-                    visible: searchField.loading
-
-                    Layout.margins: 5
-                    Layout.preferredHeight: 30
-                    Layout.alignment: Qt.AlignVCenter
-                }
-            }
-
-            Behavior on border.color {
-                ColorAnimation {
-                    duration: 125
-                }
-            }
+            selection: selectedTags
         }
 
         // Controls.Button {

@@ -48,6 +48,8 @@ Kirigami.AbstractCard {
                 model: card.illust.tags
 
                 TagChip {
+                    required property Tag modelData
+                    tag: modelData
                     onClicked: root.pushTagAndSearch(modelData)
                 }
             }
