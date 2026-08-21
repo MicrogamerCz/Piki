@@ -79,24 +79,27 @@ DoubleAbstractCard {
                         font.bold: true
                     }
                 }
-                Rectangle {
+                Controls.Control {
                     visible: card.illust.pageCount > 1
-                    anchors {
-                        top: parent.top
-                        right: parent.right
-                    }
-                    color: Kirigami.Theme.backgroundColor
-                    border.color: Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, Kirigami.Theme.frameContrast)
-                    radius: Kirigami.Units.cornerRadius
-                    implicitWidth: pageCountLabel.implicitWidth + Kirigami.Units.largeSpacing * 1.5
-                    implicitHeight: pageCountLabel.implicitHeight + Kirigami.Units.largeSpacing
 
-                    Controls.Label {
-                        id: pageCountLabel
+                    contentItem: Row {
                         anchors.centerIn: parent
-                        text: "🗍  " + card.illust.pageCount // TODO: use actual icon, not fonticon for the pages
-                        font.pointSize: 10
-                        font.bold: true
+                        Kirigami.Icon {
+                            height: pageCountLabel.height
+                            width: height
+                            source: "view-pages-overview"
+                        }
+                        Controls.Label {
+                            id: pageCountLabel
+                            text: card.illust.pageCount
+                            font.pointSize: 10
+                            font.bold: true
+                        }
+                    }
+                    background: Rectangle {
+                        color: Kirigami.Theme.backgroundColor
+                        border.color: Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, Kirigami.Theme.frameContrast)
+                        radius: Kirigami.Units.cornerRadius
                     }
                 }
                 Rectangle {
