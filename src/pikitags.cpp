@@ -26,7 +26,7 @@ void PikiTags::remove(int index)
         return;
 
     beginRemoveRows({}, index, index + 1);
-    m_tags[index]->deleteLater();
+    // m_tags[index]->deleteLater();
     m_tags.removeAt(index);
     endRemoveRows();
 

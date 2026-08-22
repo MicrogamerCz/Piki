@@ -72,9 +72,7 @@ Kirigami.ApplicationWindow {
     }
 
     function pushTagAndSearch(tag) {
-        hd.selectedTags.append({
-            tagData: tag
-        });
+        Cache.selectedTags.append(tag);
         hd.pushSearchPage();
     }
     header: Header {
@@ -82,7 +80,7 @@ Kirigami.ApplicationWindow {
         visible: !sidebar.collapsed
     }
     function getHeaderQuery() {
-        const tgs = hd.selectedTags;
+        const tgs = Cache.selectedTags;
         let query = "";
         for (let i = 0; i < tgs.count; i++) {
             query += tgs.get(i).tagData.name + "・";

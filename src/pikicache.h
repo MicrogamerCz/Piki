@@ -9,6 +9,13 @@
 #include <piqi/Piqi>
 #include <threadeddatabase.h>
 
+inline auto hashTagPtrs = [](const Tag *tag) {
+    return qHashMulti(0, tag->m_name, tag->m_translatedName);
+};
+inline auto equalTagPtrs = [](const Tag *a, const Tag *b) {
+    return *a == *b;
+};
+
 class Cache : public QObject
 {
     Q_OBJECT
@@ -16,7 +23,7 @@ class Cache : public QObject
     QML_SINGLETON
 
     QM_PROPERTY(PikiUser *, currentUser)
-    QM_PROPERTY(QList<PikiUser *>, otherUsers)
+    QM_PROPERTY(std::vector<PikiUser *>, otherUsers)
     QM_PROPERTY(PikiTags *, suggestedTags)
     QM_PROPERTY(PikiTags *, historyTags)
     QM_PROPERTY(PikiTags *, selectedTags)
@@ -26,18 +33,26 @@ public:
 
 public Q_SLOTS:
     QCoro::QmlTask setup();
-    QCoro::QmlTask setCurrentUser(PikiUser *user);
+    QCoro::QmlTask setCurrentUser(PikiUser *user); // check if it updates tags history
     QCoro::QmlTask removeUser(User *user);
-    QCoro::QmlTask getTagHistory();
-    QCoro::QmlTask pushTagHistory(QList<Tag *> tags);
-    void setSuggestedTags(QList<Tag *> tags);
+
+    QCoro::QmlTask getTagHistory() const;
+    QCoro::QmlTask pushTagHistory() const;
+    void setTagSuggestions(const QList<Tag *> &tags) const;
+
+    bool selectTag(Tag *tag);
+    void unselectTag(Tag *tag);
 
 private:
     std::unique_ptr<ThreadedDatabase> database;
-    Piqi *client = nullptr; // * use later
+    std::unordered_set<Tag *, decltype(hashTagPtrs), decltype(equalTagPtrs)> selectedTagSet;
 
     QCoro::Task<> refreshUsersTask();
     QCoro::Task<> setCurrentUserTask(PikiUser *user);
-    QCoro::Task<QList<Tag *>> getTagHistoryTask();
-    QCoro::Task<> pushTagHistoryTask(QList<Tag *> tags);
+
+    QCoro::Task<> getTagHistoryTask() const;
+    QCoro::Task<> pushTagHistoryTask() const;
+
+    void clearPikiTags(PikiTags &tags) const;
+    int getPikiTagsIndex(PikiTags &tags, Tag *tag) const;
 };

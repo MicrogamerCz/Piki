@@ -11,7 +11,6 @@ Rectangle {
     property bool loading: false
     property color borderColor: Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, Kirigami.Theme.frameContrast)
     property alias queryBox: flick.footerItem
-    property ListModel selection
 
     Kirigami.Theme.colorSet: Kirigami.Theme.View
     color: Kirigami.Theme.backgroundColor
@@ -39,16 +38,17 @@ Rectangle {
             clip: true
             interactive: true
             spacing: 5
-            model: searchField.selection
+            model: Cache.selectedTags
             orientation: ListView.Horizontal
             delegate: TagChip {
-                required property int index
-                required property Tag modelData
-                tag: modelData
+                // required property int index
                 anchors.verticalCenter: parent.verticalCenter
 
                 closable: true
-                onRemoved: searchField.selection.remove(index, 1)
+                onRemoved: {
+                    Cache.unselectTag(tag);
+                    Cache.getTagHistory();
+                }
             }
 
             Layout.fillWidth: true
@@ -58,7 +58,7 @@ Rectangle {
                 // id: queryBox
                 leftPadding: 5
                 anchors.verticalCenter: parent.verticalCenter
-                width: flick.width * (searchField.selection.count > 0 ? 0.5 : 1)
+                width: flick.width * (Cache.selectedTags.count > 0 ? 0.5 : 1)
                 color: Kirigami.Theme.textColor
                 property bool searching: false
                 property string lastQuery: ""
@@ -71,16 +71,18 @@ Rectangle {
                 KeyNavigation.priority: KeyNavigation.BeforeItem
                 Keys.onPressed: function (event) {
                     if (event.key === Qt.Key_Backspace && text === "") {
+                        print("Hello?")
                         event.accepted = true;
-                        if (searchField.selection.count > 0)
-                            searchField.selection.remove(searchField.selection.count - 1, 1);
+                        if (Cache.selectedTags.count > 0)
+                            Cache.unselectTag(Cache.suggestedTags.tags[Cache.selectedTags.count - 1]); // *? add method removeLast
                     } else if (event.key === Qt.Key_Return) {
                         event.accepted = true;
 
                         if (text == "") {
-                            if (searchField.selection.count > 0) {
-                                pushSearchPage();
-                                return;
+                            if (Cache.selectedTags.count > 0) {
+                                Cache.pushTagHistory().then(() => {
+                                    pushSearchPage();
+                                });
                             }
                             return;
                         }
@@ -98,14 +100,12 @@ Rectangle {
                         let tag = new Tag();
                         tag.name = text;
 
-                        searchField.selection.append({
-                            tagData: tag
-                        });
+                        Cache.selectTag(tag);
 
                         text = "";
                     } else if (event.key === Qt.Key_Tab) {
                         event.accepted = true;
-                        searchField.selection.append(tags.get(0));
+                        Cache.selectTag(Cache.suggestedTags.tags[0]); // ?
                     } else if (event.key === Qt.Key_Escape) {
                         event.accepted = true;
                         focus = false;
@@ -119,7 +119,7 @@ Rectangle {
                     searching = true;
                     lastQuery = queryBox.text;
                     piqi.SearchAutocomplete(queryBox.text).then(tgs => {
-                        Cache.setSuggestedTags(tgs);
+                        Cache.setTagSuggestions(tgs);
                         searching = false;
 
                         if (queryBox.text != lastQuery)
@@ -129,7 +129,7 @@ Rectangle {
 
                 Controls.Label {
                     leftPadding: 5
-                    visible: (queryBox.text == 0) && (head.selection?.count ?? 0 == 0)
+                    visible: (queryBox.text == 0) && (Cache.selectedTags?.count ?? 0 == 0)
                     text: i18n("Search...")
                     color: Kirigami.Theme.disabledTextColor
                 }

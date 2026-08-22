@@ -10,11 +10,10 @@ Kirigami.AbstractCard {
     property bool enable
     property int animD: 150
     property variant animE: Easing.OutQuad
-    property ListModel history
-    property ListModel selection
 
     opacity: enable ? 1 : 0
     visible: opacity != 0
+    z: 10
 
     Behavior on opacity {
         NumberAnimation {
@@ -43,17 +42,15 @@ Kirigami.AbstractCard {
                 spacing: Kirigami.Units.largeSpacing
 
                 Repeater {
-                    model: tagCard.history
+                    model: Cache.historyTags
 
                     TagChip {
-                        required property Tag modelData
-                        tag: modelData
+                        // required property int index
 
                         onClicked: {
-                            selection.append({
-                                tagData: tag
-                            });
-                            history.remove(index, 1);
+                            Cache.selectTag(tag);
+                            // Cache.selectedTags.append(tag);
+                            // Cache.historyTags.remove(index);
                         }
                     }
                 }
@@ -69,11 +66,12 @@ Kirigami.AbstractCard {
                     model: Cache.suggestedTags
 
                     TagChip {
+                        // required property int index
+
                         onClicked: {
-                            selection.append({
-                                tagData: tag
-                            });
-                            Cache.suggestedTags.remove(index);
+                            Cache.selectTag(tag);
+                            // Cache.selectedTags.append(tag);
+                            // Cache.suggestedTags.remove(index);
                         }
                     }
                 }

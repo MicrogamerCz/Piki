@@ -6,11 +6,7 @@
 #include <QHashFunctions>
 #include <QSet>
 #include <algorithm>
-
-size_t qHash(const Tag &tag, size_t seed = 0)
-{
-    return qHashMulti(seed, tag.m_name, tag.m_translatedName);
-}
+#include <functional>
 
 Cache::Cache(QObject *parent)
     : QObject(parent)
@@ -39,39 +35,65 @@ QCoro::QmlTask Cache::removeUser(User *user)
 {
     return database->execute("DELETE FROM accounts WHERE id = ?", user->m_id);
 }
-QCoro::QmlTask Cache::getTagHistory()
+
+QCoro::QmlTask Cache::getTagHistory() const
 {
     return getTagHistoryTask();
 }
-QCoro::QmlTask Cache::pushTagHistory(QList<Tag *> tags)
+QCoro::QmlTask Cache::pushTagHistory() const
 {
-    return pushTagHistoryTask(tags);
+    return pushTagHistoryTask();
 }
-void Cache::setSuggestedTags(QList<Tag *> tags)
+void Cache::setTagSuggestions(const QList<Tag *> &tags) const
 {
-    m_suggestedTags->clear();
-
-    QList<Tag *> &tagRef = m_suggestedTags->m_tags;
-    QSet<Tag *> tagSet(tagRef.begin(), tagRef.end());
+    clearPikiTags(*m_suggestedTags);
 
     for (Tag *tag : tags) {
-        if (tagSet.contains(tag))
+        if (selectedTagSet.contains(tag))
             continue;
 
-        tagSet.insert(tag);
         m_suggestedTags->append(tag);
     }
+}
 
+bool Cache::selectTag(Tag *tag)
+{
+    auto [iter, inserted] = selectedTagSet.insert(tag);
+    if (!inserted)
+        return false;
+
+    // ! Fix issue with memory of tags
+    m_selectedTags->append(tag);
+
+    m_suggestedTags->remove(getPikiTagsIndex(*m_suggestedTags, tag));
+    m_historyTags->remove(getPikiTagsIndex(*m_historyTags, tag));
+
+    Q_EMIT selectedTagsChanged();
     Q_EMIT suggestedTagsChanged();
+    Q_EMIT historyTagsChanged();
+
+    return true;
+}
+void Cache::unselectTag(Tag *tag)
+{
+    if (!tag) // ? why it's null sometimes?
+    {
+        qDebug() << "No?";
+        return;
+    }
+
+    m_selectedTags->remove(getPikiTagsIndex(*m_selectedTags, tag));
+    selectedTagSet.erase(tag);
+
+    Q_EMIT selectedTagsChanged();
 }
 
 QCoro::Task<> Cache::refreshUsersTask()
 {
-    co_await database->runMigrations(":/qt/qml/io/github/micro/piki/contents/migrations/");
-    std::vector<PikiUser *> users = co_await database->getObjects<PikiUser>("SELECT * FROM accounts WHERE is_primary = 0;");
+    co_await database->runMigrations(":/qt/qml/io/github/micro/piki/contents/migrations/"); // * move migrations to code executed only once
+    co_await getTagHistoryTask();
 
-    m_otherUsers.resize(users.size());
-    std::move(users.begin(), users.end(), m_otherUsers.begin());
+    m_otherUsers = co_await database->getObjects<PikiUser>("SELECT * FROM accounts WHERE is_primary = 0;");
 
     std::optional<PikiUser *> optUser = co_await database->getObject<PikiUser>("SELECT * FROM accounts WHERE is_primary = 1;");
     if (!optUser.has_value() && !m_otherUsers.empty()) {
@@ -94,25 +116,27 @@ QCoro::Task<> Cache::setCurrentUserTask(PikiUser *user)
     co_await database->execute("UPDATE accounts SET is_primary = (account = ?);", user->m_account);
     co_await refreshUsersTask();
 }
-QCoro::Task<QList<Tag *>> Cache::getTagHistoryTask()
+QCoro::Task<> Cache::getTagHistoryTask() const
 {
     std::vector<Tag *> tagsResult = co_await database->getObjects<Tag>(
         "SELECT name, translated FROM tags "
         "JOIN tags_history ON tags.id = tags_history.tag_id "
         "WHERE user_id IN (SELECT id FROM accounts WHERE is_primary = 1) "
-        "ORDER BY tags_history.frequency DESC LIMIT 20"); // TODO: add variable limit with kconfig
-    QList<Tag *> tags;
-    tags.resize(tagsResult.size());
-    std::move(tagsResult.begin(), tagsResult.end(), tags.begin());
+        "ORDER BY tags_history.frequency DESC, tags.name LIMIT 20"); // TODO: add variable limit via kconfig
 
-    co_return tags;
+    clearPikiTags(*m_historyTags);
+
+    std::for_each(tagsResult.begin(), tagsResult.end(), [this](Tag *tag) {
+        if (!selectedTagSet.contains(tag))
+            m_historyTags->append(tag);
+    });
 }
-QCoro::Task<> Cache::pushTagHistoryTask(QList<Tag *> tags)
+QCoro::Task<> Cache::pushTagHistoryTask() const
 {
     co_await database->execute("BEGIN TRANSACTION");
 
-    for (Tag *tag : tags) {
-        if (tag->m_name == "")
+    for (Tag *tag : m_selectedTags->m_tags) {
+        if (tag->m_name.isEmpty())
             continue;
 
         co_await database->execute(
@@ -120,6 +144,7 @@ QCoro::Task<> Cache::pushTagHistoryTask(QList<Tag *> tags)
             "DO UPDATE SET name = excluded.name, translated = COALESCE(translated, excluded.translated)",
             tag->m_name,
             tag->m_translatedName);
+
         co_await database->execute(
             "INSERT INTO tags_history (tag_id, user_id) VALUES ((SELECT id FROM tags WHERE name = ? LIMIT 1), "
             "(SELECT id FROM accounts WHERE is_primary = 1 LIMIT 1)) ON CONFLICT(tag_id, user_id) "
@@ -128,4 +153,19 @@ QCoro::Task<> Cache::pushTagHistoryTask(QList<Tag *> tags)
     }
 
     co_await database->execute("COMMIT");
+}
+
+void Cache::clearPikiTags(PikiTags &tags) const
+{
+    std::for_each(tags.m_tags.begin(), tags.m_tags.end(), std::mem_fn(&Tag::deleteLater));
+    tags.clear();
+}
+int Cache::getPikiTagsIndex(PikiTags &tags, Tag *tag) const
+{
+    QList<Tag *> &tagList = tags.m_tags;
+    for (int i = 0; i < tagList.count(); i++) {
+        if (equalTagPtrs(tagList[i], tag))
+            return i;
+    }
+    return -1;
 }

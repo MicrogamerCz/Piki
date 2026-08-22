@@ -8,64 +8,32 @@ import org.kde.kirigami as Kirigami
 import io.github.micro.piki
 import io.github.micro.piqi
 
-// TODOs:
-// - split controls
-
 Item {
     id: head
     height: 60
 
-    property alias selectedTags: _selectedTags
     property alias queryBox: searchField.queryBox
 
-    ListModel {
-        id: tagsHistory
+    /*Connections {
+        target: Cache.selectedTags
 
-        function refresh() {
-            Cache.getTagHistory().then(hist => {
-                clear();
-
-                for (let i = 0; i < hist.length; i++) {
-                    let tag = hist[i];
-
-                    if (!selectedTags.tagInSelected(tag))
-                        append({
-                            tagData: tag
-                        });
-                }
-            });
-        }
-    }
-    ListModel {
-        id: _selectedTags
         onRowsInserted: {
             queryBox.text = "";
             queryBox.forceActiveFocus();
         }
         onRowsRemoved: {
             queryBox.autocomplete();
-            tagsHistory.refresh();
+            Cache.getTagHistory();
 
             if (currentPage.startsWith("Search"))
                 pushSearchPage();
         }
-
-        function tagInSelected(tag) {
-            for (let i = 0; i < count; i++) {
-                let sTag = get(i).tagData;
-                let sameName = sTag.name == tag.name;
-                let sameTr = sTag.translatedName == tag.translatedName;
-                if (sameName && sameTr)
-                    return true;
-            }
-            return false;
-        }
-    }
+    }*/
 
     function pushSearchPage() {
         searchField.loading = true;
         let searchRequest = new SearchRequest();
-        searchRequest.SetTags(selectedTags);
+        searchRequest.SetTags(Cache.selectedTags);
 
         Cache.pushTagHistory(searchRequest.tags);
 
@@ -107,10 +75,6 @@ Item {
 
         TagCard {
             enable: queryBox.text != ""
-            onEnableChanged: tagsHistory.refresh()
-
-            history: tagsHistory
-            selection: selectedTags
 
             anchors {
                 top: searchField.verticalCenter
@@ -123,8 +87,6 @@ Item {
 
         SearchField {
             id: searchField
-
-            selection: selectedTags
         }
 
         // Controls.Button {
