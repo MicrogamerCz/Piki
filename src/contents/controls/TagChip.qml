@@ -14,7 +14,7 @@ Kirigami.Chip {
 
     required property Tag tag
 
-    implicitWidth: layout.implicitWidth + Kirigami.Units.mediumSpacing * 2
+    implicitWidth: layout.implicitWidth + Kirigami.Units.mediumSpacing * 3 + (closable ? (indicator.implicitWidth - Kirigami.Units.mediumSpacing) : 0)
     implicitHeight: layout.implicitHeight + Kirigami.Units.largeSpacing * 2
     padding: Kirigami.Units.largeSpacing
 
@@ -28,21 +28,6 @@ Kirigami.Chip {
             visible: (chip.tag.translatedName) != ""
             text: `(${chip.tag.translatedName})`
             font.pointSize: 8
-        }
-        Item {
-            Layout.fillWidth: true
-        }
-        Controls.Button {
-            visible: chip.closable
-            Layout.margins: 0
-            Layout.maximumWidth: layout.height
-            Layout.maximumHeight: layout.height
-            icon.name: "dialog-close"
-            icon.color: "red"
-            padding: 0
-            flat: true
-
-            onClicked: chip.removed()
         }
     }
     closable: false
