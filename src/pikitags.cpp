@@ -25,7 +25,7 @@ void PikiTags::remove(int index)
     if (index < 0 || index >= m_tags.size())
         return;
 
-    beginRemoveRows({}, index, index + 1);
+    beginRemoveRows({}, index, index);
     // m_tags[index]->deleteLater();
     m_tags.removeAt(index);
     endRemoveRows();
@@ -34,7 +34,10 @@ void PikiTags::remove(int index)
 }
 void PikiTags::clear()
 {
-    beginRemoveRows({}, 0, m_tags.size());
+    if (m_tags.isEmpty())
+        return;
+
+    beginRemoveRows({}, 0, m_tags.size() - 1);
     std::for_each(m_tags.begin(), m_tags.end(), std::mem_fn(&Tag::deleteLater));
     m_tags.clear();
     endRemoveRows();

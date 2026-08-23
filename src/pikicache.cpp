@@ -58,6 +58,9 @@ void Cache::setTagSuggestions(const QList<Tag *> &tags) const
 
 bool Cache::selectTag(Tag *tag)
 {
+    if (!tag)
+        return false;
+
     auto [iter, inserted] = selectedTagSet.insert(tag);
     if (!inserted)
         return false;

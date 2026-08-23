@@ -73,15 +73,17 @@ Rectangle {
                     if (event.key === Qt.Key_Backspace && text === "") {
                         print("Hello?")
                         event.accepted = true;
-                        if (Cache.selectedTags.count > 0)
-                            Cache.unselectTag(Cache.suggestedTags.tags[Cache.selectedTags.count - 1]); // *? add method removeLast
+                        if (Cache.selectedTags.count > 0) {
+                            Cache.unselectTag(Cache.selectedTags.tags[Cache.selectedTags.count - 1]);
+                            Cache.getTagHistory();
+                        }
                     } else if (event.key === Qt.Key_Return) {
                         event.accepted = true;
 
                         if (text == "") {
-                            if (Cache.selectedTags.count > 0) {
+                            if (Cache.selectedTags.tags.count > 0) {
                                 Cache.pushTagHistory().then(() => {
-                                    pushSearchPage();
+                                    head.pushSearchPage();
                                 });
                             }
                             return;
@@ -105,7 +107,8 @@ Rectangle {
                         text = "";
                     } else if (event.key === Qt.Key_Tab) {
                         event.accepted = true;
-                        Cache.selectTag(Cache.suggestedTags.tags[0]); // ?
+                        if (Cache.suggestedTags.count > 0)
+                            Cache.selectTag(Cache.suggestedTags.tags[0]);
                     } else if (event.key === Qt.Key_Escape) {
                         event.accepted = true;
                         focus = false;
