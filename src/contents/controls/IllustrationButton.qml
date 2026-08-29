@@ -31,13 +31,19 @@ DoubleAbstractCard {
                 illust: card.illust
             });
         else
-            piqi.FetchNovel(illust).then(nv => navigateToPageParm("NovelView", {
+            piqi.fetchNovel(illust).then(nv => navigateToPageParm("NovelView", {
                     novel: nv
                 }));
     }
-    onBottomItemClicked: piqi.Details(card.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
-            details: dtls
-        }))
+    onBottomItemClicked: piqi.details(card.illust.user).then(response => {
+        if (!response.isSuccessful) {
+            showResponseError(response);
+            return;
+        }
+        root.navigateToPageParm("ProfileView", {
+            details: response.data
+        });
+    })
 
     topItem: Item {
         anchors.fill: parent

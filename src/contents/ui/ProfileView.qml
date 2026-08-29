@@ -97,7 +97,14 @@ FeedPage {
     Component.onCompleted: {
         PikiHelper.CheckFanbox(user).then(url => fanboxAction.url = url);
         if (user.isFollowed > 0)
-            piqi.FollowDetail(user).then(details => user.isFollowed = (details.restriction == "private") ? 2 : 1);
+            piqi.followDetail(user).then(response => {
+                if (!response.isSuccessful) {
+                    showResponseError(response);
+                    return;
+                }
+
+                user.isFollowed = (response.data.restriction == "private") ? 2 : 1;
+            });
 
         refresh();
     }

@@ -99,9 +99,13 @@ Kirigami.AbstractCard {
                 text: i18n("Series")
 
                 onClicked: {
-                    piqi.SeriesFeed(sd.series.illustSeriesDetail.id).then(series => {
+                    piqi.seriesFeed(sd.series.illustSeriesDetail.id).then(response => {
+                        if (!response.isSuccessful) {
+                            showResponseError(response);
+                            return;
+                        }
                         navigateToPageParm("Series", {
-                            feed: series
+                            feed: response.data
                         });
                     });
                 }

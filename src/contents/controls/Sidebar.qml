@@ -27,7 +27,11 @@ Rectangle {
         Cache.setCurrentUser(data).then(() => {
             if (LoginHandler.keyringProviderInstalled)
                 LoginHandler.GetToken().then(token => {
-                    piqi.Login(token).then(() => {
+                    piqi.login(token).then(response => {
+                        if (!response.isSuccessful) {
+                            showResponseError(response);
+                            return;
+                        }
                         pageStack.currentItem.refresh();
                         reloadingAccount = false;
                     });
@@ -40,12 +44,16 @@ Rectangle {
             if (Cache.otherUsers.length > 0)
                 switchAccount(LoginHandler.otherUsers[0]);
             else {
-                piqi.Walkthrough().then(walkthrough => {
+                piqi.walkthrough().then(response => {
+                    if (!response.isSuccessful) {
+                        showResponseError(response);
+                        return;
+                    }
                     reloadingAccount = false;
                     accountDialog.close();
                     sidebar.collapsed = true;
                     navigateToPageParm("Welcome", {
-                        wkt: walkthrough
+                        wkt: response.data
                     });
                 });
             }

@@ -88,9 +88,13 @@ Rectangle {
                         }
                         let id = verifyUrl(text);
                         if (id != "") {
-                            piqi.IllustDetail(Number(id)).then(il => {
+                            piqi.illustDetail(Number(id)).then(response => {
+                                if (!response.isSuccessful) {
+                                    showResponseError(response);
+                                    return;
+                                }
                                 navigateToPageParm("IllustView", {
-                                    illust: il
+                                    illust: response.data
                                 });
                             });
                             text = "";
@@ -122,7 +126,7 @@ Rectangle {
 
                     searching = true;
                     lastQuery = queryBox.text;
-                    piqi.SearchAutocomplete(queryBox.text).then(tgs => {
+                    piqi.searchAutocomplete(queryBox.text).then(tgs => {
                         Cache.setTagSuggestions(tgs);
                         searching = false;
 

@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 import io.github.micro.piki
+import io.github.micro.piqi
 
 Kirigami.Page {
     id: page
@@ -28,7 +29,7 @@ Kirigami.Page {
             if (token == "")
                 pushWalkthough();
             else
-                piqi.Login(token).then(diverge);
+                piqi.login(token).then(diverge);
         });
     }
 
