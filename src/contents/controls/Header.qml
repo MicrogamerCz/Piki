@@ -35,8 +35,6 @@ Item {
         let searchRequest = new SearchRequest();
         searchRequest.SetTags(Cache.selectedTags);
 
-        Cache.pushTagHistory(searchRequest.tags);
-
         searchRequest.Search().then(sr => {
             searchField.loading = false;
             navigateToPageParm("Search", {
@@ -45,7 +43,7 @@ Item {
             });
         });
     }
-    function checkIfStringIsUrlAndProcess(str) {
+    function verifyUrl(str) {
         try {
             let url = new URL(str);
             return str.substring(str.lastIndexOf("/") + 1);

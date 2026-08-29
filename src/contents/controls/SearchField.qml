@@ -58,8 +58,9 @@ Rectangle {
                 // id: queryBox
                 leftPadding: 5
                 anchors.verticalCenter: parent.verticalCenter
-                width: flick.width * (Cache.selectedTags.count > 0 ? 0.5 : 1)
+                width: flick.width * (Cache.selectedTags.tags.length > 0 ? 0.5 : 1)
                 color: Kirigami.Theme.textColor
+                enabled: !searchField.loading
                 property bool searching: false
                 property string lastQuery: ""
 
@@ -71,24 +72,21 @@ Rectangle {
                 KeyNavigation.priority: KeyNavigation.BeforeItem
                 Keys.onPressed: function (event) {
                     if (event.key === Qt.Key_Backspace && text === "") {
-                        print("Hello?")
                         event.accepted = true;
-                        if (Cache.selectedTags.count > 0) {
-                            Cache.unselectTag(Cache.selectedTags.tags[Cache.selectedTags.count - 1]);
+                        if (Cache.selectedTags.tags.length > 0) {
+                            Cache.unselectTag(Cache.selectedTags.tags[Cache.selectedTags.tags.length - 1]);
                             Cache.getTagHistory();
                         }
                     } else if (event.key === Qt.Key_Return) {
                         event.accepted = true;
 
-                        if (text == "") {
-                            if (Cache.selectedTags.tags.count > 0) {
-                                Cache.pushTagHistory().then(() => {
-                                    head.pushSearchPage();
-                                });
-                            }
+                        if (text == "" && Cache.selectedTags.tags.length > 0) {
+                            Cache.pushTagHistory().then(() => {
+                                head.pushSearchPage();
+                            });
                             return;
                         }
-                        let id = checkIfStringIsUrlAndProcess(text);
+                        let id = verifyUrl(text);
                         if (id != "") {
                             piqi.IllustDetail(Number(id)).then(il => {
                                 navigateToPageParm("IllustView", {
@@ -107,7 +105,7 @@ Rectangle {
                         text = "";
                     } else if (event.key === Qt.Key_Tab) {
                         event.accepted = true;
-                        if (Cache.suggestedTags.count > 0)
+                        if (Cache.suggestedTags.tags.length > 0)
                             Cache.selectTag(Cache.suggestedTags.tags[0]);
                     } else if (event.key === Qt.Key_Escape) {
                         event.accepted = true;
