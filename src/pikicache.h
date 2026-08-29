@@ -2,36 +2,18 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 #pragma once
-#include "pikiconfig.h"
-#include "piqi/illustration.h"
-#include "piqi/tag.h"
+#include "pikitags.h"
+#include "pikiuser.h"
 #include <QCoro>
-#include <QObject>
-#include <QtQmlIntegration>
-#include <ThreadedDatabase>
-#include <coroutine.h>
-#include <qcoroqmltask.h>
-#include <qcorotask.h>
-#include <qhash.h>
+#include <QCoroQml>
+#include <piqi/Piqi>
+#include <threadeddatabase.h>
 
-struct UserResult {
-    using ColumnTypes = std::tuple<int, QString, QString, QString>;
-    static UserResult fromSql(ColumnTypes &&tuple);
-    User *toUser() const;
-    int id;
-    QString name, account, pfp;
+inline auto hashTagPtrs = [](const Tag *tag) {
+    return qHashMulti(0, tag->m_name, tag->m_translatedName);
 };
-struct TagResult {
-    using ColumnTypes = std::tuple<int, QString, QString>;
-    static TagResult fromSql(ColumnTypes &&tuple);
-    Tag *toTag() const;
-    int id;
-    QString name, translated;
-};
-struct TagHistoryResult {
-    using ColumnTypes = std::tuple<int, int>;
-    static TagHistoryResult fromSql(ColumnTypes &&tuple);
-    int id, frequency;
+inline auto equalTagPtrs = [](const Tag *a, const Tag *b) {
+    return *a == *b;
 };
 
 class Cache : public QObject
@@ -41,18 +23,36 @@ class Cache : public QObject
     QML_SINGLETON
 
     QM_PROPERTY(PikiUser *, currentUser)
-    QM_PROPERTY(QList<PikiUser *>, otherUsers)
-
-    std::unique_ptr<ThreadedDatabase> database;
-    QCoro::Task<void> PushTagHistoryTask(QList<Tag *> tags);
-    QCoro::Task<QList<Tag *>> GetTagHistoryTask();
+    QM_PROPERTY(std::vector<PikiUser *>, otherUsers)
+    QM_PROPERTY(PikiTags *, suggestedTags)
+    QM_PROPERTY(PikiTags *, historyTags)
+    QM_PROPERTY(PikiTags *, selectedTags)
 
 public:
     Cache(QObject *parent = nullptr);
-    QCoro::Task<QList<User *>> ReadUserCache(QString excludedUser = "");
-    QCoro::Task<> WriteUserToCache(User *user);
-    QCoro::Task<> DeleteUserFromCache(User *user);
-    Q_SLOT QCoro::QmlTask Setup();
-    Q_SLOT QCoro::QmlTask PushTagHistory(QList<Tag *> tags);
-    Q_SLOT QCoro::QmlTask GetTagHistory();
+
+public Q_SLOTS:
+    QCoro::QmlTask setup();
+    QCoro::QmlTask setCurrentUser(PikiUser *user); // check if it updates tags history
+    QCoro::QmlTask removeUser(User *user);
+
+    QCoro::QmlTask getTagHistory() const;
+    QCoro::QmlTask pushTagHistory() const;
+    void setTagSuggestions(const QList<Tag *> &tags) const;
+
+    bool selectTag(Tag *tag);
+    void unselectTag(Tag *tag);
+
+private:
+    std::unique_ptr<ThreadedDatabase> database;
+    std::unordered_set<Tag *, decltype(hashTagPtrs), decltype(equalTagPtrs)> selectedTagSet;
+
+    QCoro::Task<> refreshUsersTask();
+    QCoro::Task<> setCurrentUserTask(PikiUser *user);
+
+    QCoro::Task<> getTagHistoryTask() const;
+    QCoro::Task<> pushTagHistoryTask() const;
+
+    void clearPikiTags(PikiTags &tags) const;
+    int getPikiTagsIndex(PikiTags &tags, Tag *tag) const;
 };

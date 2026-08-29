@@ -418,17 +418,21 @@ msgstr "Další"
 msgid "Bookmarks ・ %1"
 msgstr "Záložky ・ %1"
 
-#: src/contents/ui/Collection.qml:73 src/contents/ui/Following.qml:58
+#: src/contents/ui/Collection.qml:69 src/contents/ui/Following.qml:58
 msgid "All"
 msgstr "Vše"
 
-#: src/contents/ui/Collection.qml:75
+#: src/contents/ui/Collection.qml:71
 msgid "Uncategorized"
 msgstr "Neoznačené"
 
 #: src/contents/ui/Collection.qml:90
 msgid "Public"
 msgstr "Veřejné"
+
+#: src/contents/ui/Collection.qml:90
+msgid "Private"
+msgstr "Soukromé"
 
 #: src/contents/ui/Main.qml:15
 msgid "Piki"

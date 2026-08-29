@@ -31,10 +31,10 @@ Kirigami.Dialog {
         }
         Kirigami.Separator {
             Layout.fillWidth: true
-            visible: LoginHandler.otherUsers.length > 0
+            visible: Cache.otherUsers.length > 0
         }
         Repeater {
-            model: LoginHandler.otherUsers
+            model: Cache.otherUsers
 
             AccountButton {
                 enabled: !accountDialog.reloadingAccount

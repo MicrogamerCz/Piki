@@ -21,7 +21,7 @@ FeedPage {
     property bool restrict: false
     onRestrictChanged: refresh()
 
-    property PikiTags tags: PikiTags {}
+    property PikiBookmarkTags tags: PikiBookmarkTags {}
 
     function refresh() {
         page.flickable.contentY = 0;
@@ -63,7 +63,8 @@ FeedPage {
         Controls.ComboBox {
             onCurrentTextChanged: page.tag = currentText
             editable: true
-            model: tags
+            model: page.tags
+            textRole: "name"
             displayText: {
                 if (currentText == "All")
                     return i18n("All");

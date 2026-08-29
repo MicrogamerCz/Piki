@@ -16,7 +16,7 @@ Kirigami.AbstractCard {
     property Illustration illust
     property IllustSeries series
 
-    visible: illust.series.id != 0
+    visible: illust.series != null // TODO: replace with dynamic loading of component
     padding: Kirigami.Units.largeSpacing * 2
 
     contentItem: ColumnLayout {

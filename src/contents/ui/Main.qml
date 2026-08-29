@@ -34,23 +34,21 @@ Kirigami.ApplicationWindow {
     function loggedIn(response) {
         let json = JSON.parse(response);
         piqi.SetLogin(json["access_token"], json["refresh_token"]);
-        LoginHandler.SetUser(json["user"]["account"]).then(() => {
-            if (!LoginHandler.keyringProviderInstalled)
-                return;
+        if (!LoginHandler.keyringProviderInstalled)
+            return;
 
+        let user = new PikiUser(json["user"]);
+        Cache.setCurrentUser(user).then(() => {
             LoginHandler.WriteToken(json["refresh_token"]).then(() => {
-                LoginHandler.SaveUserToCache(JSON.stringify(json["user"]), piqi).then(() => {
-                    pageStack.pop();
-                    pageStack.pop();
+                pageStack.pop();
+                pageStack.pop();
 
-                    piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                        // Cache.SynchroniseIllusts(recommended.illusts);
-                        navigateToPageParm("Home", {
-                            feed: recommended
-                        });
-
-                        sidebar.collapsed = false;
+                piqi.RecommendedFeed("illust", true, true).then(recommended => {
+                    navigateToPageParm("Home", {
+                        feed: recommended
                     });
+
+                    sidebar.collapsed = false;
                 });
             });
         });
@@ -63,7 +61,7 @@ Kirigami.ApplicationWindow {
         shareTimer.start();
     }
 
-    Component.onCompleted: Cache.Setup().then(pageStack.currentItem.beginLoginProcess)
+    Component.onCompleted: Cache.setup().then(pageStack.currentItem.beginLoginProcess)
 
     Piqi {
         id: piqi
@@ -74,9 +72,7 @@ Kirigami.ApplicationWindow {
     }
 
     function pushTagAndSearch(tag) {
-        hd.selectedTags.append({
-            tagData: tag
-        });
+        Cache.selectedTags.append(tag);
         hd.pushSearchPage();
     }
     header: Header {
@@ -84,7 +80,7 @@ Kirigami.ApplicationWindow {
         visible: !sidebar.collapsed
     }
     function getHeaderQuery() {
-        const tgs = hd.selectedTags;
+        const tgs = Cache.selectedTags;
         let query = "";
         for (let i = 0; i < tgs.count; i++) {
             query += tgs.get(i).tagData.name + "・";
