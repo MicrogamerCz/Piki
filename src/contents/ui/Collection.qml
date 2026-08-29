@@ -63,7 +63,8 @@ FeedPage {
         Controls.ComboBox {
             onCurrentTextChanged: page.tag = currentText
             editable: true
-            model: tags
+            model: page.tags
+            textRole: "name"
             displayText: {
                 if (currentText == "All")
                     return i18n("All");
