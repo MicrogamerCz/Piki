@@ -32,21 +32,22 @@ FeedPage {
             queryTag = "";
         else if (queryTag == "Uncategorized")
             queryTag = "未分類";
-        if (!isNovelCategory)
-            piqi.BookmarksFeed(piqi.user, restrict, queryTag).then(rec => {
-                feed = rec;
-                loading = false;
-            });
-        else
-            piqi.NovelsBookmarksFeed(piqi.user, restrict, queryTag).then(rec => {
-                feed = rec;
-                loading = false;
-            });
+        let type = isNovelCategory ? "novel" : "illust";
+        piqi.bookmarksFeed(piqi.user, restrict, queryTag, type).then(response => {
+            if (response.isSuccessful)
+                feed = response.data;
+            else
+                showResponseError(response);
+            loading = false;
+        });
     }
 
     Component.onCompleted: {
-        piqi.BookmarkTags(isNovelCategory ? "novel" : "illust", restrict).then(tags_ => {
-            tags.Extend(tags_);
+        piqi.bookmarkTags(isNovelCategory ? "novel" : "illust", restrict).then(response => {
+            if (response.isSuccessful)
+                tags.Extend(response.data);
+            else
+                showResponseError(response);
         });
     }
 
@@ -66,10 +67,8 @@ FeedPage {
             model: page.tags
             textRole: "name"
             displayText: {
-                if (currentText == "All")
-                    return i18n("All");
-                else if (currentText != "Uncategorized")
-                    return i18n("Uncategorized");
+                if (currentText == "All" || currentText != "Uncategorized")
+                    return i18n(currentText);
                 else
                     return "#" + currentText;
             }

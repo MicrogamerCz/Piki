@@ -20,16 +20,13 @@ FeedPage {
     function refresh() {
         page.flickable.contentY = 0;
         loading = true;
-        if (category == "novel")
-            piqi.RecommendedNovelsFeed(true, false).then(rec => {
-                feed = rec;
-                loading = false;
-            });
-        else
-            piqi.RecommendedFeed(category, true, false).then(rec => {
-                feed = rec;
-                loading = false;
-            });
+        piqi.recommendedFeed(category, true, false).then(response => {
+            if (response.isSuccessful)
+                feed = response.data;
+            else
+                showResponseError(response);
+            loading = false;
+        });
     }
 
     filterSelections: [

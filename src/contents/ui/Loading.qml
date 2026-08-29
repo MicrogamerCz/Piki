@@ -50,31 +50,40 @@ Kirigami.Page {
         switch (Config.startupPage) {
         case 0:
             {
-                piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                    loadingIndicator.opacity = 0;
-                    navigateToPageParm("Home", {
-                        feed: recommended
-                    });
-                    sidebar.collapsed = false;
+                piqi.recommendedFeed("illust", true, true).then(response => {
+                    if (response.isSuccessful) {
+                        loadingIndicator.opacity = 0;
+                        navigateToPageParm("Home", {
+                            feed: response.data
+                        });
+                        sidebar.collapsed = false;
+                    } else
+                        showResponseError(response);
                 });
                 break;
             }
         case 1:
             {
-                piqi.FollowingFeed("all").then(following => {
-                    navigateToPageParm("Following", {
-                        feed: following
-                    });
+                piqi.followingFeed("illust", "all").then(response => {
+                    if (response.isSuccessful)
+                        navigateToPageParm("Following", {
+                            feed: response.data
+                        });
+                    else
+                        showResponseError(response);
                     sidebar.collapsed = false;
                 });
                 break;
             }
         case 2:
             {
-                piqi.WatchlistFeed().then(wtl => {
-                    navigateToPageParm("Watchlist", {
-                        feed: wtl
-                    });
+                piqi.watchlistFeed().then(response => {
+                    if (response.isSuccessful)
+                        navigateToPageParm("Watchlist", {
+                            feed: response.data
+                        });
+                    else
+                        showResponseError(response);
                     sidebar.collapsed = false;
                 });
                 break;
@@ -85,23 +94,30 @@ Kirigami.Page {
             }
         case 4:
             {
-                piqi.LatestGlobal("illust").then(latest => {
-                    navigateToPageParm("Newest", {
-                        feed: latest
-                    });
+                piqi.latestGlobal("illust").then(response => {
+                    if (response.isSuccessful)
+                        navigateToPageParm("Newest", {
+                            feed: response.data
+                        });
+                    else
+                        showResponseError(response);
                     sidebar.collapsed = false;
                 });
                 break;
             }
         case 5:
             {
-                piqi.BookmarksFeed(null, false).then(bkmarks => {
-                    loadingIndicator.opacity = 0;
-                    navigateToPageParm("Collection", {
-                        feed: bkmarks
-                    });
+                piqi.bookmarksFeed(null, false).then(response => {
+                    if (response.isSuccessful) {
+                        loadingIndicator.opacity = 0;
 
-                    sidebar.collapsed = false;
+                        navigateToPageParm("Collection", {
+                            feed: response.data
+                        });
+
+                        sidebar.collapsed = false;
+                    } else
+                        showResponseError(response);
                 });
                 break;
             }
@@ -112,11 +128,14 @@ Kirigami.Page {
         }
     }
     function pushWalkthough() {
-        piqi.Walkthrough().then(walkthrough => {
-            loadingIndicator.opacity = 0;
-            root.navigateToPageParm("Welcome", {
-                wkt: walkthrough
-            });
+        piqi.walkthrough().then(response => {
+            if (response.isSuccessful) {
+                loadingIndicator.opacity = 0;
+                root.navigateToPageParm("Welcome", {
+                    wkt: response.data
+                });
+            } else
+                showResponseError(response);
         });
     }
 

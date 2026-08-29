@@ -19,16 +19,13 @@ FeedPage {
     function refresh() {
         page.flickable.contentY = 0;
         loading = true;
-        if (category !== "novel")
-            piqi.LatestGlobal(category).then(rec => {
-                feed = rec;
-                loading = false;
-            });
-        else
-            piqi.LatestNovelsGlobal(rec => {
-                feed = rec;
-                loading = false;
-            });
+        piqi.latestGlobal(category).then(response => {
+            if (response.isSuccessful)
+                feed = response.data;
+            else
+                showResponseError(response);
+            loading = false;
+        });
     }
 
     filterSelections: [

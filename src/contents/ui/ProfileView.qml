@@ -51,28 +51,46 @@ FeedPage {
 
     function refresh() {
         if (profile.totalIllusts > 0 && category == "0")
-            piqi.UserIllusts(user, "illust").then(illusts => {
-                feed = illusts;
+            piqi.userIllusts(user, "illust").then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (profile.totalManga > 0 && category == "1")
-            piqi.UserIllusts(user, "manga").then(illusts => {
-                feed = illusts;
+            piqi.userIllusts(user, "manga").then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (profile.totalIllustSeries > 0 && category == "2")
-            piqi.UserSeries(user).then(series => {
-                feed = series;
+            piqi.userSeries(user).then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (profile.totalNovels > 0 && category == "3")
-            piqi.UserNovels(user).then(novels => {
-                feed = novels;
+            piqi.userIllusts(user, "novel").then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (category == "4")
-            piqi.BookmarksFeed(user).then(bkmarks => {
-                feed = bkmarks;
+            piqi.bookmarksFeed(user).then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (category == "5")
-            piqi.NovelsBookmarksFeed(user).then(bkmarks => {
-                feed = bkmarks;
+            piqi.bookmarksFeed(user, false, "", "novel").then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
     }
 

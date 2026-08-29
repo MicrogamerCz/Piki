@@ -90,10 +90,13 @@ Rectangle {
                     matchPart: true
                     onClicked: {
                         loading = true;
-                        piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                            navigateToPageParm("Home", {
-                                feed: recommended
-                            });
+                        piqi.recommendedFeed("illust", true, true).then(response => {
+                            if (response.isSuccessful)
+                                navigateToPageParm("Home", {
+                                    feed: response.data
+                                });
+                            else
+                                showResponseError(response);
                             loading = false;
                         });
                     }
@@ -109,10 +112,13 @@ Rectangle {
                     matchPart: true
                     onClicked: {
                         loading = true;
-                        piqi.FollowingFeed("all").then(following => {
-                            navigateToPageParm("Following", {
-                                feed: following
-                            });
+                        piqi.followingFeed("illust", "all").then(response => {
+                            if (response.isSuccessful)
+                                navigateToPageParm("Following", {
+                                    feed: response.data
+                                });
+                            else
+                                showResponseError(response);
                             loading = false;
                         });
                     }
@@ -124,10 +130,13 @@ Rectangle {
 
                     onClicked: {
                         loading = true;
-                        piqi.WatchlistFeed().then(wtl => {
-                            navigateToPageParm("Watchlist", {
-                                feed: wtl
-                            });
+                        piqi.watchlistFeed().then(response => {
+                            if (response.isSuccessful)
+                                navigateToPageParm("Watchlist", {
+                                    feed: response.data
+                                });
+                            else
+                                showResponseError(response);
                             loading = false;
                         });
                     }
@@ -146,10 +155,13 @@ Rectangle {
 
                     onClicked: {
                         loading = true;
-                        piqi.LatestGlobal("illust").then(latest => {
-                            navigateToPageParm("Newest", {
-                                feed: latest
-                            });
+                        piqi.latestGlobal("illust").then(response => {
+                            if (response.isSuccessful)
+                                navigateToPageParm("Newest", {
+                                    feed: response.data
+                                });
+                            else
+                                showResponseError(response);
                             loading = false;
                         });
                     }
@@ -166,10 +178,13 @@ Rectangle {
 
                     onClicked: {
                         loading = true;
-                        piqi.BookmarksFeed(null, false).then(bkmarks => {
-                            navigateToPageParm("Collection", {
-                                feed: bkmarks
-                            });
+                        piqi.bookmarksFeed(null, false).then(response => {
+                            if (response.isSuccessful)
+                                navigateToPageParm("Collection", {
+                                    feed: response.data
+                                });
+                            else
+                                showResponseError(response);
                             loading = false;
                         });
                     }
@@ -197,10 +212,13 @@ Rectangle {
             }
             onClicked: {
                 loading = true;
-                piqi.Details(piqi.user).then(dtls => {
-                    root.navigateToPageParm("ProfileView", {
-                        details: dtls
-                    });
+                piqi.details(piqi.user).then(response => {
+                    if (response.isSuccessful)
+                        root.navigateToPageParm("ProfileView", {
+                            details: response.data
+                        });
+                    else
+                        showResponseError(response);
                     loading = false;
                 });
             }

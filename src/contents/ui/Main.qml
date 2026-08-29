@@ -20,6 +20,20 @@ Kirigami.ApplicationWindow {
 
     property string currentPage: pageStack.currentItem?.title ?? ""
 
+    readonly property var httpStatusCodes: ({
+            403: i18n("Forbidden"),
+            429: i18n("Too Many Requests")
+        })
+
+    function showResponseError(response) {
+        // TODO: if status code is 429, show warning about fast browsing and give a minute long grace period before allowing any browsing
+        const description = httpStatusCodes[response.statusCode];
+        const suffix = description ? ` ${response.statusCode} - ${description})` : ` (${response.statusCode}`;
+        showPassiveNotification(JSON.stringify(response.body) + suffix);
+        // const suffix = description ? ` (${response.statusCode} - ${description})` : ` (${response.statusCode})`;
+        // showPassiveNotification(i18n("Network error: ") + suffix);
+    }
+
     function buildObject(name, data, parent) {
         let comp = Qt.createComponent(name + ".qml");
         let obj = comp.createObject(parent, data);
@@ -43,10 +57,13 @@ Kirigami.ApplicationWindow {
                 pageStack.pop();
                 pageStack.pop();
 
-                piqi.RecommendedFeed("illust", true, true).then(recommended => {
-                    navigateToPageParm("Home", {
-                        feed: recommended
-                    });
+                piqi.recommendedFeed("illust", true, true).then(response => {
+                    if (response.isSuccessful)
+                        navigateToPageParm("Home", {
+                            feed: response.data
+                        });
+                    else
+                        showResponseError(response);
 
                     sidebar.collapsed = false;
                 });

@@ -21,16 +21,14 @@ FeedPage {
     function refresh() {
         page.flickable.contentY = 0;
         loading = true;
-        if (!isNovelCategory)
-            piqi.FollowingFeed(restrict).then(rec => {
-                feed = rec;
-                loading = false;
-            });
-        else
-            piqi.FollowingNovelsFeed(restrict).then(rec => {
-                feed = rec;
-                loading = false;
-            });
+        let type = isNovelCategory ? "novel" : "illust";
+        piqi.followingFeed(type, restrict).then(response => {
+            if (response.isSuccessful)
+                feed = response.data;
+            else
+                showResponseError(response);
+            loading = false;
+        });
     }
 
     filterSelections: [
