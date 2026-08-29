@@ -51,8 +51,8 @@ Kirigami.Page {
             } else
                 showResponseError(response);
         });
-        // if (illust.user.isFollowed > 0) // ? why FollowDetail is missing?
-            // piqi.followDetail(illust.user).then(details => illust.user.isFollowed = (details.restriction == "private") ? 2 : 1);
+        if (illust.user.isFollowed > 0) // TODO: move back to piqi
+            illust.user.FollowDetail(illust.user).then(details => illust.user.isFollowed = (details.restriction == "private") ? 2 : 1);
         piqi.relatedIllusts(illust).then(response => {
             if (response.isSuccessful)
                 related = response.data;
