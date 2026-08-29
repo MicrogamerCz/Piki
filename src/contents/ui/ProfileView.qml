@@ -218,11 +218,11 @@ FeedPage {
                             icon.name: (page.user.isFollowed == 2) ? "view-private" : ""
                             onClicked: {
                                 if (page.user.isFollowed == 0)
-                                    piqi.Follow(page.user);
+                                    piqi.follow(page.user).then(showResponseError);
                                 else
-                                    piqi.RemoveFollow(page.user);
+                                    piqi.removeFollow(page.user).then(showResponseError);
                             }
-                            onPressAndHold: piqi.Follow(page.user, page.user.isFollowed < 2)
+                            onPressAndHold: piqi.follow(page.user, page.user.isFollowed < 2).then(showResponseError)
                         }
                         Controls.Button {
                             text: i18n("My pixiv request")

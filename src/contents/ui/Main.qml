@@ -25,7 +25,10 @@ Kirigami.ApplicationWindow {
             429: i18n("Too Many Requests")
         })
 
-    function showResponseError(response) {
+    function showResponseError(response: PiqiResponse) {
+        if (response.isSuccessful)
+            return;
+
         // TODO: if status code is 429, show warning about fast browsing and give a minute long grace period before allowing any browsing
         const description = httpStatusCodes[response.statusCode];
         const suffix = description ? ` ${response.statusCode} - ${description})` : ` (${response.statusCode}`;
@@ -47,7 +50,7 @@ Kirigami.ApplicationWindow {
     }
     function loggedIn(response) {
         let json = JSON.parse(response);
-        piqi.SetLogin(json["access_token"], json["refresh_token"]);
+        piqi.setLogin(json["access_token"], json["refresh_token"]);
         if (!LoginHandler.keyringProviderInstalled)
             return;
 

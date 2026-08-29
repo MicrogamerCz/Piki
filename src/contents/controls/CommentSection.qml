@@ -28,12 +28,19 @@ Kirigami.AbstractCard {
             commentCount++;
 
             if (commentData.hasReplies) {
-                piqi.CommentReplies(commentData).then(comms => processComments(comms, level + 1, {
+                piqi.commentReplies(commentData).then(response => {
+                    if (!response.isSuccessful) {
+                        showResponseError(response);
+                        return;
+                    }
+
+                    processComments(response.data.data, level + 1, {
                         index: i + 1,
                         cms: comments,
                         lvl: level,
                         prv: previous
-                    }));
+                    });
+                });
                 break;
             }
         }
@@ -52,12 +59,19 @@ Kirigami.AbstractCard {
             commentCount++;
 
             if (commentData.hasReplies) {
-                piqi.CommentReplies(commentData).then(comms => processComments(comms, pd.lvl + 1, {
+                piqi.commentReplies(commentData).then(response => {
+                    if (!response.isSuccessful) {
+                        showResponseError(response);
+                        return;
+                    }
+
+                    processComments(response.data.data, pd.lvl + 1, {
                         index: i + 1,
                         cms: pd.cms,
                         lvl: pd.lvl,
                         prv: pd
-                    }));
+                    });
+                });
                 break;
             }
         }

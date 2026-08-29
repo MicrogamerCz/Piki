@@ -32,8 +32,8 @@ Kirigami.Page {
         });
     }
 
-    function diverge(result) {
-        if (result.StatusCode == 0) {
+    function diverge(result: PiqiResponse) {
+        if (result.statusCode == 0) {
             reconnectionInterval.level = 5;
             reconnectionInterval.start();
             noConnectionDialog.open();
@@ -42,7 +42,7 @@ Kirigami.Page {
         if (noConnectionDialog.opened)
             noConnectionDialog.close();
 
-        if (!result.IsSuccessful) {
+        if (!result.isSuccessful) {
             pushWalkthough();
             return;
         }
