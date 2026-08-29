@@ -160,9 +160,20 @@ Kirigami.Page {
                         illust: page.illust
                     }
 
-                    SeriesDetailsCard {
-                        illust: page.illust
-                        series: page.series
+                    Component {
+                        id: seriesDetailsCardComponent
+
+                        SeriesDetailsCard {
+                            illust: page.illust
+                            series: page.series
+                        }
+                    }
+                    Loader {
+                        active: page.illust.series != null
+                        asynchronous: true
+                        sourceComponent: seriesDetailsCardComponent
+
+                        Layout.fillWidth: true
                     }
 
                     // Later improve by using unintended behaviour of the endpoint,
