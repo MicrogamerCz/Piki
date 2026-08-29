@@ -130,7 +130,6 @@ msgid_plural "%1 works"
 msgstr[0] "%1 werk"
 msgstr[1] "%1 werken"
 
-# TODO: opravit chybu u množného tvaru pro 5 a více částÍ :)
 #: src/contents/controls/CommentCard.qml:61
 msgid "Author"
 msgstr "Maker"

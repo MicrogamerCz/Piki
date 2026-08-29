@@ -83,28 +83,26 @@ Code/translation contributions are welcome, as well as independent testing.
   - Novels feeds not loading
 - General
   - [x] Improve performance (especially after navigating a few feed pages)
-  - [ ] Network error handling - either with passive notifications or dialogs
-  - [ ] Splitting Header and Search field
-  - [ ] Convergent layout
-  - [ ] pixiv Premium features
-  - [ ] Fix object caching
+  - [x] Network error handling - passive notifications, grace period dialog *(branch `piqi-responses-rewrite`)*
+  - [x] Notifications *(will be implemented in Piqi after rewriting the API)*
   - [ ] Rewrite SelectionButtons to work based on index (or use different control)
   - [ ] Create templates for certain SelectionButtons implementations, they aren't much different from each other
-  - [ ] Bind tags history to each account in local cache
-  - [ ] Use more integrated controls (such as StatefulWindow instead of ApplicationWindow)
-  - [ ] Notifications(?)
-  - [ ] Proper Android support
-  - [ ] Messages from web client
-  - [ ] Implementing pixiv Fanbox (least important)
-  - [ ] Posting new illusts/manga/novels (button will be in the top right corner)
   - [ ] Account settings
-  - [ ] my Pixiv page
-  - [ ] Local browsing history (+ online for premium users)
-  - [ ] Rewrite login process to remove dependency on QtWebEngine
   - [ ] Cropping for "Set as wallpaper" share option when there's a mismatch between the aspect ratio of the image and the monitor
-- [ ] In-app notification when API returns error after multiple API calls in a short while (or added delays? could be due to the minimal parameters compared to the app)
+  - [ ] Use more integrated controls (such as StatefulWindow instead of ApplicationWindow)
+  - [ ] Messages as on web client
+  - [ ] Posting new illusts/manga/novels (button will be in the top right corner)
+  - [ ] Local browsing history (+ online for premium users)
+  - [ ] Convergent layout
+  - [ ] my Pixiv page
+  - [ ] Proper Android support
+  - [ ] pixiv Premium features
+  - [ ] Fix object caching
+  - [ ] Rewrite login process to remove dependency on QtWebEngine
+  - [ ] Implementing pixiv Fanbox (least important)
 - Profile page
   - [ ] More appropriate icon for fanbox link
+  - [ ] Add buttons for other social media (twitter, pawoo, etc. like on web client)
 - Novel page
   - [ ] Custom viewer parsed from the DOM
 - Welcome
@@ -112,8 +110,16 @@ Code/translation contributions are welcome, as well as independent testing.
   - [ ] Showing privacy policy popup (same as in the official app)(?)
   - [ ] Fix animations of Welcome screen, polish the design
 - Comments
-  - [ ] Adding comments (even replies)
+  - [ ] Adding comments (as well as replies)
   - [ ] Deleting Comments
-  - [ ] Parsing pixiv emojies into Unicode or freedesktop icon emojis
+  - [ ] Parsing pixiv emojies (eg. `(emote)`) into Unicode or freedesktop icon emojis
+  - [ ] Change the way comments (and replies) collapse
 - Settings
   - [ ] Add individual account settings
+  - [ ] Add semi-variable limit for number of tags fetched from history
+- IllustView page
+  - [ ] Add mute button
+  - [ ] Add report button
+  - [ ] Make other artist's illusts center on the current work
+  - [ ] Fetching more arts from the artist (like on web client)
+  - [ ] Show a notification dialog when setting wallpaper on unsupported desktop without portal

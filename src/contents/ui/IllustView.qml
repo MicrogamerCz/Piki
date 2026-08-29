@@ -9,13 +9,6 @@ import io.github.micro.piki
 import io.github.micro.piqi
 import "../controls"
 
-// TODOs here:
-// - adding new comments
-// - turning '(emote)' into actual icons (probably UNICODE emotes)
-// - change the way comments collapse, make the button visible only when comments > 1
-// - (OPTIONAL) fetching more arts from the artist
-// - clicking profile header will open profile
-
 Kirigami.Page {
     id: page
     title: illust.title

@@ -19,7 +19,7 @@ ecm_add_qml_module(piki_st
         contents/ui/Search.qml
         contents/ui/Newest.qml
         contents/ui/Collection.qml
-        # contents/ui/History.qml # TODO
+        # contents/ui/History.qml
         contents/ui/Welcome.qml
         contents/ui/ProfileView.qml
         contents/ui/NovelView.qml
