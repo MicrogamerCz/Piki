@@ -5,16 +5,23 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
+import io.github.micro.piqi
 
 Kirigami.AbstractCard {
     id: section
     clip: true
-    property variant illust
+    property Illustration illust // ? why 'variant'
     property int commentCount: 0
     property bool collapsed: true
 
-    // ? Check why missing
-    // Component.onCompleted: illust.FetchComments().then(comments => processComments(comments, 0, null))
+    Component.onCompleted: piqi.fetchComments(illust).then(response => {
+        if (!response.isSuccessful) {
+            showResponseError(response);
+            return;
+        }
+
+        processComments(response.data, 0, null);
+    })
 
     function processComments(comments, level, previous) {
         for (let i = 0; i < comments.comments.length; i++) {
@@ -34,7 +41,7 @@ Kirigami.AbstractCard {
                         return;
                     }
 
-                    processComments(response.data.data, level + 1, {
+                    processComments(response.data, level + 1, {
                         index: i + 1,
                         cms: comments,
                         lvl: level,

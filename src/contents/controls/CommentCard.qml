@@ -65,7 +65,7 @@ Kirigami.AbstractCard {
                     }
                 }
                 Controls.Label {
-                    visible: card.comment.stamp == null
+                    visible: !stampImage.visible
                     text: card.processTextEmotes(card.comment.comment)
                     font.bold: true
                     wrapMode: Text.WordWrap
@@ -75,7 +75,8 @@ Kirigami.AbstractCard {
                     }
                 }
                 PixivImage {
-                    visible: card.comment.stamp != null
+                    id: stampImage
+                    visible: source !== ""
                     height: 80
                     width: 80
                     source: card.comment.stamp?.url ?? ""

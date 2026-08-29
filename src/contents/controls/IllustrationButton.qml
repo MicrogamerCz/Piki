@@ -71,6 +71,7 @@ DoubleAbstractCard {
                         top: parent.top
                         left: parent.left
                     }
+
                     color: Kirigami.Theme.negativeTextColor
                     border.color: Kirigami.Theme.negativeBackgroundColor
                     radius: Kirigami.Units.cornerRadius
@@ -87,6 +88,10 @@ DoubleAbstractCard {
                 }
                 Controls.Control {
                     visible: card.illust.pageCount > 1
+                    anchors {
+                        top: parent.top
+                        right: parent.right
+                    }
 
                     contentItem: Row {
                         anchors.centerIn: parent
