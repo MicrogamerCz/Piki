@@ -37,6 +37,7 @@ Kirigami.AbstractCard {
                 left: parent.left
                 right: parent.right
             }
+
             Flow {
                 Layout.fillWidth: true
                 spacing: Kirigami.Units.largeSpacing
@@ -45,19 +46,15 @@ Kirigami.AbstractCard {
                     model: Cache.historyTags
 
                     TagChip {
-                        // required property int index
-
-                        onClicked: {
-                            Cache.selectTag(tag);
-                            // Cache.selectedTags.append(tag);
-                            // Cache.historyTags.remove(index);
-                        }
+                        onClicked: Cache.selectTag(tag)
                     }
                 }
             }
+
             Kirigami.Separator {
                 Layout.fillWidth: true
             }
+
             Flow {
                 Layout.fillWidth: true
                 spacing: Kirigami.Units.largeSpacing
@@ -66,13 +63,7 @@ Kirigami.AbstractCard {
                     model: Cache.suggestedTags
 
                     TagChip {
-                        // required property int index
-
-                        onClicked: {
-                            Cache.selectTag(tag);
-                            // Cache.selectedTags.append(tag);
-                            // Cache.suggestedTags.remove(index);
-                        }
+                        onClicked: Cache.selectTag(tag)
                     }
                 }
             }

@@ -55,7 +55,7 @@ Rectangle {
             Layout.fillHeight: true
 
             footer: TextEdit {
-                // id: queryBox
+                id: queryBox
                 leftPadding: 5
                 anchors.verticalCenter: parent.verticalCenter
                 width: flick.width * (Cache.selectedTags.tags.length > 0 ? 0.5 : 1)
@@ -103,10 +103,12 @@ Rectangle {
                         Cache.selectTag(tag);
 
                         text = "";
+                        forceActiveFocus();
                     } else if (event.key === Qt.Key_Tab) {
                         event.accepted = true;
                         if (Cache.suggestedTags.tags.length > 0)
                             Cache.selectTag(Cache.suggestedTags.tags[0]);
+                        forceActiveFocus();
                     } else if (event.key === Qt.Key_Escape) {
                         event.accepted = true;
                         focus = false;
@@ -117,6 +119,7 @@ Rectangle {
                 function autocomplete() {
                     if (searching || queryBox.text == "")
                         return;
+
                     searching = true;
                     lastQuery = queryBox.text;
                     piqi.SearchAutocomplete(queryBox.text).then(tgs => {
@@ -126,6 +129,19 @@ Rectangle {
                         if (queryBox.text != lastQuery)
                             autocomplete();
                     });
+                }
+
+                Connections {
+                    target: Cache.selectedTags
+
+                    function onAdded() {
+                        queryBox.text = "";
+                        queryBox.forceActiveFocus();
+                    }
+                    function onRemoved() {
+                        queryBox.text = "";
+                        queryBox.forceActiveFocus();
+                    }
                 }
 
                 Controls.Label {

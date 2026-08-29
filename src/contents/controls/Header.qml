@@ -12,23 +12,7 @@ Item {
     id: head
     height: 60
 
-    property alias queryBox: searchField.queryBox
-
-    /*Connections {
-        target: Cache.selectedTags
-
-        onRowsInserted: {
-            queryBox.text = "";
-            queryBox.forceActiveFocus();
-        }
-        onRowsRemoved: {
-            queryBox.autocomplete();
-            Cache.getTagHistory();
-
-            if (currentPage.startsWith("Search"))
-                pushSearchPage();
-        }
-    }*/
+    property alias searchBox: searchField.queryBox
 
     function pushSearchPage() {
         searchField.loading = true;
@@ -72,7 +56,7 @@ Item {
         }
 
         TagCard {
-            enable: queryBox.text != ""
+            enable: searchBox.text != ""
 
             anchors {
                 top: searchField.verticalCenter
