@@ -43,15 +43,15 @@ Kirigami.AbstractCard {
 
                 onTriggered: {
                     if (toolbar.illust.isBookmarked == 0)
-                        toolbar.illust.AddBookmark(false);
+                        toolbar.illust.addBookmark(false);
                     else
-                        toolbar.illust.RemoveBookmark(toolbar.illust);
+                        toolbar.illust.removeBookmark(toolbar.illust);
                 }
             },
             Kirigami.Action {
                 icon.name: "view-private"
 
-                onTriggered: toolbar.illust.AddBookmark(toolbar.illust.isBookmarked < 2)
+                onTriggered: toolbar.illust.addBookmark(toolbar.illust.isBookmarked < 2)
             },
             Kirigami.Action {
                 separator: true

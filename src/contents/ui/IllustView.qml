@@ -52,7 +52,7 @@ Kirigami.Page {
                 showResponseError(response);
         });
         if (illust.user.isFollowed > 0) // TODO: move back to piqi
-            illust.user.FollowDetail(illust.user).then(details => illust.user.isFollowed = (details.restriction == "private") ? 2 : 1);
+            illust.user.followDetail(illust.user).then(details => illust.user.isFollowed = (details.restriction == "private") ? 2 : 1);
         piqi.relatedIllusts(illust).then(response => {
             if (response.isSuccessful)
                 related = response.data;
@@ -153,7 +153,7 @@ Kirigami.Page {
                     loading = true;
                     piqi.relatedIllusts(page.illust).then(response => {
                         if (response.isSuccessful)
-                            page.related.Extend(response.data);
+                            page.related.extend(response.data); // * check (and use) nextUrl
                         else
                             showResponseError(response);
                         loading = false;

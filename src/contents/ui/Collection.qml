@@ -45,7 +45,7 @@ FeedPage {
     Component.onCompleted: {
         piqi.bookmarkTags(isNovelCategory ? "novel" : "illust", restrict).then(response => {
             if (response.isSuccessful)
-                tags.Extend(response.data);
+                tags.extend(response.data);
             else
                 showResponseError(response);
         });

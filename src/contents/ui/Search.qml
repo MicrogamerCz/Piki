@@ -47,12 +47,12 @@ FeedPage {
         page.loading = true;
 
         if (sorting == "popular")
-            searchRequest.SearchPopularPreview().then(sr => {
+            searchRequest.searchPopularPreview().then(sr => {
                 loading = false;
                 feed = sr;
             });
         else
-            searchRequest.Search().then(sr => {
+            searchRequest.search().then(sr => {
                 loading = false;
                 feed = sr;
             });

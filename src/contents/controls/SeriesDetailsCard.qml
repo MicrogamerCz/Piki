@@ -88,9 +88,9 @@ Kirigami.AbstractCard {
 
                 onClicked: {
                     if (checked)
-                        sd.series.illustSeriesDetail.WatchlistAdd();
+                        sd.series.illustSeriesDetail.watchlistAdd();
                     else
-                        sd.series.illustSeriesDetail.WatchlistDelete();
+                        sd.series.illustSeriesDetail.watchlistDelete();
                 }
             }
             Controls.Button {

@@ -72,9 +72,9 @@ FeedPage {
 
                         onClicked: {
                             if (checked)
-                                page.feed.illustSeriesDetail.WatchlistAdd();
+                                page.feed.illustSeriesDetail.watchlistAdd();
                             else
-                                page.feed.illustSeriesDetail.WatchlistDelete();
+                                page.feed.illustSeriesDetail.watchlistDelete();
                         }
                     }
                     Controls.Button {

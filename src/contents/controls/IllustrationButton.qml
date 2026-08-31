@@ -22,7 +22,7 @@ DoubleAbstractCard {
 
     Component.onCompleted: {
         if (illust.isBookmarked == 1)
-            illust.BookmarkDetail().then(details => illust.isBookmarked = (details.restriction == "private") ? 2 : 1);
+            illust.bookmarkDetail().then(details => illust.isBookmarked = (details.restriction == "private") ? 2 : 1);
     }
 
     onTopItemClicked: {
@@ -145,11 +145,11 @@ DoubleAbstractCard {
 
                             onClicked: {
                                 if (card.illust.isBookmarked == 0)
-                                    card.illust.AddBookmark(false);
+                                    card.illust.addBookmark(false);
                                 else
-                                    card.illust.RemoveBookmark();
+                                    card.illust.removeBookmark();
                             }
-                            onPressAndHold: card.illust.AddBookmark(card.illust.isBookmarked != 2)
+                            onPressAndHold: card.illust.addBookmark(card.illust.isBookmarked != 2)
                         }
                     }
                 }
