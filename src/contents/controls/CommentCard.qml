@@ -10,9 +10,12 @@ import io.github.micro.piqi
 
 Kirigami.AbstractCard {
     id: card
+
     property int level: 0
     property Illustration illust
     property Comment comment
+    property bool hasStamp: comment.stamp !== null
+
     Layout.fillWidth: true
     Layout.minimumHeight: card.height
     clip: true
@@ -65,7 +68,7 @@ Kirigami.AbstractCard {
                     }
                 }
                 Controls.Label {
-                    visible: !stampImage.visible
+                    visible: !card.hasStamp
                     text: card.processTextEmotes(card.comment.comment)
                     font.bold: true
                     wrapMode: Text.WordWrap
@@ -74,12 +77,16 @@ Kirigami.AbstractCard {
                         right: parent.right
                     }
                 }
-                PixivImage {
-                    id: stampImage
-                    visible: source !== ""
-                    height: 80
-                    width: 80
-                    source: card.comment.stamp?.url ?? ""
+
+                Loader {
+                    sourceComponent: PixivImage {
+                        id: stampImage
+                        height: 80
+                        width: 80
+                        source: card.comment.stamp.stampUrl
+                    }
+
+                    active: card.hasStamp
                 }
 
                 RowLayout {
@@ -89,6 +96,7 @@ Kirigami.AbstractCard {
                     }
                     Controls.Button {
                         flat: true
+                        enabled: false
                         text: i18n("Reply")
                     }
                 }
