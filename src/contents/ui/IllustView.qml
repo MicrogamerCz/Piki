@@ -36,18 +36,28 @@ Kirigami.Page {
     }
 
     Component.onCompleted: {
-        piqi.UserIllusts(illust.user, "illust").then(others => {
-            for (let i = 0; i < others.illusts.length; i++)
-                otherIllusts = others;
+        piqi.userIllusts(illust.user, "illust").then(response => {
+            if (response.isSuccessful) {
+                let others = response.data;
+                for (let i = 0; i < others.illusts.length; i++)
+                    otherIllusts = others;
+            } else
+                showResponseError(response);
         });
-        // if (illust.user.isFollowed > 0) // ? why FollowDetail is missing?
-            // piqi.FollowDetail(illust.user).then(details => illust.user.isFollowed = (details.restriction == "private") ? 2 : 1);
-        piqi.RelatedIllusts(illust).then(rels => {
-            related = rels;
+        if (illust.user.isFollowed > 0) // TODO: move back to piqi
+            illust.user.followDetail(illust.user).then(details => illust.user.isFollowed = (details.restriction == "private") ? 2 : 1);
+        piqi.relatedIllusts(illust).then(response => {
+            if (response.isSuccessful)
+                related = response.data;
+            else
+                showResponseError(response);
         });
         if (illust.series != null)
-            piqi.IllustSeriesDetails(illust).then(series => {
-                page.series = series;
+            piqi.illustSeriesDetails(illust).then(response => {
+                if (response.isSuccessful)
+                    page.series = response.data;
+                else
+                    showResponseError(response);
             });
         if (illust.pageCount > 1)
             download(0);
@@ -134,8 +144,11 @@ Kirigami.Page {
                         return;
 
                     loading = true;
-                    piqi.RelatedIllusts(page.illust).then(rels => {
-                        page.related.Extend(rels);
+                    piqi.relatedIllusts(page.illust).then(response => {
+                        if (response.isSuccessful)
+                            page.related.extend(response.data); // * check (and use) nextUrl
+                        else
+                            showResponseError(response);
                         loading = false;
                     });
                 }

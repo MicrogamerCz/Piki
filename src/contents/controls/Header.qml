@@ -17,9 +17,9 @@ Item {
     function pushSearchPage() {
         searchField.loading = true;
         let searchRequest = new SearchRequest();
-        searchRequest.SetTags(Cache.selectedTags);
+        searchRequest.setTags(Cache.selectedTags);
 
-        searchRequest.Search().then(sr => {
+        searchRequest.search().then(sr => {
             searchField.loading = false;
             navigateToPageParm("Search", {
                 searchRequest: searchRequest,

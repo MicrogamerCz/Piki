@@ -29,8 +29,7 @@ Kirigami.ScrollablePage {
             return;
         }
 
-        feed.NextFeed().then(() => {
-            // feed.Extend(newFeed);
+        feed.nextFeed().then(() => {
             loading = false;
         });
     }

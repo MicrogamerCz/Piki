@@ -40,14 +40,21 @@ Kirigami.AbstractCard {
             icon.name: (page.illust.user.isFollowed == 2) ? "view-private" : ""
             onClicked: {
                 if (page.illust.user.isFollowed == 0)
-                    piqi.Follow(page.illust.user);
+                    piqi.follow(page.illust.user).then(showResponseError);
                 else
-                    piqi.RemoveFollow(page.illust.user);
+                    piqi.removeFollow(page.illust.user).then(showResponseError);
             }
-            onPressAndHold: piqi.Follow(page.illust.user, page.illust.user.isFollowed < 2)
+            onPressAndHold: piqi.follow(page.illust.user, page.illust.user.isFollowed < 2).then(showResponseError)
         }
     }
-    onClicked: piqi.Details(page.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
-            details: dtls
-        }))
+    onClicked: piqi.details(page.illust.user).then(response => {
+        if (!response.isSuccessful) {
+            showResponseError(response);
+            return;
+        }
+
+        root.navigateToPageParm("ProfileView", {
+            details: response.data
+        });
+    })
 }

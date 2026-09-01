@@ -87,9 +87,9 @@ Kirigami.AbstractCard {
 
                 onClicked: {
                     if (checked)
-                        sd.series.illustSeriesDetail.WatchlistAdd();
+                        sd.series.illustSeriesDetail.watchlistAdd();
                     else
-                        sd.series.illustSeriesDetail.WatchlistDelete();
+                        sd.series.illustSeriesDetail.watchlistDelete();
                 }
             }
             Controls.Button {
@@ -98,9 +98,13 @@ Kirigami.AbstractCard {
                 text: i18n("Series")
 
                 onClicked: {
-                    piqi.SeriesFeed(sd.series.illustSeriesDetail.id).then(series => {
+                    piqi.seriesFeed(sd.series.illustSeriesDetail.id).then(response => {
+                        if (!response.isSuccessful) {
+                            showResponseError(response);
+                            return;
+                        }
                         navigateToPageParm("Series", {
-                            feed: series
+                            feed: response.data
                         });
                     });
                 }

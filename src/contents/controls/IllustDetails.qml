@@ -44,6 +44,14 @@ Kirigami.AbstractCard {
             Layout.fillWidth: true
             spacing: Kirigami.Units.largeSpacing
 
+            TagChip {
+                visible: card.illust.illustAiType == 2
+                bold: true
+                tag: Tag {
+                    name: i18n("AI-generated")
+                }
+            }
+
             Repeater {
                 model: card.illust.tags
 

@@ -47,6 +47,8 @@ private:
     std::unique_ptr<ThreadedDatabase> database;
     std::unordered_set<Tag *, decltype(hashTagPtrs), decltype(equalTagPtrs)> selectedTagSet;
 
+    QCoro::Task<> setupTask();
+
     QCoro::Task<> refreshUsersTask();
     QCoro::Task<> setCurrentUserTask(PikiUser *user);
 

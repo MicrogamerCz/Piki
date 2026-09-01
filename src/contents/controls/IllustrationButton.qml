@@ -22,7 +22,7 @@ DoubleAbstractCard {
 
     Component.onCompleted: {
         if (illust.isBookmarked == 1)
-            illust.BookmarkDetail().then(details => illust.isBookmarked = (details.restriction == "private") ? 2 : 1);
+            illust.bookmarkDetail().then(details => illust.isBookmarked = (details.restriction == "private") ? 2 : 1);
     }
 
     onTopItemClicked: {
@@ -31,13 +31,19 @@ DoubleAbstractCard {
                 illust: card.illust
             });
         else
-            piqi.FetchNovel(illust).then(nv => navigateToPageParm("NovelView", {
+            piqi.fetchNovel(illust).then(nv => navigateToPageParm("NovelView", {
                     novel: nv
                 }));
     }
-    onBottomItemClicked: piqi.Details(card.illust.user).then(dtls => root.navigateToPageParm("ProfileView", {
-            details: dtls
-        }))
+    onBottomItemClicked: piqi.details(card.illust.user).then(response => {
+        if (!response.isSuccessful) {
+            showResponseError(response);
+            return;
+        }
+        root.navigateToPageParm("ProfileView", {
+            details: response.data
+        });
+    })
 
     topItem: Item {
         anchors.fill: parent
@@ -65,6 +71,7 @@ DoubleAbstractCard {
                         top: parent.top
                         left: parent.left
                     }
+
                     color: Kirigami.Theme.negativeTextColor
                     border.color: Kirigami.Theme.negativeBackgroundColor
                     radius: Kirigami.Units.cornerRadius
@@ -81,6 +88,10 @@ DoubleAbstractCard {
                 }
                 Controls.Control {
                     visible: card.illust.pageCount > 1
+                    anchors {
+                        top: parent.top
+                        right: parent.right
+                    }
 
                     contentItem: Row {
                         anchors.centerIn: parent
@@ -134,11 +145,11 @@ DoubleAbstractCard {
 
                             onClicked: {
                                 if (card.illust.isBookmarked == 0)
-                                    card.illust.AddBookmark(false);
+                                    card.illust.addBookmark(false);
                                 else
-                                    card.illust.RemoveBookmark();
+                                    card.illust.removeBookmark();
                             }
-                            onPressAndHold: card.illust.AddBookmark(card.illust.isBookmarked != 2)
+                            onPressAndHold: card.illust.addBookmark(card.illust.isBookmarked != 2)
                         }
                     }
                 }

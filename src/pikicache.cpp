@@ -7,6 +7,7 @@
 #include <QSet>
 #include <algorithm>
 #include <functional>
+#include <qcorofuture.h>
 
 Cache::Cache(QObject *parent)
     : QObject(parent)
@@ -23,8 +24,14 @@ Cache::Cache(QObject *parent)
 
 QCoro::QmlTask Cache::setup()
 {
-    return refreshUsersTask();
+    return setupTask();
 }
+QCoro::Task<> Cache::setupTask()
+{
+    co_await database->runMigrations(":/qt/qml/io/github/micro/piki/contents/migrations/");
+    co_await refreshUsersTask();
+}
+
 QCoro::QmlTask Cache::setCurrentUser(PikiUser *user)
 {
     m_currentUser = user;
@@ -93,7 +100,7 @@ void Cache::unselectTag(Tag *tag)
 
 QCoro::Task<> Cache::refreshUsersTask()
 {
-    co_await database->runMigrations(":/qt/qml/io/github/micro/piki/contents/migrations/"); // * move migrations to code executed only once
+    // co_await database->runMigrations(":/qt/qml/io/github/micro/piki/contents/migrations/"); // * move migrations to code executed only once
     co_await getTagHistoryTask();
 
     m_otherUsers = co_await database->getObjects<PikiUser>("SELECT * FROM accounts WHERE is_primary = 0;");

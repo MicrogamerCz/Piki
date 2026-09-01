@@ -25,8 +25,11 @@ FeedPage {
             isNovelCategory = loading = false;
             return;
         } else
-            piqi.WatchlistFeed().then(wtl => {
-                feed = wtl;
+            piqi.watchlistFeed().then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
                 loading = false;
             });
     }

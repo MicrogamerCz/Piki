@@ -13,9 +13,13 @@ Controls.ItemDelegate {
     implicitHeight: implicitBackgroundHeight
 
     onClicked: {
-        piqi.SeriesFeed(detail.id).then(series => {
+        piqi.seriesFeed(detail.id).then(response => {
+            if (!response.isSuccessful) {
+                showResponseError(response);
+                return;
+            }
             navigateToPageParm("Series", {
-                feed: series
+                feed: response.data
             });
         });
     }

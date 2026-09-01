@@ -65,7 +65,9 @@ if (ANDROID)
 endif()
 
 set(BUILD_TESTING OFF)
+set(BUILD_SHARED_LIBS OFF)
 add_subdirectory(modules/futuresql)
+unset(BUILD_SHARED_LIBS)
 add_subdirectory(src)
 
 install(FILES io.github.microgamercz.piki.desktop DESTINATION ${KDE_INSTALL_APPDIR})

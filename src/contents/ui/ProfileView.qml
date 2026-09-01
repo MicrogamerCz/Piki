@@ -51,35 +51,60 @@ FeedPage {
 
     function refresh() {
         if (profile.totalIllusts > 0 && category == "0")
-            piqi.UserIllusts(user, "illust").then(illusts => {
-                feed = illusts;
+            piqi.userIllusts(user, "illust").then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (profile.totalManga > 0 && category == "1")
-            piqi.UserIllusts(user, "manga").then(illusts => {
-                feed = illusts;
+            piqi.userIllusts(user, "manga").then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (profile.totalIllustSeries > 0 && category == "2")
-            piqi.UserSeries(user).then(series => {
-                feed = series;
+            piqi.userSeries(user).then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (profile.totalNovels > 0 && category == "3")
-            piqi.UserNovels(user).then(novels => {
-                feed = novels;
+            piqi.userIllusts(user, "novel").then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (category == "4")
-            piqi.BookmarksFeed(user).then(bkmarks => {
-                feed = bkmarks;
+            piqi.bookmarksFeed(user).then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
         else if (category == "5")
-            piqi.NovelsBookmarksFeed(user).then(bkmarks => {
-                feed = bkmarks;
+            piqi.bookmarksFeed(user, false, "", "novel").then(response => {
+                if (response.isSuccessful)
+                    feed = response.data;
+                else
+                    showResponseError(response);
             });
     }
 
     Component.onCompleted: {
         PikiHelper.CheckFanbox(user).then(url => fanboxAction.url = url);
         if (user.isFollowed > 0)
-            piqi.FollowDetail(user).then(details => user.isFollowed = (details.restriction == "private") ? 2 : 1);
+            piqi.followDetail(user).then(response => {
+                if (!response.isSuccessful) {
+                    showResponseError(response);
+                    return;
+                }
+
+                user.isFollowed = (response.data.restriction == "private") ? 2 : 1;
+            });
 
         refresh();
     }
@@ -200,11 +225,11 @@ FeedPage {
                             icon.name: (page.user.isFollowed == 2) ? "view-private" : ""
                             onClicked: {
                                 if (page.user.isFollowed == 0)
-                                    piqi.Follow(page.user);
+                                    page.user.follow().then(showResponseError);
                                 else
-                                    piqi.RemoveFollow(page.user);
+                                    page.user.removeFollow().then(showResponseError);
                             }
-                            onPressAndHold: piqi.Follow(page.user, page.user.isFollowed < 2)
+                            onPressAndHold: page.user.follow(page.user.isFollowed < 2).then(showResponseError)
                         }
                         Controls.Button {
                             text: i18n("My pixiv request")
