@@ -13,6 +13,7 @@ Kirigami.Chip {
     checkable: false
 
     required property Tag tag
+    property bool bold: false
 
     implicitWidth: layout.implicitWidth + Kirigami.Units.mediumSpacing * 3 + (closable ? (indicator.implicitWidth - Kirigami.Units.mediumSpacing) : 0)
     implicitHeight: layout.implicitHeight + Kirigami.Units.largeSpacing * 2
@@ -21,7 +22,11 @@ Kirigami.Chip {
     contentItem: RowLayout {
         id: layout
         Controls.Label {
+            property bool isR18: (text == "R-18") || (text == "R-18G")
+
             text: chip.tag.name
+            font.bold: chip.bold || isR18
+            color: isR18 ? Kirigami.Theme.negativeTextColor : Kirigami.Theme.textColor
         }
         Controls.Label {
             color: Kirigami.Theme.disabledTextColor
