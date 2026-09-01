@@ -123,3 +123,19 @@ Code/translation contributions are welcome, as well as independent testing.
   - [ ] Make other artist's illusts center on the current work
   - [ ] Fetching more arts from the artist (like on web client)
   - [ ] Show a notification dialog when setting wallpaper on unsupported desktop without portal
+- Notifications
+  - [ ] Add notifications history length configuration
+  - [ ] Add configuration whether to show already seen notifications
+  - [ ] Add background daemon with desktop notifications
+    - [ ] Add configuration to listen for notifications (opt-in)
+    - [ ] Add a small first-time popup
+    - Should run on startup or when Piki is launched
+    - Has separate instance of Piqi client, independently gets refreshToken
+    - [ ] Add semi-variable polling interval
+    - [ ] Add systemd user service for notifications daemon
+- IllustView page
+  - [ ] Add mute button
+  - [ ] Add report button
+  - [ ] Make other artist's illusts center on the current work
+  - [ ] Fetching more arts from the artist (like on web client)
+  - [ ] Show a notification dialog when setting wallpaper on unsupported desktop without portal
