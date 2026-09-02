@@ -56,7 +56,7 @@ FeedPage {
             id: categories
             value: page.isNovelCategory
             onValueChanged: page.isNovelCategory = value
-            options: ["Illustrations / Manga", "Novels"]
+            options: [i18n("Illustrations / Manga"), i18n("Novels")]
         },
         Kirigami.Separator {
             Layout.fillHeight: true
