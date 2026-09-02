@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 import QtQuick
+import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 import org.kde.purpose as Purpose
@@ -144,10 +145,7 @@ Kirigami.ApplicationWindow {
             from: 0
             to: timeoutAnimation.duration
 
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
+            Layout.fillWidth: true
 
             NumberAnimation on value {
                 id: timeoutAnimation

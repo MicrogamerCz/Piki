@@ -40,7 +40,7 @@ Rectangle {
     }
     function removeAccount(data) {
         reloadingAccount = true;
-        LoginHandler.removeUser(data ?? piqi.user).then(() => {
+        Cache.removeUser(data ?? piqi.user).then(() => {
             if (Cache.otherUsers.length > 0)
                 switchAccount(LoginHandler.otherUsers[0]);
             else {

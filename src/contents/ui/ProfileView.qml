@@ -97,13 +97,14 @@ FeedPage {
     Component.onCompleted: {
         PikiHelper.CheckFanbox(user).then(url => fanboxAction.url = url);
         if (user.isFollowed > 0)
-            piqi.followDetail(user).then(response => {
-                if (!response.isSuccessful) {
-                    showResponseError(response);
-                    return;
-                }
+            user.followDetail(user).then(response => {
+                // if (!response.isSuccessful) {
+                    // showResponseError(response);
+                    // return;
+                // }
 
-                user.isFollowed = (response.data.restriction == "private") ? 2 : 1;
+                // user.isFollowed = (response.data.restriction == "private") ? 2 : 1;
+                user.isFollowed = (response.restriction == "private") ? 2 : 1;
             });
 
         refresh();
@@ -218,7 +219,7 @@ FeedPage {
                         layoutDirection: Qt.RightToLeft
 
                         Controls.Button {
-                            visible: page.user.account != piqi.user.account
+                            visible: (page.user?.account ?? "") != (piqi.user?.account ?? "")
                             checkable: true
                             checked: page.user.isFollowed > 0
                             text: checked ? i18n("Following") : i18n("Follow")

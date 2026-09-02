@@ -36,7 +36,7 @@ FeedPage {
         }
         refresh();
     }
-    property variant searchRequest
+    property SearchRequest searchRequest
     property variant feed
 
     function refresh() {
@@ -167,7 +167,7 @@ FeedPage {
     }
 
     Controls.Label {
-        visible: !piqi.user.isPremium && page.sorting == "popular"
+        visible: !(piqi.user?.isPremium ?? false) && page.sorting == "popular"
         Layout.alignment: Qt.AlignHCenter
         font.bold: true
         font.pointSize: 24
