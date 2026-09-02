@@ -1,13 +1,13 @@
 # Maintainer: Micro <microgamercz@proton.me> -> https://github.com/MicrogamerCz
 
 pkgname=piki-git
-pkgver=0.1.0
+pkgver=0.5.0
 pkgrel=1
 pkgdesc="Unofficial Kirigami client for Pixiv"
 arch=(x86_64)
 url="https://github.com/MicrogamerCz/Piki"
 license=(GPL-3.0-or-later)
-depends=(piqi kirigami kirigami-addons ki18n kconfig purpose futuresql kcoreaddons qt6-webengine qtkeychain-qt6 libportal)
+depends=(piqi kirigami kirigami-addons ki18n kconfig purpose kcoreaddons qcoro qt6-webengine qt6-declarative qtkeychain-qt6 libportal) # futuresql is statically compiled for now due to feature not merged in upstream
 makedepends=(extra-cmake-modules git pkgconf)
 conflicts=(piki)
 provides=(piki)
