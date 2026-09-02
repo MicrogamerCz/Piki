@@ -66,7 +66,6 @@ ecm_add_qml_module(piki_st
         contents/assets/io.github.microgamercz.piki.svg
         contents/assets/ranking.svg
         contents/assets/pixiv_no_profile.png
-        contents/assets/pixivLogo2025.svg
         contents/assets/favorites-symbolic.svg
         contents/assets/folder-paint-symbolic.svg
         contents/migrations/2025-08-28/up.sql
