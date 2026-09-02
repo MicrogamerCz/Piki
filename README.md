@@ -83,7 +83,6 @@ Code/translation contributions are welcome, as well as independent testing.
   - Novels feeds not loading
 - General
   - [x] Improve performance (especially after navigating a few feed pages)
-  - [x] Network error handling - passive notifications, grace period dialog *(branch `piqi-responses-rewrite`)*
   - [x] Notifications *(will be implemented in Piqi after rewriting the API)*
   - [ ] Rewrite SelectionButtons to work based on index (or use different control)
   - [ ] Create templates for certain SelectionButtons implementations, they aren't much different from each other

@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
 import QtQuick
+import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 import org.kde.purpose as Purpose
 import org.kde.config as KConfig
@@ -33,6 +34,9 @@ Kirigami.ApplicationWindow {
         const description = httpStatusCodes[response.statusCode];
         const suffix = description ? ` ${response.statusCode} - ${description})` : ` (${response.statusCode}`;
         showPassiveNotification(JSON.stringify(response.body) + suffix);
+
+        if (response.statusCode == 429)
+            spamTimeoutDialog.open()
         // const suffix = description ? ` (${response.statusCode} - ${description})` : ` (${response.statusCode})`;
         // showPassiveNotification(i18n("Network error: ") + suffix);
     }
@@ -123,6 +127,39 @@ Kirigami.ApplicationWindow {
     pageStack.globalToolBar.style: Kirigami.ApplicationHeaderStyle.None
     pageStack.columnView.columnResizeMode: Kirigami.ColumnView.SingleColumn
     pageStack.initialPage: Loading {}
+
+    Kirigami.PromptDialog {
+        id: spamTimeoutDialog
+        closePolicy: Kirigami.Dialog.NoAutoClose
+        standardButtons: Kirigami.Dialog.NoButton
+        showCloseButton: false
+
+        title: "Too many requests"
+        subtitle: `You have done too many actions in a short timespan.\nPixiv API will not work for approx. ${Math.round(timeoutProgress.value / 1000)}s`
+
+        onOpened: timeoutAnimation.restart()
+
+        Controls.ProgressBar {
+            id: timeoutProgress
+            from: 0
+            to: timeoutAnimation.duration
+
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+
+            NumberAnimation on value {
+                id: timeoutAnimation
+                duration: 180000
+
+                from: duration
+                to: 0
+
+                onFinished: spamTimeoutDialog.close()
+            }
+        }
+    }
 
     Kirigami.Dialog {
         id: shareDialog
