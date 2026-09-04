@@ -66,8 +66,11 @@ endif()
 
 set(BUILD_TESTING OFF)
 set(BUILD_SHARED_LIBS OFF)
-add_subdirectory(modules/futuresql)
+set(CMAKE_SKIP_INSTALL_RULES TRUE)
+add_subdirectory(modules/futuresql EXCLUDE_FROM_ALL)
+unset(CMAKE_SKIP_INSTALL_RULES)
 unset(BUILD_SHARED_LIBS)
+
 add_subdirectory(src)
 
 install(FILES io.github.microgamercz.piki.desktop DESTINATION ${KDE_INSTALL_APPDIR})
