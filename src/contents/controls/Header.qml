@@ -71,10 +71,33 @@ Item {
             id: searchField
         }
 
-        // Controls.Button {
-        //     text: "Create"
-        //     anchors.right: parent.right
-        //     flat: true
-        // }
+        RowLayout {
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+
+            Controls.Button {
+                flat: true
+
+                icon.width: Kirigami.Units.gridUnit * 1.4
+                icon.height: Kirigami.Units.gridUnit * 1.4
+                icon.name: "notifications"
+
+                Kirigami.Badge {
+                    text: "5"
+                    padding: 0
+
+                    anchors {
+                        top: parent.top
+                        right: parent.right
+                        margins: Kirigami.Units.mediumSpacing
+                    }
+                }
+            }
+            Controls.Button {
+                text: "Create"
+                flat: true
+                enabled: false
+            }
+        }
     }
 }

@@ -1,0 +1,20 @@
+[Global]
+IconName=io.github.microgamercz.piki
+Name=Piki
+Comment=Unofficial Kirigami client for Pixiv
+Comment[cs]=Neoficiální Kirigami klient pro pixiv
+DesktopEntry=io.github.microgamercz.piki
+
+[Event/liked]
+Name=Liked
+Name[cs]=Oblíbeno
+Comment=Someone liked your work
+Comment[cs]=Někdo si oblíbil tvou práci
+Action=Popup
+
+[Event/followed]
+Name=Followed
+Name[cs]=Sledování
+Comment=Someone started following you
+Comment[cs]=Někdo tě začal sledovat
+Action=Popup

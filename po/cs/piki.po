@@ -494,3 +494,11 @@ msgstr "Micro"
 msgctxt "@info:translator"
 msgid "microgamercz@proton.me"
 msgstr "microgamercz@proton.me"
+
+#: src/contents/ui/Main.qml:112
+msgid "Someone liked your work"
+msgstr "Někdo si oblíbil tvou práci"
+
+#: src/contents/ui/Main.qml:122
+msgid "Someone liked your work"
+msgstr "Někdo tě začal sledovat"

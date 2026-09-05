@@ -81,9 +81,10 @@ target_link_libraries(piki_st PUBLIC
     Qt6::QuickControls2
     Qt6::WebEngineQuick
     ${QTKEYCHAIN_LIBRARIES}
+    KF6::ConfigGui
     KF6::I18n
     KF6::I18nQml
-    KF6::ConfigGui
+    KF6::Notifications
     KF6::Purpose
     FutureSQL6::FutureSQL
     Piqi::piqi
@@ -118,4 +119,5 @@ add_executable(piki
 )
 target_link_libraries(piki PUBLIC piki_st piki_stplugin)
 
+install(FILES piki.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 install(TARGETS piki ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

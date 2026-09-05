@@ -4,6 +4,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
+import org.kde.notification as KN
 import org.kde.kirigami as Kirigami
 import org.kde.purpose as Purpose
 import org.kde.config as KConfig
@@ -37,7 +38,7 @@ Kirigami.ApplicationWindow {
         showPassiveNotification(JSON.stringify(response.body) + suffix);
 
         if (response.statusCode == 429)
-            spamTimeoutDialog.open()
+            spamTimeoutDialog.open();
         // const suffix = description ? ` (${response.statusCode} - ${description})` : ` (${response.statusCode})`;
         // showPassiveNotification(i18n("Network error: ") + suffix);
     }
@@ -87,9 +88,64 @@ Kirigami.ApplicationWindow {
     }
 
     Component.onCompleted: Cache.setup().then(pageStack.currentItem.beginLoginProcess)
+    // Component.onCompleted: { // testing
+        // let notif = likedNotification.createObject(this);
+        // notif.text = "";
+        // notif.sendEvent();
+    // }
 
     Piqi {
         id: piqi
+    }
+
+    Timer {
+        running: !sidebar.collapsed
+        triggeredOnStart: true
+        repeat: true
+        interval: 600000 // 10 minutes
+
+        onTriggered: {
+            return;
+            piqi.checkUnreadNotifications().then(hasUnread => {
+                print("checking notifications: " + hasUnread);
+                if (!hasUnread)
+                    return;
+
+
+            });
+        }
+    }
+    Component {
+        id: likedNotification
+
+        KN.Notification {
+            eventId: "liked"
+            iconName: "love"
+            title: i18n("Someone liked your work")
+            autoDelete: true
+        }
+
+        function push(message: string) {
+            let notif = createObject(root);
+            notif.text = message;
+            notif.sendEvent();
+        }
+    }
+    Component {
+        id: followedNotification
+
+        KN.Notification {
+            eventId: "followed"
+            iconName: "actor"
+            title: i18n("Someone started following you")
+            autoDelete: true
+        }
+
+        function push(message: string) {
+            let notif = createObject(root);
+            notif.text = message;
+            notif.sendEvent();
+        }
     }
 
     KConfig.WindowStateSaver {
