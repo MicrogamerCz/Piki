@@ -40,11 +40,11 @@ Kirigami.AbstractCard {
             icon.name: (page.illust.user.isFollowed == 2) ? "view-private" : ""
             onClicked: {
                 if (page.illust.user.isFollowed == 0)
-                    piqi.follow(page.illust.user).then(showResponseError);
+                    page.illust.user.follow().then(showResponseError);
                 else
-                    piqi.removeFollow(page.illust.user).then(showResponseError);
+                    page.illust.user.removeFollow().then(showResponseError);
             }
-            onPressAndHold: piqi.follow(page.illust.user, page.illust.user.isFollowed < 2).then(showResponseError)
+            onPressAndHold: page.illust.user.follow(page.illust.user.isFollowed < 2).then(showResponseError)
         }
     }
     onClicked: piqi.details(page.illust.user).then(response => {
