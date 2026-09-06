@@ -500,5 +500,5 @@ msgid "Someone liked your work"
 msgstr "Někdo si oblíbil tvou práci"
 
 #: src/contents/ui/Main.qml:122
-msgid "Someone liked your work"
+msgid "Someone started following you"
 msgstr "Někdo tě začal sledovat"

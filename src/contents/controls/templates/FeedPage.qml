@@ -19,7 +19,7 @@ Kirigami.ScrollablePage {
     default property list<Item> contentItems
     property alias filterSelections: filterRow.children // TODO: Simplify, use KirigamiAddons.SegmentedButton
     property bool loading: false
-    property Illusts feed
+    property variant feed
 
     supportsRefreshing: true
 

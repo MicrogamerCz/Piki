@@ -45,8 +45,12 @@ if (NOT ANDROID)
     list(APPEND QT_EXTRA_COMPONENTS Widgets)
 endif()
 
-find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS Gui QuickControls2 Svg WebEngineQuick ShaderTools ${QT_EXTRA_COMPONENTS})
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS CoreAddons Config I18n Kirigami KirigamiPlatform Notifications Purpose)
+find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS
+    Gui QuickControls2 Svg WebEngineQuick ShaderTools ${QT_EXTRA_COMPONENTS}
+)
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+    CoreAddons Config I18n Kirigami KirigamiPlatform Notifications Purpose
+)
 # find_package(FutureSQL6 REQUIRED)
 find_package(Qt6Keychain REQUIRED)
 find_package(Piqi REQUIRED COMPONENTS piqi)

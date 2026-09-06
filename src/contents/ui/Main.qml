@@ -89,9 +89,9 @@ Kirigami.ApplicationWindow {
 
     Component.onCompleted: Cache.setup().then(pageStack.currentItem.beginLoginProcess)
     // Component.onCompleted: { // testing
-        // let notif = likedNotification.createObject(this);
-        // notif.text = "";
-        // notif.sendEvent();
+    // let notif = likedNotification.createObject(this);
+    // notif.text = "";
+    // notif.sendEvent();
     // }
 
     Piqi {
@@ -105,15 +105,36 @@ Kirigami.ApplicationWindow {
         interval: 600000 // 10 minutes
 
         onTriggered: {
-            return;
             piqi.checkUnreadNotifications().then(hasUnread => {
-                print("checking notifications: " + hasUnread);
-                if (!hasUnread)
-                    return;
+                print("has unread notifications? " + hasUnread);
+                // if (!hasUnread)
+                // return;
 
-
+                piqi.notificationsList().then(root.listNotifications);
             });
         }
+    }
+    function listNotifications(response: PiqiResponse) {
+        print("hello");
+        let notifications = response.data;
+        print(notifications.rowCount());
+        print(notifications.notifications.length);
+        for (let i = 0; i < notifications.rowCount(); i++) {
+            let notification = notifications.data(i, "Illust");
+            print(notification);
+            // if (notification.isRead)
+            // return;
+
+            if (notification.viewMore.title == "Likes")
+                push(likedNotification, notification.content.text);
+            else if (notification.viewMore.title == "Someone Followed You")
+                push(followedNotification, notification.content.text);
+        }
+    }
+    function push(notification: Component, message: string) {
+        let notif = notification.createObject(root);
+        notif.text = message;
+        notif.sendEvent();
     }
     Component {
         id: likedNotification
@@ -124,12 +145,6 @@ Kirigami.ApplicationWindow {
             title: i18n("Someone liked your work")
             autoDelete: true
         }
-
-        function push(message: string) {
-            let notif = createObject(root);
-            notif.text = message;
-            notif.sendEvent();
-        }
     }
     Component {
         id: followedNotification
@@ -139,12 +154,6 @@ Kirigami.ApplicationWindow {
             iconName: "actor"
             title: i18n("Someone started following you")
             autoDelete: true
-        }
-
-        function push(message: string) {
-            let notif = createObject(root);
-            notif.text = message;
-            notif.sendEvent();
         }
     }
 
@@ -184,6 +193,17 @@ Kirigami.ApplicationWindow {
     pageStack.globalToolBar.style: Kirigami.ApplicationHeaderStyle.None
     pageStack.columnView.columnResizeMode: Kirigami.ColumnView.SingleColumn
     pageStack.initialPage: Loading {}
+
+    Kirigami.AbstractCard {
+        anchors {
+            top: root.pageStack.top
+            right: root.pageStack.right
+            margins: Kirigami.Units.gridUnit * 1.5
+        }
+
+        width: 300
+        height: 400
+    }
 
     Kirigami.PromptDialog {
         id: spamTimeoutDialog
