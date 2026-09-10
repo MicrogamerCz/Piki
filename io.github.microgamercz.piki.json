@@ -22,28 +22,6 @@
     ],
     "modules": [
         {
-            "name": "futuresql",
-            "buildsystem": "cmake-ninja",
-            "config-opts": [
-                "-DBUILD_TESTING=OFF",
-                "-DCMAKE_BUILD_TYPE=Release",
-                "-DQT_MAJOR_VERSION=6"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://download.kde.org/stable/futuresql/futuresql-0.1.1.tar.xz",
-                    "sha256": "e44ed8d5a9618b3ca7ba2983ed9c5f7572e6e0a5b199f94868834b71ccbebd43",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 368957,
-                        "stable-only": true,
-                        "url-template": "https://download.kde.org/stable/futuresql/futuresql-$version.tar.xz"
-                    }
-                }
-            ]
-        },
-        {
             "name": "qtkeychain",
             "buildsystem": "cmake-ninja",
             "sources": [
@@ -65,6 +43,30 @@
             ]
         },
         {
+            "name": "libportal",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/flatpak/libportal",
+                    "tag": "0.10.0",
+                    "x-checker-data": {
+                        "type": "git",
+                        "tag-pattern": "^([\\d.]+)$"
+                    }
+                }
+            ],
+            "config-opts": [
+                "-Ddocs=false",
+                "-Dtests=false",
+                "-Dvapi=false",
+                "-Dbackend-gtk3=enabled",
+                "-Dbackend-gtk4=disabled",
+                "-Dbackend-qt5=disabled",
+                "-Dbackend-qt6=disabled"
+            ]
+        },
+        {
             "name": "piqi",
             "buildsystem": "cmake-ninja",
             "config-opts": [
@@ -74,7 +76,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/MicrogamerCz/Piqi",
-                    "commit": "f04401e80bc3f96348adc87d65c5fa45ee094829"
+                    "tag": "0.3.2"
                 }
             ]
         },
@@ -86,7 +88,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/MicrogamerCz/Piki",
-                    "commit": "23888349ff2acef4eaa6a84145694f437d5df52f"
+                    "tag": "0.5.0"
                 }
             ]
         }

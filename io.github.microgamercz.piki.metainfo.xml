@@ -34,6 +34,7 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
    <content_rating type="oars-1.1">
        <content_attribute id="sex-themes">moderate</content_attribute>
+       <!-- TODO: add social once chats are implemented -->
    </content_rating>
 
 
@@ -45,10 +46,10 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
 
    <description>
      <p>
-        Pixiv desktop client with multi-account support and desktop integration. Browse illustrations and manga, search works, set any illustration as wallpaper, bookmark works and follow your favourite creators.
+        Unofficial Pixiv native app with multi-account support and desktop integration. Browse illustrations and manga, search for works, set any illustration as wallpaper, bookmark works, and follow your favourite creators.
      </p>
      <p xml:lang="cs">
-        Nativní Pixiv aplikace s podporou více účtů a s integrací prostředí. Prohlížej a vyhledávej ilustrace a mangy, nastav si libovolnou jako tapetu, ukládej do záložek a sleduj své oblíbené tvůrce.
+        Neoficiální nativní aplikace pro Pixiv s podporou více účtů a integrací do prostředí systému. Prohlížej a vyhledávej ilustrace a mangy, nastav si libovolnou jako tapetu, ukládej do záložek a sleduj své oblíbené tvůrce.
      </p>
    </description>
 
@@ -58,29 +59,47 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
    <screenshots>
      <screenshot type="default">
        <image
-            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/2_home_light.png</image>
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/0.5.0/screenshots/2_home_light.png</image>
         <caption>Home page with feed in adaptive grid layout</caption>
      </screenshot>
      <screenshot>
        <image
-            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/3_illust_view_light.png</image>
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/0.5.0/screenshots/3_illust_view_light.png</image>
         <caption
             >Illustration page, with pages on the left side and work info, related works, etc. on the right side</caption>
      </screenshot>
      <screenshot>
        <image
-            >https://raw.githubusercontent.com/MicrogamerCz/Piki/refs/heads/main/screenshots/4_profile_view_light.png</image>
+            >https://raw.githubusercontent.com/MicrogamerCz/Piki/0.5.0/screenshots/4_profile_view_light.png</image>
         <caption
             >Page showing user info and illustration, manga or novel feeds</caption>
      </screenshot>
    </screenshots>
 
    <branding>
-     <color type="primary" scheme_preference="light">#82deff</color>
-     <color type="primary" scheme_preference="dark">#186f9c</color>
+     <color type="primary" scheme_preference="light">#6cd0ff</color>
+     <color type="primary" scheme_preference="dark">#004467</color>
    </branding>
 
    <releases>
+    <release version="0.5.0" date="2026-09-11">
+        <url
+                type="details"
+            >https://github.com/MicrogamerCz/Piki/releases/tag/0.5.0</url>
+        <description>
+            <ul>
+              <li
+                    >Added notifications - new notifications are pushed to the desktop, last 30 notifications can be shown in the app</li>
+              <li
+                    >Implemented XDG Wallpaper portal, removed Plasma-only code</li>
+              <li>Improved search box, tag suggestions</li>
+              <li>Updated Piqi API</li>
+              <li
+                    >Added in-app notifications for network errors, added timeout after "Too many requests" response from Pixiv API</li>
+              <li>UI improvements</li>
+            </ul>
+        </description>
+    </release>
     <release version="0.4.0" date="2026-07-20">
         <url
                 type="details"
