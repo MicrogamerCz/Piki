@@ -57,6 +57,7 @@ ecm_add_qml_module(piki_st
         imagedownloader.cpp
         loginprocessor.cpp
         loginhandler.cpp
+        notificationsworker.cpp
         pikicache.cpp
         pikihelper.cpp
         pikitags.cpp

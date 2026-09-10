@@ -18,3 +18,10 @@ Name[cs]=Sledování
 Comment=Someone started following you
 Comment[cs]=Někdo tě začal sledovat
 Action=Popup
+
+[Event/other]
+Name=Other
+Name[cs]=Jiné
+Comment=Other notifications
+Comment[cs]=Jiná oznámení
+Action=Popup
