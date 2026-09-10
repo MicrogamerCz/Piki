@@ -1,30 +1,54 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
 import io.github.micro.piki
 import io.github.micro.piqi
 
-Kirigami.AbstractCard {
+Controls.Popup {
+    // Kirigami.AbstractCard {
     id: tagCard
 
-    property bool enable
-    property int animD: 150
-    property variant animE: Easing.OutQuad
+    closePolicy: Controls.Popup.NoAutoClose
 
-    opacity: enable ? 1 : 0
-    visible: opacity != 0
-    z: 10
+    property real targetY
+    y: targetY
 
-    Behavior on opacity {
-        NumberAnimation {
-            duration: tagCard.animD
-            easing: tagCard.animE
+    enter: Transition {
+        ParallelAnimation {
+            NumberAnimation {
+                property: "opacity"
+                from: 0.0
+                to: 1.0
+                duration: Kirigami.Units.shortDuration
+                easing: Easing.OutQuad
+            }
+            NumberAnimation {
+                property: "y"
+                from: 0.0
+                to:　tagCard.targetY
+                duration: Kirigami.Units.shortDuration
+                easing: Easing.OutQuad
+            }
         }
     }
-    Behavior on anchors.topMargin {
-        NumberAnimation {
-            duration: tagCard.animD
-            easing: tagCard.animE
+
+    exit: Transition {
+        ParallelAnimation {
+            NumberAnimation {
+                property: "opacity"
+                from: 1.0
+                to: 0.0
+                duration: Kirigami.Units.shortDuration
+                easing: Easing.OutQuad
+            }
+            NumberAnimation {
+                property: "y"
+                from: tagCard.targetY
+                to:　0.0
+                duration: Kirigami.Units.shortDuration
+                easing: Easing.OutQuad
+            }
         }
     }
 

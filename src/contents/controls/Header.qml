@@ -56,15 +56,11 @@ Item {
         }
 
         TagCard {
-            enable: searchBox.text != ""
+            visible: searchBox.text != ""
 
-            anchors {
-                top: searchField.verticalCenter
-                left: searchField.left
-                right: searchField.right
-                margins: 5
-                topMargin: enable ? 30 : 0
-            }
+            x: Math.round((root.width - width - Kirigami.Units.gridUnit) / 2)
+            targetY: root.header.height + Kirigami.Units.gridUnit / 2
+            width: searchField.width
         }
 
         SearchField {
