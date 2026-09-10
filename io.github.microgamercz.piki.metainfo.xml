@@ -24,10 +24,12 @@ SPDX-FileCopyrightText: 2025 Micro <microgamercz@proton.me>
     <keyword>Anime</keyword>
     <keyword>Art</keyword>
     <keyword>Otaku</keyword>
+   </keywords>
+   <categories>
     <category>Feed</category>
     <category>Adult</category>
     <category>Network</category>
-   </keywords>
+   </categories>
    <provides>
     <binary>piki</binary>
    </provides>
