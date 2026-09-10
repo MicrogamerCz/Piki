@@ -67,7 +67,7 @@ Kirigami.AbstractCard {
                         }
                     }
                 }
-                Controls.Label {
+                Kirigami.SelectableLabel {
                     visible: !card.hasStamp
                     text: card.processTextEmotes(card.comment.comment)
                     font.bold: true
@@ -99,6 +99,7 @@ Kirigami.AbstractCard {
                         enabled: false
                         text: i18n("Reply")
                     }
+                    // TODO: translate?
                 }
             }
         }

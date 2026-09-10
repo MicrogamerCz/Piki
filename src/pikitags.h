@@ -1,5 +1,5 @@
 #pragma once
-#include "piqi/tags.h"
+#include <piqi/tags.h>
 #include <qtmetamacros.h>
 
 class PikiTags : public Tags
