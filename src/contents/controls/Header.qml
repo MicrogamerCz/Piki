@@ -77,13 +77,22 @@ Item {
 
             Controls.Button {
                 flat: true
+                enabled: notificationsWorker.notificationsList != null
 
                 icon.width: Kirigami.Units.gridUnit * 1.4
                 icon.height: Kirigami.Units.gridUnit * 1.4
                 icon.name: "notifications"
 
+                onClicked: {
+                    if (notificationsWindow.visible)
+                        notificationsWindow.close();
+                    else
+                        notificationsWindow.open();
+                }
+
                 Kirigami.Badge {
-                    text: "5"
+                    visible: notificationsWorker.unreadNotifications > 0
+                    text: notificationsWorker.unreadNotifications
                     padding: 0
 
                     anchors {
@@ -93,6 +102,7 @@ Item {
                     }
                 }
             }
+
             Controls.Button {
                 text: "Create"
                 flat: true

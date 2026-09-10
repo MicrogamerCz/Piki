@@ -128,21 +128,33 @@ Kirigami.ApplicationWindow {
     Sidebar {
         id: sidebar
         height: root.pageStack.height
+
+        onCollapsedChanged: notificationsWorker.start()
     }
 
     pageStack.globalToolBar.style: Kirigami.ApplicationHeaderStyle.None
     pageStack.columnView.columnResizeMode: Kirigami.ColumnView.SingleColumn
     pageStack.initialPage: Loading {}
 
-    Kirigami.AbstractCard {
-        anchors {
-            top: root.pageStack.top
-            right: root.pageStack.right
-            margins: Kirigami.Units.gridUnit * 1.5
-        }
+    Controls.Popup {
+        id: notificationsWindow
 
-        width: 300
-        height: 400
+        x: Math.round(parent.width - width - Kirigami.Units.gridUnit * 1.5)
+        y: Kirigami.Units.gridUnit
+        width: 400
+        height: 500
+
+        contentItem: Controls.ScrollView {
+            Controls.ScrollBar.vertical.policy: Controls.ScrollBar.AlwaysOff
+
+            ListView {
+                model: notificationsWorker.notificationsList
+                clip: true
+                spacing: Kirigami.Units.mediumSpacing
+
+                delegate: NotificationCard {}
+            }
+        }
     }
 
     Kirigami.PromptDialog {

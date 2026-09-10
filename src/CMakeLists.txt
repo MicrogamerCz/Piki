@@ -50,6 +50,7 @@ ecm_add_qml_module(piki_st
         contents/controls/SeriesDetailsCard.qml
         contents/controls/TagCard.qml
         contents/controls/SearchField.qml
+        contents/controls/NotificationCard.qml
 
         contents/controls/templates/DoubleAbstractCard.qml
         contents/controls/templates/FeedPage.qml
