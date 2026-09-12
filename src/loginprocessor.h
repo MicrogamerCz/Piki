@@ -3,39 +3,30 @@
 
 #pragma once
 #include <qcontainerfwd.h>
+#include <qdbusconnection.h>
 #include <qnetworkaccessmanager.h>
 #include <qnetworkreply.h>
 #include <qobject.h>
 #include <qqmlintegration.h>
-#include <qquickwebengineprofile.h>
 #include <qtmetamacros.h>
 #include <qurl.h>
-#include <QWebEngineUrlRequestInterceptor>
-#include <QQuickWebEngineProfile>
-#include <qwebengineurlrequestinterceptor.h>
 
-class PixivInterceptor : public QWebEngineUrlRequestInterceptor
-{
-    Q_OBJECT
-
-    public:
-        void interceptRequest(QWebEngineUrlRequestInfo &info) override;
-        Q_SIGNAL void callbackFound(QString code);
-};
 class LoginProcessor : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
 
+public:
+    LoginProcessor(QObject *parent = nullptr);
+    Q_INVOKABLE void openLoginPage();
+    Q_SCRIPTABLE void finish(QString code);
+
+    Q_SIGNAL void loggedIn(QString response);
+
+private:
+    QDBusConnection dbus;
     QNetworkAccessManager manager;
-    PixivInterceptor interceptor;
-    QString codeVerifier = "";
+    QString codeVerifier;
 
-    void Finish(QString code);
-
-    public:
-        void CodeRecieved(QNetworkReply* reply);
-        Q_SLOT void AddInterceptor(QQuickWebEngineProfile* profile);
-        Q_SLOT QUrl Begin();
-        Q_SIGNAL void loggedIn(QString response);
+    void codeRecieved(QNetworkReply *reply);
 };

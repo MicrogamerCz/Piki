@@ -3,12 +3,15 @@
 
 #include <QtGlobal>
 #include <qqml.h>
+#include <qurlquery.h>
 #ifdef Q_OS_ANDROID
 #include <QGuiApplication>
 #else
 #include <QApplication>
 #endif
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -42,6 +45,26 @@ int main(int argc, char *argv[])
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
     }
 #endif
+
+    QStringList arguments = app.arguments();
+    if (arguments.length() == 2 && arguments[1].startsWith("pixiv")) {
+        qDebug() << "Found URI " << arguments[1];
+        QUrl codeUri(arguments[1]);
+
+        if (!codeUri.isValid()) {
+            qDebug() << "Invalid URI";
+            return 1;
+        }
+
+        QUrlQuery query(codeUri);
+
+        QDBusMessage m = QDBusMessage::createMethodCall("io.github.microgamercz.piki", "/authcode", "", "finish");
+        QList<QVariant> args{query.queryItemValue("code")};
+        m.setArguments(args);
+        qDebug() << "Sent'" << query.queryItemValue("code") << "'? " << QDBusConnection::sessionBus().send(m);
+
+        return 0;
+    }
 
 #ifdef Q_OS_WINDOWS
     if (AttachConsole(ATTACH_PARENT_PROCESS)) {

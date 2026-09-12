@@ -11,7 +11,6 @@ ecm_add_qml_module(piki_st
     QML_FILES
         contents/ui/Main.qml
         contents/ui/Loading.qml
-        contents/ui/Login.qml
         contents/ui/Home.qml
         contents/ui/Settings.qml
         contents/ui/Following.qml

@@ -88,6 +88,14 @@ Kirigami.ApplicationWindow {
 
     Component.onCompleted: Cache.setup().then(pageStack.currentItem.beginLoginProcess)
 
+    LoginProcessor {
+        id: loginProcessor
+
+        onLoggedIn: function (response) {
+            root.loggedIn(response);
+        }
+    }
+
     Piqi {
         id: piqi
     }

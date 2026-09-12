@@ -65,7 +65,7 @@ Kirigami.Dialog {
                 }
             }
             onClicked: {
-                navigateToPage("Login");
+                loginProcessor.openLoginPage()
                 accountDialog.close();
             }
         }

@@ -188,7 +188,7 @@ Kirigami.Page {
                     }
                     Controls.Button {
                         text: i18n("Login")
-                        onClicked: navigateToPage("Login")
+                        onClicked: loginProcessor.openLoginPage()
                     }
                 }
             }

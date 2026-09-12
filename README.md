@@ -82,6 +82,7 @@ Code/translation contributions are welcome, as well as independent testing.
   - Typos in original strings or Czech translations
   - Novels feeds not loading
 - General
+  - [x] Rewrite login process to remove dependency on QtWebEngine
   - [x] Improve performance (especially after navigating a few feed pages)
   - [ ] Rewrite SelectionButtons to work based on index (or use different control)
   - [ ] Create templates for certain SelectionButtons implementations, they aren't much different from each other
@@ -96,7 +97,6 @@ Code/translation contributions are welcome, as well as independent testing.
   - [ ] Proper Android support
   - [ ] pixiv Premium features
   - [ ] Fix object caching
-  - [ ] Rewrite login process to remove dependency on QtWebEngine
   - [ ] Implementing pixiv Fanbox (least important)
 - Profile page
   - [ ] More appropriate icon for fanbox link
