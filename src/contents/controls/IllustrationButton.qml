@@ -14,13 +14,15 @@ DoubleAbstractCard {
     topHeight: 205
     bottomHeight: 45
     width: 175
-    required property Work illust
+    property Work illust
     property bool hidden: false
 
     Kirigami.Theme.inherit: true
     Kirigami.Theme.colorSet: Kirigami.Theme.View
 
     Component.onCompleted: {
+        illust = (model.novel != null) ? model.novel : model.illust;
+
         if (illust.isBookmarked == 1)
             illust.bookmarkDetail().then(details => illust.isBookmarked = (details.restriction == "private") ? 2 : 1);
     }

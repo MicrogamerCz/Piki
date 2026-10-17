@@ -143,7 +143,7 @@ Kirigami.Page {
     Kirigami.Dialog {
         id: noConnectionDialog
         title: i18n("Failed to connect")
-        standardButtons: Kirigami.Dialog.Ok | Kirigami.Dialog.Cancel
+        standardButtons: Kirigami.Dialog.Cancel
         showCloseButton: false
         onRejected: root.close()
         padding: Kirigami.Units.gridUnit

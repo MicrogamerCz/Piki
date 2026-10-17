@@ -75,8 +75,8 @@ Kirigami.ScrollablePage {
         topMargin: Kirigami.Units.gridUnit
         bottomMargin: Kirigami.Units.gridUnit
 
-        cellWidth: 175 + Kirigami.Units.gridUnit // width
-        cellHeight: 205 + 45 + Kirigami.Units.gridUnit // top height + bottom height
+        cellWidth: 175 + Kirigami.Units.mediumSpacing // width
+        cellHeight: 205 + 45 + Kirigami.Units.mediumSpacing // top height + bottom height
 
         model: fp.feed
         delegate: IllustrationButton {}
@@ -84,6 +84,7 @@ Kirigami.ScrollablePage {
         header: Item {
             width: gv.width - Kirigami.Units.gridUnit * 2
             implicitHeight: prefeed.implicitHeight + Kirigami.Units.gridUnit
+            visible: fp.contentItems.length > 0
 
             ColumnLayout {
                 id: prefeed

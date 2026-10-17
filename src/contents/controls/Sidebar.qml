@@ -10,7 +10,7 @@ import io.github.micro.piqi
 
 Rectangle {
     id: sidebar
-    width: 250
+    width: 180
     clip: true
     x: collapsed ? -width : 0
     color: "transparent"

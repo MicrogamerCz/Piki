@@ -18,7 +18,7 @@ Kirigami.ApplicationWindow {
     title: i18n("Piki")
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 20
-    pageStack.anchors.leftMargin: sidebar.x + 250
+    pageStack.anchors.leftMargin: sidebar.x + sidebar.width
 
     property string currentPage: pageStack.currentItem?.title ?? ""
 
