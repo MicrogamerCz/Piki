@@ -9,6 +9,7 @@ NotificationsWorker::NotificationsWorker(QObject *parent)
     , m_client(nullptr)
     , timer()
     , unreadCount(0)
+    , piqiNotifications(nullptr)
 {
     timer.setInterval(interval);
     connect(&timer, &QTimer::timeout, this, &NotificationsWorker::checkNotifications);
