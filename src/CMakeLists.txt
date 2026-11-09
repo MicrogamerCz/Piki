@@ -59,6 +59,7 @@ ecm_add_qml_module(piki_st
         loginprocessor.cpp
         loginhandler.cpp
         notificationsworker.cpp
+        novelprocessor.cpp
         pikicache.cpp
         pikihelper.cpp
         pikitags.cpp
@@ -81,7 +82,6 @@ target_compile_options (piki_st PUBLIC -fexceptions)
 
 target_link_libraries(piki_st PUBLIC
     Qt6::QuickControls2
-    Qt6::WebEngineQuick
     ${QTKEYCHAIN_LIBRARIES}
     KF6::ConfigGui
     KF6::I18n

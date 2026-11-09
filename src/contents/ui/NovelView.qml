@@ -7,23 +7,26 @@ import org.kde.kirigami as Kirigami
 import io.github.micro.piki
 import io.github.micro.piqi
 
-Kirigami.Page {
+Kirigami.ScrollablePage {
     id: page
     padding: 0
-    title: ""
+    title: np.title
 
     property string novel
-    onNovelChanged: web.loadHtml(novel)
+    onNovelChanged: np.loadNovel(novel)
 
-    WebEngineView {
-        id: web
+    NovelProcessor {
+        id: np
+    }
+
+    Kirigami.SelectableLabel {
+        id: novelBody
+        text: np.text
+
         anchors.fill: parent
-        // backgroundColor: "#B7B7B7"
-        backgroundColor: "transparent"
-
-        profile: WebEngineProfile {
-            id: profile
-            httpAcceptLanguage: Qt.uiLanguage
-        }
+        anchors.topMargin: Kirigami.Units.gridUnit;
+        anchors.bottomMargin: Kirigami.Units.gridUnit;
+        anchors.leftMargin: Kirigami.Units.gridUnit * 5;
+        anchors.rightMargin: Kirigami.Units.gridUnit * 5;
     }
 }
